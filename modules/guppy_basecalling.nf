@@ -7,7 +7,7 @@ process guppy_basecall {
 
   input:
     tuple val(sample_id), file(reads)
-    path input
+    path guppy
   output:
     path "$sample_id/guppy"
   script:
