@@ -56,6 +56,8 @@ workflow {
 
 if ( params.mode == 'basecalling') {
 
+  log.info "Starting basecalling protocol ... "
+
   def sample = file(params.seq_file)
 
   Channel
@@ -64,7 +66,7 @@ if ( params.mode == 'basecalling') {
     .map{ row-> tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
 
-  sample_ch.subscribe {  println "Got: $it"  }
+  sample_ch.subscribe {  println "ONT library input provided: $it"  }
 
   //log.info "Found $sample.countLines() samples."
 
@@ -72,13 +74,15 @@ if ( params.mode == 'basecalling') {
 
 }
 else if ( params.mode == 'assembly' ) {
-
+  log.info "Starting assembly protocol with $params.assembler ... "
 }
 else if ( params.mode == 'annotation' ) {
-
-} else if ( params.mode == 'expression' ) {
-
-} else if ( !params.mode ) {
+  log.info "Starting annotation protocol ... "
+}
+else if ( params.mode == 'expression' ) {
+  log.info "Starting gene expression protocol ... "
+}
+else if ( !params.mode ) {
   error 'Running mode is not supplied. Please specify with --mode'
 } else {
   error 'Invalid running method: $params.mode. Currently supported modes: basecalling, assembly, annotation, expression.'
