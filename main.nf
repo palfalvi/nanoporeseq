@@ -64,7 +64,7 @@ if ( params.mode == 'basecalling') {
     .map{ row-> tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
 
-  log.info sample_ch.view()
+  log.info "$sample_ch.view()"
 
   //log.info "Found $sample.countLines() samples."
 
