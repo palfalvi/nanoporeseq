@@ -1,7 +1,7 @@
 process guppy_basecalling {
   tag "$sample_id"
   cpus 40
-  mem '100G'
+  memory '100G'
 
   publishDir "${params.outdir}/guppy", mode: 'copy'
 
