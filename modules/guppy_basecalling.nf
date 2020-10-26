@@ -1,4 +1,4 @@
-process guppy_basecall {
+process guppy_basecalling {
   tag "$sample_id"
   cpus 40
   mem '100G'
