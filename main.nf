@@ -61,7 +61,7 @@ if ( params.mode == 'basecalling') {
     .map{ row-> tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
 
-  log.info "Found $sample.countLines() samples."
+  //log.info "Found $sample.countLines() samples."
 
     guppy_basecalling(params.guppy, sample_ch)
 
