@@ -61,14 +61,10 @@ if ( params.mode == 'basecalling') {
     .map{ row-> tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
 
-  log.info 'Found $sample_ch.countLines() samples. '
+  log.info "Found $sample.countLines() samples.""
 
-  if ( config_file ) {
-    // Run guppy with config file
     guppy_basecalling(params.guppy, sample_ch)
-  } else {
-    // Run guppy with kit and flowcell info
-  }
+
 }
 else if ( params.mode == 'assembly' ) {
 
