@@ -66,7 +66,7 @@ if ( params.mode == 'basecalling') {
 
   //log.info "Found $sample.countLines() samples."
 
-  guppy_basecalling(params.guppy, sample_ch)
+  guppy_basecalling(sample_ch, params.guppy)
 
 }
 else if ( params.mode == 'assembly' ) {
