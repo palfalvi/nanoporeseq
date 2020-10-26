@@ -60,8 +60,8 @@ if ( params.mode == 'basecalling') {
 
   Channel
     .fromPath( params.seq_file )
-    .splitCsv(header:false)
-    .map{ row-> tuple( row.sample_id, file(row.read) ) }
+    .splitCsv(header:true)
+    .map{ row-> def tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
 
   sample_ch.subscribe {  println "Got: $it"  }
