@@ -25,7 +25,7 @@ process guppy_basecalling {
     --cpu_threads_per_caller 20 \
     --num_callers 2 \
     --records_per_fastq 10000000 \
-    --bam_out ${input.simpleName}_methylation.bam \
+    --bam_out ${sample_id}_methylation.bam \
     --qscore_filtering \
     --min_qscore 7 \
     --compress_fastq
