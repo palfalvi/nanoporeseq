@@ -52,6 +52,7 @@ exit 0
 // Reading in files
 include { guppy_basecalling } from './modules/guppy_basecalling.nf'
 
+workflow {
 
 if ( params.mode == 'basecalling') {
 
@@ -79,4 +80,5 @@ else if ( params.mode == 'annotation' ) {
   error 'Running mode is not supplied. Please specify with --mode'
 } else {
   error 'Invalid running method: $params.mode. Currently supported modes: basecalling, assembly, annotation, expression.'
+}
 }
