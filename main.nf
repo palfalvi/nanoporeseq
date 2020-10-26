@@ -50,7 +50,6 @@ exit 0
 }
 
 // Reading in files
-if (params.input) { ch_input = file(params.input, checkIfExists: true) } else { exit 1, "Samplesheet file not specified!" }
 
 if ( params.mode == 'basecalling') {
 
