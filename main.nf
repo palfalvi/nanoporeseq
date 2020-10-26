@@ -50,7 +50,7 @@ exit 0
 }
 
 // Reading in files
-include { guppy_basecall } from './modules/guppy_basecalling.nf'
+include { guppy_basecalling } from './modules/guppy_basecalling.nf'
 
 
 if ( params.mode == 'basecalling') {
