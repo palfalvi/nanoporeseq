@@ -14,13 +14,13 @@ Mandatory arguments:
       --mode                         Running mode. Supported: basecalling, assembly, annotation, expression.
 
 Basecalling mode:
-      --seq_fofn                     Sequence File of File Names. One compressed file per line.
+      --seq_file                     Sequence Files in a csv document. First column is sample name and second column is path to samples (compressed .tar.gz).
       --flowcell
       --kit
-      --barcode_kit
+      --config_file
 
 Assembly mode:
-      --assembler                    One of the following: canu, masurca, flye, miniasm, haslr
+      --assembler                    One of the following: canu, masurca, flye, miniasm, shasta, haslr
       --fastq                        Long read fastq file
       --short                        Short read fastq file. Used for some assemblers (e.g masurca, haslr) and for optional polishing.
       --polish                       True/False or software
@@ -48,5 +48,37 @@ helpMessage()
 exit 0
 }
 
-
+// Reading in files
 if (params.input) { ch_input = file(params.input, checkIfExists: true) } else { exit 1, "Samplesheet file not specified!" }
+
+if ( params.mode == 'basecalling') {
+
+  def sample = file(params.seq_file)
+
+  Channel
+    .fromPath( params.seq_file )
+    .splitCsv(header:false)
+    .map{ row-> tuple( row.sample_id, file(row.read) ) }
+    .set { sample_ch }
+
+  log.info 'Found $sample_ch.countLines() samples. '
+
+  if ( config_file ) {
+    // Run guppy with config file
+    guppy_basecalling(params.guppy, sample_ch)
+  } else {
+    // Run guppy with kit and flowcell info
+  }
+}
+else if ( params.mode == 'assembly' ) {
+
+}
+else if ( params.mode == 'annotation' ) {
+
+} else if ( params.mode == 'expression' ) {
+
+} else if ( !params.mode ) {
+  error 'Running mode is not supplied. Please specify with --mode'
+} else {
+  error 'Invalid running method: $params.mode. Currently supported modes: basecalling, assembly, annotation, expression.'
+}
