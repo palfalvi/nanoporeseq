@@ -63,6 +63,7 @@ if ( params.mode == 'basecalling') {
     .splitCsv(header:false)
     .map{ row-> tuple( row.sample_id, file(row.read) ) }
     .set { sample_ch }
+    .view()
 
   //log.info "Found $sample.countLines() samples."
 
