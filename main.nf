@@ -50,6 +50,8 @@ exit 0
 }
 
 // Reading in files
+include { guppy_basecall } from './modules/guppy_basecalling.nf'
+
 
 if ( params.mode == 'basecalling') {
 
@@ -63,7 +65,7 @@ if ( params.mode == 'basecalling') {
 
   //log.info "Found $sample.countLines() samples."
 
-    guppy_basecalling(params.guppy, sample_ch)
+    guppy_basecall(params.guppy, sample_ch)
 
 }
 else if ( params.mode == 'assembly' ) {
