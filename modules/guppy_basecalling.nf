@@ -21,7 +21,7 @@ process guppy_basecalling {
     -i $sample_id/raw \
     --recursive \
     -s $sample_id/guppy \
-    --config_file  $params.config_file \
+    --config  $params.config_file \
     --cpu_threads_per_caller 20 \
     --num_callers 2 \
     --records_per_fastq 10000000 \
