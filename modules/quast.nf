@@ -2,7 +2,7 @@ process quast {
 
   cpus 10
   memory '40G'
-  queue 'CDE,large'
+  queue 'CDE'
 
   conda "$baseDir/conda-envs/genome-qc.yaml"
 

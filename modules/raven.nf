@@ -2,7 +2,7 @@ process raven {
 
   cpus 32
   memory '1.5T'
-  queue 'MPP,smpl'
+  queue 'MPP'
 
   conda "$baseDir/conda-envs/raven-env.yaml"
 

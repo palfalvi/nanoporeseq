@@ -1,7 +1,7 @@
 process multiqc {
 
   cpus 1
-  queue 'CDE,small'
+  queue 'CDE'
 
   conda "$baseDir/conda-envs/genome-qc.yaml"
 
