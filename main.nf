@@ -97,8 +97,8 @@ else if ( params.mode == 'assembly' ) {
   // Canu, out.assembly, out.gfa
   if ( params.assembler == 'canu' ) {
 
-    params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
-    params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for canu. Please provide with --genome_size."
+  //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
+  //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for canu. Please provide with --genome_size."
 
     canu(params.fastq, params.genome_size)
 
@@ -107,7 +107,7 @@ else if ( params.mode == 'assembly' ) {
   // MaSuRCa, out.assembly
   if ( params.assembler == 'masurca' ) {
 
-    params.masurca_file ? log.info "MaSuRCa config file: $it" : error "MaSuRCa config file is not provided. Please specify with --masurca_file parameter."
+  //  params.masurca_file ? log.info "MaSuRCa config file: $it" : error "MaSuRCa config file is not provided. Please specify with --masurca_file parameter."
 
     masurca( params.masurca_file )
 
@@ -116,8 +116,8 @@ else if ( params.mode == 'assembly' ) {
   // Flye: out.assembly, out.gfa
   if ( params.assembler == 'flye' ) {
 
-    params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
-    params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for flye. Please provide with --genome_size."
+  //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
+  //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for flye. Please provide with --genome_size."
 
     flye(params.fastq, params.genome_size)
 
@@ -126,7 +126,7 @@ else if ( params.mode == 'assembly' ) {
   // Miniasm out.assembly, out.gfa
   if ( params.assembler == 'miniasm' ) {
 
-    params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
+  //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
 
     miniasm(params.fastq)
 
@@ -135,8 +135,8 @@ else if ( params.mode == 'assembly' ) {
   // wtdbg2: out.assembly
   if ( params.assembler == 'wtdbg' || params.assembler == 'wtdbg2' ) {
 
-    params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
-    params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for wtdbg2. Please provide with --genome_size."
+  //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
+  //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for wtdbg2. Please provide with --genome_size."
 
     flye(params.fastq, params.genome_size)
 
@@ -145,8 +145,8 @@ else if ( params.mode == 'assembly' ) {
   // NextDenovo: out.assembly
   if ( params.assembler == 'nextdenovo') {
 
-    params.nextdenovo_bin ? log.info "Using NextDenovo: $it" : error "NextDenovo executable file is not provided. Please note that NextDenovo cannot be installed in a conda environment, thus you need to provide the local executable location."
-    params.nextdenovo_cfg ? log.info "Using NextDenovo config file: $it" : error "NextDenovo config file is not provided. Please provide with --nextdenovo_cfg"
+  //  params.nextdenovo_bin ? log.info "Using NextDenovo: $it" : error "NextDenovo executable file is not provided. Please note that NextDenovo cannot be installed in a conda environment, thus you need to provide the local executable location."
+  //  params.nextdenovo_cfg ? log.info "Using NextDenovo config file: $it" : error "NextDenovo config file is not provided. Please provide with --nextdenovo_cfg"
 
     nextdenovo(params.nextdenovo_bin, params.nextdenovo_cfg)
 
