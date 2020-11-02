@@ -1,0 +1,8 @@
+name: fastqc-env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - busco=4.1.4
+    - quast=5.0.2

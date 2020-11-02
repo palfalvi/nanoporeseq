@@ -8,8 +8,10 @@ process guppy_basecalling {
   input:
     tuple val(sample_id), file(reads)
     path guppy
+
   output:
     path "$sample_id/guppy"
+    
   script:
     """
     mkdir $sample_id

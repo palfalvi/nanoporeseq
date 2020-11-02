@@ -1,2 +1,3 @@
 # nanoporeseq
- 
+
+  THIS PROJECT IS EXPERIMENTAL!
