@@ -155,7 +155,7 @@ else if ( params.mode == 'assembly' ) {
   // RAVEN assembler: out.assemblym out.gfa
   if ( params.assembler == 'raven') {
 
-    params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
+    // params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
 
     raven(params.fastq)
 
