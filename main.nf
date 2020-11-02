@@ -63,10 +63,10 @@ include { wtdbg } from './modules/wtdbg.nf'
 
 
 // Include polishing tools
-include { racon as racon1, racon as racon2, racon as racon3 } from './modules/racon.nf'
+include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 
 // Include QC tools
-include { busco as busco_vir, busco as busco_emb, busco as busco_eud } from './modules/busco.nf'
+include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
 include { quast } from './modules/quast.nf'
 //include { multiqc } from './modules/multiqc.nf'
 
