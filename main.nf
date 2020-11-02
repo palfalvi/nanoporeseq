@@ -164,7 +164,7 @@ else if ( params.mode == 'assembly' ) {
     busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
     busco_vir(raven.out.assembly, "viridiplantae_odb10", "genome")
 
-
+    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out))
 
   }
 
@@ -192,4 +192,6 @@ else if ( !params.mode ) {
 } else {
   error 'Invalid running method: $params.mode. Currently supported modes: basecalling, assembly, annotation, expression.'
 }
+
+
 }
