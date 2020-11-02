@@ -22,3 +22,4 @@ process masurca {
 
     cp CA.mr*/final.genome.scf.fasta final.genome.scf.fasta
     """
+}
