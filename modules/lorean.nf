@@ -1,6 +1,6 @@
 process lorean {
 
-  process.container = 'docker://lfaino/lorean'
+  container = 'docker://lfaino/lorean'
   //process.containerOptions '-B <PATH_TO_AUGUSTUS_CONF_FOLDER>:/opt/LoReAn/third_party/software/augustus/config/ -B <PATH_TO_LIBRARY_FOLDER>:/usr/local/RepeatMasker/Libraries/'
   singularity.enabled = true
 
