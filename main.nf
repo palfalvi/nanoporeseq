@@ -207,12 +207,11 @@ else if ( params.mode == 'genome_check' ) {
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
   log.info "Genome file provided: ${params.genome}"
-  if ( !params.genome ) {
+  if ( !"${params.genome}" ) {
     // Genome file is provided, run LoReAn
     log.info "Genome file provided: ${params.genome}"
     lorean(params.genome, params.lorean_proteins)
-  }
-  else {
+  } else {
     log.info 'No reference genome is provided for transcript annotation.'
     log.info 'Attempting de novo transcript assembly...'
     // No genome file is provided, do de novo transcript assembly
