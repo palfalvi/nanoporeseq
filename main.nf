@@ -181,6 +181,16 @@ else if ( params.mode == 'assembly' ) {
 
 
 }
+else if ( params.mode == 'genome_check' ) {
+
+  // Run quast and busco on an assembled genome
+  quast(params.genome)
+  busco_eud(params.genome, "eudicots_odb10", "genome")
+  busco_emb(params.genome, "embryophyta_odb10", "genome")
+  busco_vir(params.genome, "viridiplantae_odb10", "genome")
+
+  multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), params.outdir)
+}
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
 }
