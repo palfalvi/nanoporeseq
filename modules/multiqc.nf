@@ -6,7 +6,6 @@ process multiqc {
 
   input:
     path('*')
-    path config
 
   output:
     path "*.html"
@@ -14,6 +13,6 @@ process multiqc {
   script:
     """
     export LC_ALL=en_US.utf8
-    multiqc $config
+    multiqc .
     """
 }
