@@ -6,6 +6,7 @@ process multiqc {
 
   input:
     path('*')
+    path config
 
   output:
     path "*.html"
