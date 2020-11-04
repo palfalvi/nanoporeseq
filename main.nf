@@ -207,7 +207,7 @@ else if ( params.mode == 'genome_check' ) {
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
   log.info "Genome file provided: ${params.genome}"
-  if ( !"${params.genome}" ) {
+  if ( !params.genome ) {
     // Genome file is provided, run LoReAn
     log.info "Genome file provided: ${params.genome}"
     lorean(params.genome, params.lorean_proteins)
