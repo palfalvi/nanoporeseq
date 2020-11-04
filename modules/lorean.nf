@@ -24,7 +24,7 @@ process lorean {
     def species     = params.lorean_species  ? "--species ${params.lorean_species}"   : "--species Xx"
 
       """
-      lorean --help
+      lorean --help > lorean.test
       """
 //    """
 //    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
