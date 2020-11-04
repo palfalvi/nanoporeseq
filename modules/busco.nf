@@ -1,5 +1,5 @@
 process busco {
-  label "small_plus"
+  label "long_job"
 
   conda "$baseDir/conda-envs/genome-qc.yaml"
 
@@ -14,13 +14,15 @@ process busco {
     path "busco_${genome.simpleName}_${lineage}/short_summary*", emit: summary
 
   script:
+    def busco_long = params.busco_long ? "--long" : ""
+
     """
     busco \
     --in $genome \
     --lineage_dataset $lineage \
     --out busco_${genome.simpleName}_${lineage} \
     --mode $mode \
-    --long \
+    $busco_long \
     --cpu ${task.cpus}
     """
 }

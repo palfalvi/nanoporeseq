@@ -10,6 +10,7 @@ process quast {
 
   output:
     path "quast_out/report.tsv", emit: summary
+    path "quast_out/k_mer_stats", emit: k_mer_stats
 
   script:
     def ref       = params.quast_reference  ? "-r ${params.quast_reference}"        : ""

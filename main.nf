@@ -12,7 +12,13 @@ Usage:
 
 
 Mandatory arguments:
-      --mode                         Running mode. Supported: basecalling, assembly, annotation, expression.
+      --mode                         Running mode. Supported: basecalling, assembly, genome_check, annotation, expression.
+
+Universal arguments
+      --outdir                       Output directory name. [results]
+      -profile                       Sets the running environment. Default is NIBB-BIAS5 PBSPro. 'cde' and 'local' are available to run on NIBB-CDE server or on local machine.
+      -bg                            Run the pipeline in the background.
+      -resume                        Resume interrupted run and try to catch previously finished processes.
 
 Basecalling mode:
       --seq_file                     Sequence Files in a csv document. First column is 'sample_id' and second column is 'reads' (compressed .tar.gz).
@@ -21,25 +27,27 @@ Basecalling mode:
       --config_file                  Guppy config file
 
 Assembly mode:
-      --assembler                    One of the following: canu, masurca, flye, miniasm, shasta, haslr
+      --assembler                    One of the following: canu, masurca, flye, miniasm, shasta, haslr, raven.
       --fastq                        Long read fastq file
       --short                        Short read fastq file. Used for some assemblers (e.g masurca, haslr) and for optional polishing.
-      --polish                       True/False or software
+      --polish                       True/False or software?
       --genome_size                  Expected size of genome.
-      --busco                        BUSCO species (list?)
 
 Assembler specific options?
       --masurca_file                 Setup file for masurca.
       ...
 
 Annotation mode
-      --fastq                        Long read fastq file.
       --genome                       Reference genome. If not provided, reference-free annotation is attempted.
-      --busco                        BUSCO species (list?)
-      --
 
-Computer allocation settings
-      -profile                       Sets the running environment. Default is NIBB-BIAS5 PBSPro. 'cde' and 'local' are available to run on NIBB-CDE server or on local machine.
+      --lorean_long                  Long read fastq file.
+      --lorean_short                 Short read fastq file. If pair end, write them seprataed by a come, e.g. "read1.fastq,read2.fastq".
+      --lorean_proteins              Protein homologs for the gene prediction.
+      --lorean_iproscan              Boolean. If provided, LoReAn runs with InterProScan.
+      --lorean_adapters              Adapter fasta file.
+      --lorean_species               Species name.
+      --lorean_prefix                Prefix for the gene names.
+
 """.stripIndent()
 }
 
@@ -65,10 +73,15 @@ include { wtdbg } from './modules/wtdbg.nf'
 // Include polishing tools
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 
+// Include annotation tools
+include { lorean } from './modules/lorean.nf'
+
 // Include QC tools
 include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
 include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
+
+
 
 workflow {
 
@@ -193,6 +206,34 @@ else if ( params.mode == 'genome_check' ) {
 }
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
+
+  if ( !params.genome ) {
+    // Genome file is provided, run LoReAn
+
+    lorean(params.genome, params.lorean_proteins)
+  }
+  else {
+    log.info 'No reference genome is provided for transcript annotation.'
+    log.info 'Attempting de novo transcript assembly...'
+    // No genome file is provided, do de novo transcript assembly
+    if ( !params.short_rna && !params.long_rna) {
+      // Both short and long reads are provided.
+      //rnaSPAdes?
+    }
+    else if( !params.long_rna ) {
+      // Only long RNA-seq data provided
+      // IsOnClust2?
+    }
+    else if ( !params.short_rna ) {
+      //Only short RNA is provided
+      //Trinity?
+      //rnaSPAdes?
+    }
+    else { error 'No read file is provided for transcriptome assembly. Please provide fastq files with --short_reads and/or --long_reads options.'}
+  }
+
+
+
 }
 else if ( params.mode == 'expression' ) {
   log.info "Starting gene expression protocol ... "
