@@ -133,7 +133,7 @@ else if ( params.mode == 'assembly' ) {
   }
 
   // wtdbg2: out.assembly
-  if ( params.assembler == 'wtdbg' || params.assembler == 'wtdbg2' ) {
+  if ( params.assembler == 'wtdbg' || params.assembler == 'wtdbg2' || params.assembler == "redbean" ) {
 
   //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
   //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for wtdbg2. Please provide with --genome_size."

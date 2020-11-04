@@ -1,8 +1,5 @@
 process raven {
-
-  cpus 32
-  memory '0.2T'
-  queue 'smpm'
+  label 'assembly'
 
   conda "$baseDir/conda-envs/raven-env.yaml"
 
@@ -20,6 +17,7 @@ process raven {
     raven \
     --threads $task.cpus \
     --graphical-fragment-assembly raven_assembly.gfa \
-    $fastq
+    $fastq > \
+    raven_assembly.fasta
     """
 }
