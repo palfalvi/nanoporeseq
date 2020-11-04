@@ -164,7 +164,7 @@ else if ( params.mode == 'assembly' ) {
     busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
     busco_vir(raven.out.assembly, "viridiplantae_odb10", "genome")
 
-    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), params.outdir)
+    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 
   }
 
@@ -189,7 +189,7 @@ else if ( params.mode == 'genome_check' ) {
   busco_emb(params.genome, "embryophyta_odb10", "genome")
   busco_vir(params.genome, "viridiplantae_odb10", "genome")
 
-  multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), params.outdir)
+  multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 }
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
