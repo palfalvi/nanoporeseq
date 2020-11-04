@@ -1,8 +1,5 @@
 process busco {
-
-  cpus 10
-  memory '40G'
-  queue 'small'
+  label "small_plus"
 
   conda "$baseDir/conda-envs/genome-qc.yaml"
 

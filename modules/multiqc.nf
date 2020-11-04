@@ -1,8 +1,5 @@
 process multiqc {
 
-  cpus 1
-  queue 'small'
-
   conda "$baseDir/conda-envs/genome-qc.yaml"
 
   publishDir "${params.outdir}", mode: 'copy'

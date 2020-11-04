@@ -1,8 +1,5 @@
 process quast {
-
-  cpus 10
-  memory '40G'
-  queue 'small'
+  label "small_job"
 
   conda "$baseDir/conda-envs/genome-qc.yaml"
 
@@ -15,8 +12,13 @@ process quast {
     path "quast_out/report.tsv", emit: summary
 
   script:
+    def ref       = params.quast_reference  ? "-r ${params.quast_reference}"        : ""
+    def features  = params.quast_features   ? "--features ${params.quast_features}" : ""
+
     """
     quast.py \
+    $ref \
+    $features \
     --large \
     --eukaryote \
     --k-mer-stats \
