@@ -1,7 +1,7 @@
 process lorean {
 
   process.container = 'docker://lfaino/lorean'
-  process.containerOptions '-B <PATH_TO_AUGUSTUS_CONF_FOLDER>:/opt/LoReAn/third_party/software/augustus/config/ -B <PATH_TO_LIBRARY_FOLDER>:/usr/local/RepeatMasker/Libraries/'
+  //process.containerOptions '-B <PATH_TO_AUGUSTUS_CONF_FOLDER>:/opt/LoReAn/third_party/software/augustus/config/ -B <PATH_TO_LIBRARY_FOLDER>:/usr/local/RepeatMasker/Libraries/'
   singularity.enabled = true
 
   publishDir "${params.outdir}/lorean", mode: 'copy'
@@ -23,23 +23,26 @@ process lorean {
     def short_reads = params.lorean_short    ? "--short_reads ${params.lorean_short}" : ""
     def species     = params.lorean_species  ? "--species ${params.lorean_species}"   : "--species Xx"
 
-    """
-    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
+      """
+      lorean --help
+      """
+//    """
+//    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
 
-    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
+//    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
 
-    lorean \
-    --threads $task.cpus \
-    --minimap2 \
-    --max_intron_length 10000 \
-    -pr $protein_ref \
-    -sp $species \
-    $long_reads \
-    $short_reads \
-    $prefix \
-    $stranded \
-    $iproscan \
-    $adapter \
-    $genome
-    """
+//    lorean \
+//    --threads $task.cpus \
+//    --minimap2 \
+//    --max_intron_length 10000 \
+//    -pr $protein_ref \
+//    -sp $species \
+//    $long_reads \
+//    $short_reads \
+//    $prefix \
+//    $stranded \
+//    $iproscan \
+//    $adapter \
+//    $genome
+//    """
 }
