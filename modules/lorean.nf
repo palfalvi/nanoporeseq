@@ -23,9 +23,10 @@ process lorean {
     def short_reads = params.lorean_short    ? "--short_reads ${params.lorean_short}" : ""
     def species     = params.lorean_species  ? "--species ${params.lorean_species}"   : "--species Xx"
 
-      """
-      lorean --help > lorean.test
-      """
+    """
+    sleep 10
+    lorean --help > lorean.test
+    """
 //    """
 //    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
 
