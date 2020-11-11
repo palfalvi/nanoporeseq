@@ -14,7 +14,7 @@ process nanolyse {
     path "*lyse.log", emit: lyse_log
 
   script:
-    def qual      = params.cu_qual     ? "--quality ${params.cu_qua}"       : ""
+    def qual      = params.cu_qual     ? "--quality ${params.cu_qual}"       : ""
     def length    = params.cu_length   ? "--length ${params.cu_length}"     : ""
     def headcrop  = params.cu_headcrop ? "--headcrop ${params.cu_headcrop}" : ""
 
