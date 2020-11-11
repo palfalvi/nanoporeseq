@@ -10,7 +10,7 @@ process nanolyse {
 
   output:
     path "*filtered.fastq.gz", emit: filtered
-    path "*filter.log", emit: filter_log
+    //path "*filter.log", emit: filter_log
     path "*lyse.log", emit: lyse_log
 
   script:
@@ -19,6 +19,6 @@ process nanolyse {
     def headcrop  = params.cu_headcrop ? "--headcrop ${params.cu_headcrop}" : ""
 
     """
-    gunzip -c $reads | NanoLyse --reference $projectDir/conf/ont_control_dna.fasta --logfile ${reads.simpleName}_lyse.log | NanoFilt $qual $length $headcrop --logfile ${reads.simpleName}_filter.log | gzip > ${reads.simpleName}_filtered.fastq.gz
+    gunzip -c $reads | NanoLyse --reference $projectDir/conf/ont_control_dna.fasta --logfile ${reads.simpleName}_lyse.log | NanoFilt --logfile ${reads.simpleName}_filter.log $qual $length $headcrop| gzip > ${reads.simpleName}_filtered.fastq.gz
     """
 }
