@@ -80,6 +80,7 @@ include { lorean } from './modules/lorean.nf'
 include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
 include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
+include { nanolyse } from './modules/nanolyse.nf'
 
 
 
@@ -102,6 +103,16 @@ if ( params.mode == 'basecalling') {
   //log.info "Found $sample.countLines() samples."
 
   guppy_basecalling(sample_ch, params.guppy)
+
+}
+else if ( params.mode == 'cleanup' ) {
+  log.info 'Starting read clean-up'
+
+    Channel
+      .fromPath( params.fastq )
+      .set( reads )
+
+    nanolyse(reads)
 
 }
 else if ( params.mode == 'assembly' ) {
@@ -206,7 +217,7 @@ else if ( params.mode == 'genome_check' ) {
 }
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
-  log.info "Genome file provided: ${params.genome}"
+
   if ( params.genome != false ) {
     // Genome file is provided, run LoReAn
     log.info "Genome file provided: ${params.genome}"

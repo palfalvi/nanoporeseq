@@ -24,26 +24,22 @@ process lorean {
     def species     = params.lorean_species  ? "--species ${params.lorean_species}"   : "--species Xx"
 
     """
-    sleep 10
-    lorean --help > lorean.test
+    #wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
+
+    #wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
+
+    lorean \
+    --threads $task.cpus \
+    --minimap2 \
+    --max_intron_length 10000 \
+    -pr $protein_ref \
+    -sp $species \
+    $long_reads \
+    $short_reads \
+    $prefix \
+    $stranded \
+    $iproscan \
+    $adapter \
+    $genome
     """
-//    """
-//    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
-
-//    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
-
-//    lorean \
-//    --threads $task.cpus \
-//    --minimap2 \
-//    --max_intron_length 10000 \
-//    -pr $protein_ref \
-//    -sp $species \
-//    $long_reads \
-//    $short_reads \
-//    $prefix \
-//    $stranded \
-//    $iproscan \
-//    $adapter \
-//    $genome
-//    """
 }
