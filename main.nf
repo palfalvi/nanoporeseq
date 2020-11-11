@@ -108,11 +108,10 @@ if ( params.mode == 'basecalling') {
 else if ( params.mode == 'cleanup' ) {
   log.info 'Starting read clean-up'
 
-    Channel
-      .fromPath( params.fastq )
-      .set( reads )
+    reads = Channel.fromPath( params.fastq )
+    reads.su bscribe {  println "Reads provided: $it"  }
 
-    nanolyse(reads)
+    nanolyse( reads )
 
 }
 else if ( params.mode == 'assembly' ) {
