@@ -109,7 +109,7 @@ else if ( params.mode == 'cleanup' ) {
   log.info 'Starting read clean-up'
 
     reads = Channel.fromPath( params.fastq )
-    reads.su bscribe {  println "Reads provided: $it"  }
+    reads.subscribe {  println "Reads provided: $it"  }
 
     nanolyse( reads )
 
