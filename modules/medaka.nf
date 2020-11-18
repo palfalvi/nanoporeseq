@@ -4,7 +4,7 @@ process medaka {
 
   conda "$baseDir/conda-envs/medaka-env.yaml"
 
-  // publishDir "${params.outdir}/racon", mode: 'copy'
+  publishDir "${params.outdir}/medaka", mode: 'copy'
 
   input:
     path fastq

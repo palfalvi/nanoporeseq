@@ -71,6 +71,7 @@ include { wtdbg } from './modules/wtdbg.nf'
 
 
 // Include polishing tools
+include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3 } from './modules/minimap.nf'
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 
 // Include annotation tools
@@ -196,16 +197,43 @@ else if ( params.mode == 'assembly' ) {
   }
 
 
+if ( params.polish ) {
 
-  // QC
-  quast(assembly)
-  busco_eud(assembly, "eudicots_odb10", "genome")
-  busco_emb(assembly, "embryophyta_odb10", "genome")
-  busco_vir(assembly, "viridiplantae_odb10", "genome")
 
-  multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 
- // Polishing?
+}
+
+  if ( params.polish ) {
+
+    minimap2_1(params.fastq, assembly)
+    racon1(params.fastq, minimap2.out.map, assembly)
+
+    minimap2_2(params.fastq, racon1.out.assembly)
+    racon2(params.fastq, minimap2_2.out.map)
+
+    medaka(params.fastq, racon2.out.assembly)
+
+    medaka.out.assembly
+
+    // QC
+    quast(medaka.out.assembly.join(assembly))
+    busco_eud(medaka.out.assembly, "eudicots_odb10", "genome")
+    busco_emb(medaka.out.assembly, "embryophyta_odb10", "genome")
+    busco_vir(medaka.out.assembly, "viridiplantae_odb10", "genome")
+
+    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
+
+  } else {
+    // QC
+    quast(assembly)
+    busco_eud(assembly, "eudicots_odb10", "genome")
+    busco_emb(assembly, "embryophyta_odb10", "genome")
+    busco_vir(assembly, "viridiplantae_odb10", "genome")
+
+    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
+  }
+
+
 
 // deduplication?
 
