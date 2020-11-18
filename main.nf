@@ -153,8 +153,8 @@ else if ( params.mode == 'assembly' ) {
 
     miniasm(params.fastq)
 
-    def assembly = miniasm.out.assembly
-    def gfa = miniasm.out.gfa
+    assembly = miniasm.out.assembly
+    gfa = miniasm.out.gfa
   }
 
   // wtdbg2: out.assembly
