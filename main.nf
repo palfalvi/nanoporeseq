@@ -153,6 +153,8 @@ else if ( params.mode == 'assembly' ) {
 
     miniasm(params.fastq)
 
+    def assembly = miniasm.out.assembly
+    def gfa = miniasm.out.gfa
   }
 
   // wtdbg2: out.assembly
@@ -161,7 +163,7 @@ else if ( params.mode == 'assembly' ) {
   //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
   //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for wtdbg2. Please provide with --genome_size."
 
-    flye(params.fastq, params.genome_size)
+    wtdbg2(params.fastq, params.genome_size)
 
   }
 
@@ -182,14 +184,26 @@ else if ( params.mode == 'assembly' ) {
 
     raven(params.fastq)
 
-    quast(raven.out.assembly)
-    busco_eud(raven.out.assembly, "eudicots_odb10", "genome")
-    busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
-    busco_vir(raven.out.assembly, "viridiplantae_odb10", "genome")
+    def assembly = raven.out.assembly
+    def gfa = raven.out.gfa
+    //quast(raven.out.assembly)
+    //busco_eud(raven.out.assembly, "eudicots_odb10", "genome")
+    //busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
+    //busco_vir(raven.out.assembly, "viridiplantae_odb10", "genome")
 
-    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
+    //multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 
   }
+
+
+
+  // QC
+  quast(assembly)
+  busco_eud(assembly, "eudicots_odb10", "genome")
+  busco_emb(assembly, "embryophyta_odb10", "genome")
+  busco_vir(assembly, "viridiplantae_odb10", "genome")
+
+  multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 
  // Polishing?
 
@@ -197,9 +211,6 @@ else if ( params.mode == 'assembly' ) {
 
 // k-mer analysis (KAT)
 
- // quast
-
- // busco
 
 
 
