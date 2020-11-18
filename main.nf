@@ -73,6 +73,7 @@ include { wtdbg } from './modules/wtdbg.nf'
 // Include polishing tools
 include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3 } from './modules/minimap.nf'
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
+include { medaka } from './modules/medaka.nf'
 
 // Include annotation tools
 include { lorean } from './modules/lorean.nf'
