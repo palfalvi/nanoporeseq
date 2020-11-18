@@ -184,8 +184,8 @@ else if ( params.mode == 'assembly' ) {
 
     raven(params.fastq)
 
-    def assembly = raven.out.assembly
-    def gfa = raven.out.gfa
+    assembly = raven.out.assembly
+    gfa = raven.out.gfa
     //quast(raven.out.assembly)
     //busco_eud(raven.out.assembly, "eudicots_odb10", "genome")
     //busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
