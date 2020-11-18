@@ -206,7 +206,7 @@ if ( params.polish ) {
   if ( params.polish ) {
 
     minimap2_1(params.fastq, assembly)
-    racon1(params.fastq, minimap2.out.map, assembly)
+    racon1(params.fastq, minimap2_1.out.map, assembly)
 
     minimap2_2(params.fastq, racon1.out.assembly)
     racon2(params.fastq, minimap2_2.out.map)
