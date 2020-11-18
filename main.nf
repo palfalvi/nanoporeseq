@@ -209,7 +209,7 @@ if ( params.polish ) {
     racon1(params.fastq, minimap2_1.out.map, assembly)
 
     minimap2_2(params.fastq, racon1.out.assembly)
-    racon2(params.fastq, minimap2_2.out.map)
+    racon2(params.fastq, minimap2_2.out.map, racon1.out.assembly)
 
     medaka(params.fastq, racon2.out.assembly)
 
