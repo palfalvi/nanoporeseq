@@ -13,7 +13,7 @@ process miniasm {
     path "miniasm_assembly.fasta", emit: assembly
     path "miniasm_assembly.gfa", emit: gfa
 
-  script:
+  shell:
     '''
     minimap2 -x ava-ont -t !{task.cpus} !{fastq} !{fastq} | gzip -1 > reads.paf.gz
 
