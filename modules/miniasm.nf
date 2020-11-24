@@ -19,6 +19,6 @@ process miniasm {
 
     miniasm -f !{fastq} reads.paf.gz > miniasm_assembly.gfa
 
-    awk '/^S/{print ">"$2"\n"$3}' miniasm_assembly.gfa > miniasm_assembly.fasta
+    awk '/^S/{print ">" $2 "\n" $3}' miniasm_assembly.gfa > miniasm_assembly.fasta
     '''
 }
