@@ -14,11 +14,11 @@ process miniasm {
     path "miniasm_assembly.gfa", emit: gfa
 
   script:
-    """
-    minimap2 -x ava-ont -t ${task.cpus} ${fastq} ${fastq} | gzip -1 > reads.paf.gz
+    '''
+    minimap2 -x ava-ont -t !{task.cpus} !{fastq} !{fastq} | gzip -1 > reads.paf.gz
 
-    miniasm -f $fastq reads.paf.gz > miniasm_assembly.gfa
+    miniasm -f !{fastq} reads.paf.gz > miniasm_assembly.gfa
 
     awk '$1 ~/S/ {print ">"$2"\n"$3}' miniasm_assembly.gfa > miniasm_assembly.fasta
-    """
+    '''
 }
