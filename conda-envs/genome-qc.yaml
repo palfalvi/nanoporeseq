@@ -4,5 +4,6 @@ channels:
     - conda-forge
     - defaults
 dependencies:
+    - python=3.6
     - busco=4.1.4
     - quast=5.0.2
