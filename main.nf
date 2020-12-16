@@ -224,7 +224,7 @@ else if ( params.mode == 'assembly' ) {
     busco_emb(medaka.out.assembly, "embryophyta_odb10", "genome")
     busco_vir(medaka.out.assembly, "viridiplantae_odb10", "genome")
 
-    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
+    multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
   } else {
     // QC
@@ -233,7 +233,7 @@ else if ( params.mode == 'assembly' ) {
     busco_emb(assembly, "embryophyta_odb10", "genome")
     busco_vir(assembly, "viridiplantae_odb10", "genome")
 
-    multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
+    multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
   }
 
 
