@@ -1,7 +1,7 @@
 process quast {
   label "small_job"
 
-  conda "$baseDir/conda-envs/genome-qc.yaml"
+  conda "$baseDir/conda-envs/quast-env.yaml"
 
   publishDir "${params.outdir}/quast", mode: 'copy'
 

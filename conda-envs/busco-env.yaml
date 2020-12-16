@@ -1,0 +1,7 @@
+name: busco-env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - busco=4.1.4

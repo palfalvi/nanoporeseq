@@ -1,7 +1,7 @@
 process busco {
   label "long_job"
 
-  conda "$baseDir/conda-envs/genome-qc.yaml"
+  conda "$baseDir/conda-envs/busco-env.yaml"
 
   publishDir "${params.outdir}/busco", mode: 'copy'
 
