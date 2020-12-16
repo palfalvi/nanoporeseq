@@ -1,4 +1,4 @@
-name: fastqc-env
+name: miniasm-env
 channels:
     - bioconda
     - conda-forge
