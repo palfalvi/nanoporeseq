@@ -198,12 +198,6 @@ else if ( params.mode == 'assembly' ) {
   }
 
 
-if ( params.polish ) {
-
-
-
-}
-
   if ( params.polish ) {
 
     minimap2_1(params.fastq, assembly)
@@ -254,6 +248,7 @@ else if ( params.mode == 'genome_check' ) {
 
   multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 }
+
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
 
@@ -265,6 +260,7 @@ else if ( params.mode == 'annotation' ) {
     log.info 'No reference genome is provided for transcript annotation.'
     log.info 'Attempting de novo transcript assembly...'
     // No genome file is provided, do de novo transcript assembly
+    log.info 'Sorry, these functions are not yet implemented .... '
     if ( !params.short_rna && !params.long_rna ) {
       // Both short and long reads are provided.
       //rnaSPAdes?
@@ -286,6 +282,7 @@ else if ( params.mode == 'annotation' ) {
 }
 else if ( params.mode == 'expression' ) {
   log.info "Starting gene expression protocol ... "
+  log.info 'Except... I cannot do that yet. Sorry.'
 }
 else if ( !params.mode ) {
   error 'Running mode is not supplied. Please specify with --mode'
