@@ -211,7 +211,7 @@ else if ( params.mode == 'assembly' ) {
       log.info 'Setting default model to r941_min_high_g360'
       medaka_model = 'r941_min_high_g360'
     } else {
-      medaka_model = $params.medaka_model
+      medaka_model = params.medaka_model
     }
 
     medaka(params.fastq, racon1.out.assembly)
