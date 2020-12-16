@@ -216,10 +216,10 @@ else if ( params.mode == 'assembly' ) {
 
     medaka(params.fastq, racon1.out.assembly)
 
-    medaka.out.assembly
+    //medaka.out.assembly
 
     // QC
-    quast(medaka.out.assembly.join(assembly))
+    quast(medaka.out.assembly)
     busco_eud(medaka.out.assembly, "eudicots_odb10", "genome")
     busco_emb(medaka.out.assembly, "embryophyta_odb10", "genome")
     busco_vir(medaka.out.assembly, "viridiplantae_odb10", "genome")
