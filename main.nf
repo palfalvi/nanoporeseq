@@ -214,7 +214,7 @@ else if ( params.mode == 'assembly' ) {
       medaka_model = $params.medaka_model
     }
 
-    medaka(params.fastq, racon1.out.assembly, medaka_model)
+    medaka(params.fastq, racon1.out.assembly)
 
     medaka.out.assembly
 
