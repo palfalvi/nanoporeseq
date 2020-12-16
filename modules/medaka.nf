@@ -20,6 +20,6 @@ process medaka {
     -d $assembly \
     -o medaka_polish \
     -t $task.cpus \
-    -m ${params.medaka_model}
+    -m r941_min_high_g360
     """
 }
