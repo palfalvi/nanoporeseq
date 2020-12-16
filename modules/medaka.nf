@@ -19,6 +19,7 @@ process medaka {
     -i $fastq \
     -d $assembly \
     -o medaka_polish \
-    -t $task.cpus
+    -t $task.cpus \
+    -m r941_min_high_g360
     """
 }
