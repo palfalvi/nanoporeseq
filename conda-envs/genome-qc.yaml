@@ -3,8 +3,7 @@ channels:
     - bioconda
     - conda-forge
     - defaults
-python:
-    - 3.5
 dependencies:
+    - python=2.7
     - busco=4.1.4
     - quast=5.0.2
