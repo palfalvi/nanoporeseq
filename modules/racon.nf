@@ -12,7 +12,7 @@ process racon {
     path assembly
 
   output:
-    path "*_racon.fasta", emit: assembly
+    path "${fastq.simpleName}_racon.fasta", emit: assembly
 
   script:
     """
@@ -21,7 +21,6 @@ process racon {
     -u \
     $fastq \
     $overlap \
-    $assembly > \
-    ${fastq.simpleName}_racon.fasta
+    $assembly > ${fastq.simpleName}_racon.fasta
     """
 }
