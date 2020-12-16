@@ -20,6 +20,6 @@ process medaka {
     -d $assembly \
     -o medaka_polish \
     -t $task.cpus \
-    -m $medaka_model
+    -m ${params.medaka_model}
     """
 }

@@ -206,13 +206,13 @@ else if ( params.mode == 'assembly' ) {
     //minimap2_2(params.fastq, racon1.out.assembly)
     //racon2(params.fastq, minimap2_2.out.map, racon1.out.assembly)
 
-    if ( !params.medaka_model ) {
-      log.info 'Medaka model is not provided'
-      log.info 'Setting default model to r941_min_high_g360'
-      medaka_model = 'r941_min_high_g360'
-    } else {
-      medaka_model = params.medaka_model
-    }
+//    if ( !params.medaka_model ) {
+//      log.info 'Medaka model is not provided'
+//      log.info 'Setting default model to r941_min_high_g360'
+//      medaka_model = 'r941_min_high_g360'
+//    } else {
+//      medaka_model = params.medaka_model
+//    }
 
     medaka(params.fastq, racon1.out.assembly)
 
