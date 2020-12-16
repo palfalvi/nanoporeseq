@@ -1,6 +1,6 @@
 process multiqc {
 
-  conda "$baseDir/conda-envs/genome-qc.yaml"
+  conda "$baseDir/conda-envs/multiqc-env.yaml"
 
   publishDir "${params.outdir}", mode: 'copy'
 
