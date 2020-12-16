@@ -9,7 +9,6 @@ process medaka {
   input:
     path fastq
     path assembly
-    val medaka_model
 
   output:
     path "medaka_polish/consensus.fasta", emit: assembly
@@ -20,6 +19,6 @@ process medaka {
     -i $fastq \
     -d $assembly \
     -o medaka_polish \
-    -t $task.cpus 
+    -t $task.cpus
     """
 }
