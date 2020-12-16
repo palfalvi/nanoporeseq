@@ -19,6 +19,6 @@ process miniasm {
 
     miniasm -f !{fastq} reads.paf.gz > miniasm_assembly.gfa
 
-    $projectDir/conf/gfa2fasta.sh miniasm_assembly.gfa
+    any2fasta miniasm_assembly.gfa > miniasm_assembly.fasta
     """
 }
