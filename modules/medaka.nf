@@ -20,7 +20,6 @@ process medaka {
     -i $fastq \
     -d $assembly \
     -o medaka_polish \
-    -t $task.cpus \
-    -m $medaka_model
+    -t $task.cpus 
     """
 }
