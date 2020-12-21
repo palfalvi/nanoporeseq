@@ -15,7 +15,7 @@ process medaka {
 
   script:
     """
-    medaka consensus \
+    medaka_consensus \
     -i $fastq \
     -d $assembly \
     -o medaka_polish \
