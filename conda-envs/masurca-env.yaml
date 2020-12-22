@@ -1,4 +1,4 @@
-name: fastqc-env
+name: masurca-env
 channels:
     - bioconda
     - conda-forge

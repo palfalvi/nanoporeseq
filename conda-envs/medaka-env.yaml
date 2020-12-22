@@ -1,4 +1,4 @@
-name: miniasm-env
+name: medaka-env
 channels:
     - bioconda
     - conda-forge

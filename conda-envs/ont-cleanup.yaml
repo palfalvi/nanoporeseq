@@ -1,4 +1,4 @@
-name: fastqc-env
+name: ont-cleanup-env
 channels:
     - bioconda
     - conda-forge

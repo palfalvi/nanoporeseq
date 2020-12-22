@@ -4,4 +4,4 @@ channels:
     - conda-forge
     - defaults
 dependencies:
-    - multiqc=1.9
+    - busco=4.1.4

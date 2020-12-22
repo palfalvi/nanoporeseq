@@ -1,8 +1,6 @@
 process wtdbg {
 
-  cpus 32
-  memory '1.5T'
-  queue 'MPP,smpl'
+  label 'assembly'
 
   conda "$baseDir/conda-envs/wtdbg-env.yaml"
 

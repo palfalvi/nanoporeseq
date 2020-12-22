@@ -1,4 +1,4 @@
-name: fastqc-env
+name: raven-env
 channels:
     - bioconda
     - conda-forge

@@ -1,7 +1,7 @@
-name: busco-env
+name: multiqc-env
 channels:
     - bioconda
     - conda-forge
     - defaults
 dependencies:
-    - busco=4.1.4
+    - multiqc=1.9

@@ -10,15 +10,17 @@ process nanolyse {
 
   output:
     path "*filtered.fastq.gz", emit: filtered
-    //path "*filter.log", emit: filter_log
+    path "*filter.log", emit: filter_log
     path "*lyse.log", emit: lyse_log
 
   script:
-    def qual      = params.cu_qual     ? "--quality ${params.cu_qual}"       : ""
-    def length    = params.cu_length   ? "--length ${params.cu_length}"     : ""
-    def headcrop  = params.cu_headcrop ? "--headcrop ${params.cu_headcrop}" : ""
+    def reference  = params.cu_reference        ? "--reference ${params.reference}"  : "--reference $projectDir/conf/ont_control_dna.fasta"
+    def qual       = params.cu_qual             ? "--quality ${params.cu_qual}"      : ""
+    def length     = params.cu_length           ? "--length ${params.cu_length}"     : ""
+    def headcrop   = params.cu_headcrop         ? "--headcrop ${params.cu_headcrop}" : ""
+    def decompress = reads.getExtension == 'gz' ? "gunzip -c $reads"                 : "cat $reads"
 
     """
-    gunzip -c $reads | NanoLyse --reference $projectDir/conf/ont_control_dna.fasta --logfile ${reads.simpleName}_lyse.log | NanoFilt --logfile ${reads.simpleName}_filter.log $qual $length $headcrop| gzip > ${reads.simpleName}_filtered.fastq.gz
+    $decompress | NanoLyse $reference --logfile ${reads.simpleName}_lyse.log | NanoFilt --logfile ${reads.simpleName}_filter.log $qual $length $headcrop| gzip > ${reads.simpleName}_filtered.fastq.gz
     """
 }

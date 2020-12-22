@@ -1,4 +1,4 @@
-name: miniasm-env
+name: racon-env
 channels:
     - bioconda
     - conda-forge
