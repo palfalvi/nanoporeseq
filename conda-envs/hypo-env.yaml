@@ -1,9 +1,9 @@
-name: medaka-env
+name: hypo-env
 channels:
     - bioconda
     - conda-forge
     - defaults
 dependencies:
-    - git
-    - git-lfs
-    - medaka=1.2.1
+    - minimap2
+    - kmc
+    - hypo

@@ -74,6 +74,8 @@ include { wtdbg } from './modules/wtdbg.nf'
 include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3 } from './modules/minimap.nf'
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 include { medaka } from './modules/medaka.nf'
+include { hypo } from './modules/hypo.nf'
+include { freebayes } from './modules/freebayes_polish.nf'
 
 // Include annotation tools
 include { lorean } from './modules/lorean.nf'
@@ -83,6 +85,7 @@ include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './m
 include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
 include { nanolyse } from './modules/nanolyse.nf'
+include { kat } from './modules/kat.nf'
 
 
 
@@ -216,52 +219,53 @@ else if ( params.mode == 'assembly' ) {
     minimap2_1(params.fastq, assembly)
     racon1(params.fastq, minimap2_1.out.map, assembly)
 
-    //minimap2_2(params.fastq, racon1.out.assembly)
-    //racon2(params.fastq, minimap2_2.out.map, racon1.out.assembly)
-
-//    if ( !params.medaka_model ) {
-//      log.info 'Medaka model is not provided'
-//      log.info 'Setting default model to r941_min_high_g360'
-//      medaka_model = 'r941_min_high_g360'
-//    } else {
-//      medaka_model = params.medaka_model
-//    }
-
     medaka(params.fastq, racon1.out.assembly)
 
     //medaka.out.assembly
 
-    if ( params.short_polish || params.short_polish ) {
+    assembly = medaka.out.assembly
 
-      if ( !params.short_reads ) {
-        error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq'
-      }
+  }
 
-      if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
-        // Verterae Genome Project polishing with freebayes
-        freebayes(medaka.out.assembly, params.short_reads)
-      }
-      else if ( params.short_polish == 'nextpolish' ) {
-        // Nextpolish polishing
-        if ( !params.nextpolish ) {
-          error 'NextPolish source is not provided. Please install NextPolish locally and provide as --nextpolish /PATH/TO/nextpolish or consider using another polishing method (e.g. vgp).'
-        }
+  if ( params.short_polish ) {
 
-
-      }
-      else if ( params.short_polish == 'pilon' ) {
-        // pilon polishing
-      }
-      else if ( params.short_polish == 'polca' ) {
-
-      }
-
-      polished_assembly =
-    }
-    else {
-      polished_assembly = medaka.out.assembly
+    if ( !params.short_reads ) {
+      error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq'
     }
 
+    if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
+      // Verterae Genome Project polishing with freebayes
+      freebayes(assembly, params.short_reads)
+    }
+    else if ( params.short_polish == 'nextpolish' ) {
+      // Nextpolish polishing
+      if ( !params.nextpolish ) {
+        error 'NextPolish source is not provided. Please install NextPolish locally and provide as --nextpolish /PATH/TO/nextpolish or consider using another polishing method (e.g. vgp).'
+      }
+
+    }
+    else if ( params.short_polish == 'pilon' ) {
+      // pilon polishing
+    }
+    else if ( params.short_polish == 'polca' ) {
+      // POLCA polishing
+    }
+    else if ( params.short_polish == 'hypo' ) {
+      // HyPo polishing
+      hypo( assembly, params.short_reads, params.fastq, params.genome_size )
+      polished_assembly = hypo.out.assembly
+    }
+
+  }
+  else if ( params.polish ) {
+    polished_assembly = medaka.out.assembly
+  } else {
+    polished_assembly = assembly
+  }
+
+
+
+  if ( !params.skip_qc) {
     // QC
     quast(polished_assembly)
     busco_eud(polished_assembly, "eudicots_odb10", "genome")
@@ -270,21 +274,14 @@ else if ( params.mode == 'assembly' ) {
 
     multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
-  } else {
-    // QC
-    quast(assembly)
-    busco_eud(assembly, "eudicots_odb10", "genome")
-    busco_emb(assembly, "embryophyta_odb10", "genome")
-    busco_vir(assembly, "viridiplantae_odb10", "genome")
-
-    multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+    if ( short_reads ) {
+      kat(polished_assembly, params.short_reads)
+    }
   }
 
 
 
 // deduplication?
-
-// k-mer analysis (KAT)
 
 
 

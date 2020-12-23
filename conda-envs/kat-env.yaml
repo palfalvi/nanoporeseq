@@ -1,9 +1,7 @@
-name: medaka-env
+name: kat-env
 channels:
     - bioconda
     - conda-forge
     - defaults
 dependencies:
-    - git
-    - git-lfs
-    - medaka=1.2.1
+    - kat
