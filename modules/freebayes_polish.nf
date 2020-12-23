@@ -4,15 +4,15 @@ process freebayes {
 
   conda "$baseDir/conda-envs/freebayes-env.yaml"
 
-  // publishDir "${params.outdir}/nextpolish", mode: 'copy'
+  publishDir "${params.outdir}/freebayes_polish", mode: 'copy'
 
   input:
     path assembly
-    path reads
+    tuple val(sample_id), file(reads)
 
   output:
-    path $sample.bam
-    path $sample.bam.bai
+    path "*.sample.bam"
+    path "*.bam.bai"
 
   script:
     """
@@ -20,11 +20,11 @@ process freebayes {
     bwa index $assembly
 
     # bwa map
-    bwa mem -t 40 $genome ${reads[1]} ${reads[2]} > $sample.sam
+    bwa mem -t ${task.cpus} ${assembly} ${reads[1]} ${reads[2]} > ${assembly}.sam
 
-    samtools sort -@ 40 -O bam -o $sample.bam -T $sample.tmp $sample.sam && rm $sample.sam
+    samtools sort -@ ${task.cpus} -O bam -o ${assembly}.bam -T ${assembly}.tmp ${assembly}.sam && rm ${assembly}.sam
 
-    samtools index $sample.bam
+    samtools index ${assembly}.bam
 
     # Consensus
     # concat_list.txt:
@@ -38,11 +38,11 @@ process freebayes {
     #/mnt/gpfsB/scratch/peegee/freebayes/output/tig00000017:1-137101.bcf
     # ...
 
-    bcftools concat -nf concat_list.txt | bcftools view -Ou -e'type="ref"' | bcftools norm -Ob -f $fasta -o ${sample}.bcf
-    bcftools index ${sample}.bcf
+    bcftools concat -nf concat_list.txt | bcftools view -Ou -e'type="ref"' | bcftools norm -Ob -f $fasta -o ${assembly}.bcf
+    bcftools index ${assembly}.bcf
 
-    bcftools consensus -i'QUAL>1 && (GT="AA" || GT="Aa")' -Hla -f $fasta ${sample}.bcf > ${sample}.fasta
+    bcftools consensus -i'QUAL>1 && (GT="AA" || GT="Aa")' -Hla -f $fasta ${assembly}.bcf > ${assembly}.fasta
 
-    cp ${sample}.fasta /mnt/gpfsA/home/peegee/cephalotus/assemblies/canu/3_ilmn_polish/${sample}.fasta
+    cp ${assembly}.fasta /mnt/gpfsA/home/peegee/cephalotus/assemblies/canu/3_ilmn_polish/${assembly}.fasta
     """
 }
