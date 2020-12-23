@@ -1,7 +1,6 @@
 process guppy_basecalling {
-  tag "$sample_id"
-  cpus 40
-  memory '100G'
+
+  label 'long_job'
 
   publishDir "${params.outdir}/guppy", mode: 'copy'
 
@@ -11,7 +10,7 @@ process guppy_basecalling {
 
   output:
     path "$sample_id/guppy"
-    
+
   script:
     """
     mkdir $sample_id
@@ -24,9 +23,9 @@ process guppy_basecalling {
     --recursive \
     -s $sample_id/guppy \
     --config  $params.config_file \
-    --cpu_threads_per_caller 20 \
+    --cpu_threads_per_caller 5 \
     --num_callers 2 \
-    --records_per_fastq 10000000 \
+    --records_per_fastq 100000000 \
     --bam_out ${sample_id}_methylation.bam \
     --qscore_filtering \
     --min_qscore 7 \

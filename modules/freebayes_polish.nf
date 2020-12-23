@@ -1,4 +1,4 @@
-process nextpolish {
+process freebayes {
 
   label 'assembly'
 

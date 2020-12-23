@@ -12,7 +12,7 @@ Usage:
 
 
 Mandatory arguments:
-      --mode                         Running mode. Supported: basecalling, assembly, genome_check, annotation, expression.
+      --mode                         Running mode. Supported: basecalling, cleanup, assembly, genome_check, annotation, expression.
 
 Universal arguments
       --outdir                       Output directory name. [results]
@@ -117,7 +117,18 @@ else if ( params.mode == 'cleanup' ) {
 
 }
 else if ( params.mode == 'assembly' ) {
-  log.info "Starting assembly protocol with $params.assembler ... "
+
+
+  if ( params.assembly && !params.assembler ) {
+    // assembly file is provided, but no assembler software.
+    // Useful for only polishing or QC.
+    log.info "Skipping initial assembly as it is provided: $params.assembly "
+    assembly = params.assembly
+  }
+  else {
+    log.info "Starting assembly protocol with $params.assembler ... "
+  }
+
 
   // Canu, out.assembly, out.gfa
   if ( params.assembler == 'canu' ) {
@@ -127,6 +138,8 @@ else if ( params.mode == 'assembly' ) {
 
     canu(params.fastq, params.genome_size)
 
+    assembly = canu.out.assembly
+    gfa = canu.out.gfa
   }
 
   // MaSuRCa, out.assembly
@@ -136,6 +149,7 @@ else if ( params.mode == 'assembly' ) {
 
     masurca( params.masurca_file )
 
+    assembly = masurca.out.assembly
   }
 
   // Flye: out.assembly, out.gfa
@@ -146,6 +160,8 @@ else if ( params.mode == 'assembly' ) {
 
     flye(params.fastq, params.genome_size)
 
+    assembly = flye.out.assembly
+    gfa = flye.out.gfa
   }
 
   // Miniasm out.assembly, out.gfa
@@ -167,6 +183,7 @@ else if ( params.mode == 'assembly' ) {
 
     wtdbg2(params.fastq, params.genome_size)
 
+    assembly = wtdbg2.out.assembly
   }
 
   // NextDenovo: out.assembly
@@ -177,6 +194,8 @@ else if ( params.mode == 'assembly' ) {
 
     nextdenovo(params.nextdenovo_bin, params.nextdenovo_cfg)
 
+    assembly = nextdenovo.out.assembly
+    gfa = nextdenovo.out.gfa
   }
 
   // RAVEN assembler: out.assemblym out.gfa
@@ -188,12 +207,6 @@ else if ( params.mode == 'assembly' ) {
 
     assembly = raven.out.assembly
     gfa = raven.out.gfa
-    //quast(raven.out.assembly)
-    //busco_eud(raven.out.assembly, "eudicots_odb10", "genome")
-    //busco_emb(raven.out.assembly, "embryophyta_odb10", "genome")
-    //busco_vir(raven.out.assembly, "viridiplantae_odb10", "genome")
-
-    //multiqc(quast.out.concat(busco_eud.out, busco_emb.out, busco_vir.out), "$baseDir/${params.outdir}")
 
   }
 
@@ -218,11 +231,42 @@ else if ( params.mode == 'assembly' ) {
 
     //medaka.out.assembly
 
+    if ( params.short_polish || params.short_polish ) {
+
+      if ( !params.short_reads ) {
+        error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq'
+      }
+
+      if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
+        // Verterae Genome Project polishing with freebayes
+        freebayes(medaka.out.assembly, params.short_reads)
+      }
+      else if ( params.short_polish == 'nextpolish' ) {
+        // Nextpolish polishing
+        if ( !params.nextpolish ) {
+          error 'NextPolish source is not provided. Please install NextPolish locally and provide as --nextpolish /PATH/TO/nextpolish or consider using another polishing method (e.g. vgp).'
+        }
+
+
+      }
+      else if ( params.short_polish == 'pilon' ) {
+        // pilon polishing
+      }
+      else if ( params.short_polish == 'polca' ) {
+
+      }
+
+      polished_assembly =
+    }
+    else {
+      polished_assembly = medaka.out.assembly
+    }
+
     // QC
-    quast(medaka.out.assembly)
-    busco_eud(medaka.out.assembly, "eudicots_odb10", "genome")
-    busco_emb(medaka.out.assembly, "embryophyta_odb10", "genome")
-    busco_vir(medaka.out.assembly, "viridiplantae_odb10", "genome")
+    quast(polished_assembly)
+    busco_eud(polished_assembly, "eudicots_odb10", "genome")
+    busco_emb(polished_assembly, "embryophyta_odb10", "genome")
+    busco_vir(polished_assembly, "viridiplantae_odb10", "genome")
 
     multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
