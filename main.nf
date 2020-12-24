@@ -274,7 +274,7 @@ else if ( params.mode == 'assembly' ) {
 
     multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
-    if ( short_reads ) {
+    if ( params.short_reads ) {
       kat(polished_assembly, params.short_reads)
     }
   }
