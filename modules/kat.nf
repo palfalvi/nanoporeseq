@@ -1,4 +1,4 @@
-process hypo {
+process kat {
   label "assembly"
 
   conda "$baseDir/conda-envs/kat-env.yaml"
