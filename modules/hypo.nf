@@ -9,7 +9,7 @@ process hypo {
     path genome
     tuple val(sample_id), file(reads)
     path long_reads
-    value genome_size
+    val genome_size
 
   output:
     path "*hypo.fasta", emit: assembly
