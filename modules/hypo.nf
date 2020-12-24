@@ -15,11 +15,6 @@ process hypo {
     path "*hypo.fasta", emit: assembly
 
   script:
-    def reference  = params.cu_reference        ? "--reference ${params.cu_reference}"  : "--reference $projectDir/conf/ont_control_dna.fasta"
-    def qual       = params.cu_qual             ? "--quality ${params.cu_qual}"         : ""
-    def length     = params.cu_length           ? "--length ${params.cu_length}"        : ""
-    def headcrop   = params.cu_headcrop         ? "--headcrop ${params.cu_headcrop}"    : ""
-    def decompress = params.gz                  ? "gunzip -c $reads"                    : "cat $reads"
 
     """
     # short read
@@ -28,7 +23,7 @@ process hypo {
     #long (ONT)
     minimap2 -t $task.cpus -ax map-ont $genome nanopore.fq.gz | samtools sort -@ \$task.cpus -O BAM- > long.bam
 
-    avg_depth = samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}' # Calculate average coverage of reads
+    avg_depth = samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}'
 
     echo -e "${short_reads[1]}\n${short_reads[2]}" > names.txt
 
