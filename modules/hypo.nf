@@ -1,7 +1,7 @@
 process hypo {
   label "assembly"
 
-  conda "$baseDir/conda-envs/kat-env.yaml"
+  conda "$baseDir/conda-envs/hypo-env.yaml"
 
   publishDir "${params.outdir}/short_polished", mode: 'copy'
 
@@ -10,7 +10,6 @@ process hypo {
     tuple val(sample_id), file(reads)
     path long_reads
     value genome_size
-    value coverage // ? can we calculate somehow?
 
   output:
     path "*hypo.fasta", emit: assembly
