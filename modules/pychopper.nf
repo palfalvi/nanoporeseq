@@ -3,7 +3,7 @@ process pychopper {
 
   tag "$reads"
 
-  conda "$baseDir/conda-envs/pychopper.yaml"
+  conda "$baseDir/conda-envs/pychopper-env.yaml"
 
   publishDir "${params.outdir}/filtered_reads", mode: 'copy'
 
