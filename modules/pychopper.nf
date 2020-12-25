@@ -26,6 +26,8 @@ process pychopper {
     def method     = params.cu_method           ? "-m ${params.cu_method}"       : ""
 
     """
-    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq $reads ${reads.simpleName}_filtered.fastq
+    gunzip -d -q $reads
+
+    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq ${reads.simpleName}.fastq ${reads.simpleName}_filtered.fastq
     """
 }
