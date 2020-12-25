@@ -30,7 +30,7 @@ process lorean {
     --minimap2 \
     --max_intron_length 10000 \
     -pr $protein_ref \
-    -sp $species \
+    $species \
     $long_reads \
     $short_reads \
     $prefix \
