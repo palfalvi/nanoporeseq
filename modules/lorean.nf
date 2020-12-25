@@ -36,7 +36,7 @@ process lorean {
     $prefix \
     $stranded \
     $iproscan \
-    $adapter \
+    $adapters \
     $genome
     """
 }
