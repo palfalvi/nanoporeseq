@@ -1,7 +1,6 @@
 process lorean {
 
   container = 'docker://lfaino/lorean'
-  process.containerOptions '-B /opt/LoReAn/third_party/software/augustus/config/ -B /usr/local/RepeatMasker/Libraries/'
   singularity.enabled = true
 
   publishDir "${params.outdir}/lorean", mode: 'copy'
