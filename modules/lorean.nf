@@ -1,8 +1,6 @@
 process lorean {
 
   container = 'docker://lfaino/lorean'
-  singularity.enabled = true
-
   publishDir "${params.outdir}/lorean", mode: 'copy'
 
   input:
