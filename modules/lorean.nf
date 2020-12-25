@@ -24,11 +24,11 @@ process lorean {
     def species     = params.lorean_species  ? "--species ${params.lorean_species}"   : "--species Xx"
 
     """
-    #wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
+    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/config.augustus.tar.gz && tar -zxvf config.augustus.tar.gz
 
-    #wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
+    wget https://github.com/lfaino/LoReAn/raw/master/third_party/software/RepeatMasker.Libraries.tar.gz && tar -xvzf RepeatMasker.Libraries.tar.gz
 
-    lorean \
+    lorean -h\
     --threads $task.cpus \
     --minimap2 \
     --max_intron_length 10000 \

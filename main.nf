@@ -60,6 +60,10 @@ exit 0
 // Include basecallers
 include { guppy_basecalling } from './modules/guppy_basecalling.nf'
 
+//Include cleanup tools
+include { nanolyse } from './modules/nanolyse.nf'
+include { pychopper } from './modules/pychopper.nf'
+
 // Include assemblers
 include { canu } from './modules/canu.nf'
 include { masurca } from './modules/masurca.nf'
@@ -84,7 +88,6 @@ include { lorean } from './modules/lorean.nf'
 include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
 include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
-include { nanolyse } from './modules/nanolyse.nf'
 include { kat } from './modules/kat.nf'
 
 
@@ -113,10 +116,16 @@ if ( params.mode == 'basecalling') {
 else if ( params.mode == 'cleanup' ) {
   log.info 'Starting read clean-up'
 
+
     reads = Channel.fromPath( params.fastq )
     reads.subscribe {  println "Reads provided: $it"  }
 
-    nanolyse( reads )
+    if ( !params.rna ) {
+      nanolyse( reads )
+    }
+    else {
+      pychopper( reads )
+    }
 
 }
 else if ( params.mode == 'assembly' ) {
@@ -304,7 +313,10 @@ else if ( params.mode == 'annotation' ) {
   if ( params.genome != false ) {
     // Genome file is provided, run LoReAn
     log.info "Genome file provided: ${params.genome}"
+    log.info "LoReAn annotation is starting ..."
+
     lorean(params.genome, params.lorean_proteins)
+
   } else {
     log.info 'No reference genome is provided for transcript annotation.'
     log.info 'Attempting de novo transcript assembly...'
@@ -323,7 +335,7 @@ else if ( params.mode == 'annotation' ) {
       //Trinity?
       //rnaSPAdes?
     }
-    else { error 'No read file is provided for transcriptome assembly. Please provide fastq files with --short_reads and/or --long_reads options.'}
+    else { error 'No read file is provided for transcriptome assembly. Please provide fastq files with --short_rna and/or --long_rna options.'}
   }
 
 
