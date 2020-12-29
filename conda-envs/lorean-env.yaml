@@ -1,0 +1,53 @@
+name: busco-env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - transdecoder=3.0.1
+  - samtools=0.1.19-96b5f2294a
+  - bedtools=2.25.0
+  - bowtie=1.1.2
+  - bamtools=2.4.1
+#AATpackage r03052011  http://aatpackage.sourceforge.net/ # make
+#iAssembler v1.3.2.x64 http://bioinfo.bti.cornell.edu/tool/iAssembler/#install # Just download and uncompress
+  - genemark_es v.4.33 64bit (THIS SOFTWARE IS NOT FREE FOR EVERYONE, check installation instruction)
+  - pasa=2.1.0
+  - augustus=3.3.3
+  - trinity=2.5.1
+  - star=2.5.3a
+  - gmap=2017-06-20
+  - gsnap
+#fasta v36.3.8e https://github.com/wrpearson/fasta36 https://github.com/wrpearson/fasta36/blob/v36.3.8/doc/INSTALL # make
+  - braker2=2.0
+  - evidencemodeler=1.1.1
+  - gffread=0.9.9
+  - genometools=1.5.9
+  - numpy=1.17.1
+  - biopython=1.73
+  - bcbio-gff=0.6.4
+  - pandas=0.19.1
+  - pybedtools=0.7.8
+  - gffutils=0.9
+  - regex=2019.8.19
+  - pysam=0.15.3
+  - progressbar2=3.43.1
+  - psutil=5.6.3
+  - memory_profiler=0.55.0
+  - pathlib=1.0.1
+  - colorama=0.4.1
+  - simplesam=0.1.3
+  - tqdm=4.35.0
+  - argcomplete=1.10.0
+  - argh=0.26.2
+  - ordereddict=1.1
+  - pycurl=7.43.0
+  - pyfaidx=0.5.5.2
+  - pygobject
+  - python-apt
+  - python-dateutil=2.8.0
+  - python-utils=2.3.0
+  - pytz=2019.2
+  - simplejson=3.16.0
+  - six=1.12.0
+  - unattended-upgrades=0.1
