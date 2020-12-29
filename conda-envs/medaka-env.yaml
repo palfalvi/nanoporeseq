@@ -6,4 +6,5 @@ channels:
 dependencies:
     - git
     - git-lfs
+    - samtools=1.9
     - medaka=1.2.1
