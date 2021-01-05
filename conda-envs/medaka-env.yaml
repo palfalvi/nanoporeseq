@@ -5,4 +5,4 @@ channels:
     - defaults
 dependencies:
     - git-lfs
-    - medaka=1.0.2
+    - medaka=1.0.1
