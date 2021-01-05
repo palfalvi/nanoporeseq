@@ -4,5 +4,6 @@ channels:
     - conda-forge
     - defaults
 dependencies:
+    - samtools=1.9
     - git-lfs
     - medaka=1.2.1
