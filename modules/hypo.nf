@@ -31,7 +31,7 @@ process hypo {
     --draft $genome \
     --reads-short names.txt \
     --size-ref $genome_size \
-    --coverage-short $avg_depth \
+    --coverage-short /$avg_depth \
     --processing-size 96 \
     --bam-sr short.bam \
     --bam-lr long.bam \
