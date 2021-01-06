@@ -7,7 +7,7 @@ process hypo {
 
   input:
     path genome
-    tuple val(sample_id), file(reads)
+    tuple val(sample_id), file(short_reads)
     path long_reads
     val genome_size
 
@@ -29,7 +29,7 @@ process hypo {
 
     hypo \
     --draft $genome \
-    --reads-short @names.txt \
+    --reads-short names.txt \
     --size-ref $genome_size \
     --coverage-short $avg_depth \
     --processing-size 96 \
