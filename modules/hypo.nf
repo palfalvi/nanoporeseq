@@ -18,10 +18,12 @@ process hypo {
 
     """
     # short read
-    minimap2 -t ${task.cpus} -ax sr $genome ${short_reads[0]} ${short_reads[1]} | samtools sort -@ $task.cpus -O BAM - > short.bam
+    minimap2 --secondary=no --MD -L -t ${task.cpus} -ax sr $genome ${short_reads[0]} ${short_reads[1]} | samtools sort -@ $task.cpus -O BAM - > short.bam
+    samtools index short.bam
 
     #long (ONT)
-    minimap2 -t ${task.cpus} -ax map-ont $genome ${long_reads} | samtools sort -@ $task.cpus -O BAM - > long.bam
+    minimap2 --secondary=no --MD -L -t ${task.cpus} -ax map-ont $genome ${long_reads} | samtools sort -@ $task.cpus -O BAM - > long.bam
+    samtools index long.bam
 
     avg_depth=`samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}'`
 
@@ -29,7 +31,7 @@ process hypo {
 
     hypo \
     --draft $genome \
-    --reads-short names.txt \
+    --reads-short @names.txt \
     --size-ref $genome_size \
     --coverage-short \$avg_depth \
     --processing-size 96 \
