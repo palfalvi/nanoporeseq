@@ -261,7 +261,10 @@ else if ( params.mode == 'assembly' ) {
     }
     else if ( params.short_polish == 'hypo' ) {
       // HyPo polishing
-      hypo( assembly, params.short_reads, params.fastq, params.genome_size )
+
+      short_reads = Channel.fromFilePairs( params.short_reads )
+
+      hypo( assembly, short_reads, params.fastq, params.genome_size )
       polished_assembly = hypo.out.assembly
     }
 
