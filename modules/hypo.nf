@@ -18,10 +18,10 @@ process hypo {
 
     """
     # short read
-    minimap2 -t ${task.cpus} -ax sr $genome ${short_reads[0]} ${short_reads[1]} | samtools sort -@ $task.cpus -O BAM- > short.bam
+    minimap2 -t ${task.cpus} -ax sr $genome ${short_reads[0]} ${short_reads[1]} | samtools sort -@ $task.cpus -O BAM - > short.bam
 
     #long (ONT)
-    minimap2 -t $task.cpus -ax map-ont $genome nanopore.fq.gz | samtools sort -@ $task.cpus -O BAM- > long.bam
+    minimap2 -t $task.cpus -ax map-ont $genome nanopore.fq.gz | samtools sort -@ $task.cpus -O BAM - > long.bam
 
     avg_depth = samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}'
 
