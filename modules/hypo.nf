@@ -23,9 +23,9 @@ process hypo {
     #long (ONT)
     minimap2 -t $task.cpus -ax map-ont $genome nanopore.fq.gz | samtools sort -@ $task.cpus -O BAM - > long.bam
 
-    avg_depth = samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}'
+    avg_depth=`samtools depth short.bam  |  awk '{sum+=\$3} END { print sum/NR}'`
 
-    echo -e "${short_reads[1]}\n${short_reads[2]}" > names.txt
+    echo -e "${short_reads[0]}\n${short_reads[1]}" > names.txt
 
     hypo \
     --draft $genome \
