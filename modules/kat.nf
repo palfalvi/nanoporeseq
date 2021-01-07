@@ -1,5 +1,5 @@
 process kat {
-  label "assembly"
+  label "small_plus"
 
   conda "$baseDir/conda-envs/kat-env.yaml"
 
@@ -15,6 +15,6 @@ process kat {
 
   script:
     """
-    kat comp -t 16 -o kat $reads $genome
+    kat comp -t ${task.cpus} -o ${genome.simpleName}_kat ${reads} ${genome}
     """
 }
