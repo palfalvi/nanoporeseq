@@ -21,12 +21,10 @@ process freebayes_bwa {
     bwa index ${assembly}
 
     # bwa map
-    bwa mem -t ${task.cpus} ${assembly} ${reads[0]} ${reads[1]} > ${assembly}.sam
+    bwa mem -t ${task.cpus} ${assembly} ${reads[0]} ${reads[1]} | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
 
-    samtools sort -@ ${task.cpus} -O bam -o ${assembly}.bam -T ${assembly}.tmp ${assembly}.sam && rm ${assembly}.sam
+    samtools index ${assembly.simpleName}.bam
 
-    samtools index ${assembly}.bam
-
-    avg_depth=`samtools depth ${assembly}.bam  |  awk '{sum+=\$3} END { print sum/NR}'`
+    avg_depth=`samtools depth ${assembly.simpleName}.bam  |  awk '{sum+=\$3} END { print sum/NR}'`
     """
 }
