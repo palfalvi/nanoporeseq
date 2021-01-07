@@ -274,6 +274,14 @@ else if ( params.mode == 'assembly' ) {
     }
     else if ( params.short_polish == 'pilon' ) {
       // pilon polishing
+      short_r = Channel.fromFilePairs( params.short_reads )
+
+      // First map short reads to genome
+      freebayes_bwa(assembly, short_r)
+
+      pilon( assembly, freebayes_bwa.out.bam, freebayes_bwa.out.baidx)
+
+      polished_assembly = pilon.out.assembly
     }
     else if ( params.short_polish == 'polca' ) {
       // POLCA polishing
@@ -306,7 +314,10 @@ else if ( params.mode == 'assembly' ) {
     multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
     if ( params.short_reads ) {
-      kat(polished_assembly, params.short_reads)
+
+      short_reads = Channel.fromFilePairs( params.short_reads )
+
+      kat(polished_assembly, short_reads)
     }
   }
 
@@ -327,6 +338,14 @@ else if ( params.mode == 'genome_check' ) {
   busco_vir(params.genome, "viridiplantae_odb10", "genome")
 
   multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+
+  if ( params.short_reads ) {
+
+    short_reads = Channel.fromFilePairs( params.short_reads )
+
+    kat(polished_assembly, short_reads)
+  }
+
 }
 
 else if ( params.mode == 'annotation' ) {
