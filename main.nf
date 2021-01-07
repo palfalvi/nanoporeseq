@@ -79,7 +79,9 @@ include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 include { medaka } from './modules/medaka.nf'
 include { hypo } from './modules/hypo.nf'
-include { freebayes } from './modules/freebayes_polish.nf'
+include { freebayes_bwa } from './modules/freebayes-bwa_map.nf'
+include { freebayes_call } from './modules/freebayes-call.nf'
+include { freebayes_consensus } from './modules/freebayes-consensus.nf'
 
 // Include annotation tools
 include { lorean } from './modules/lorean.nf'
@@ -210,7 +212,7 @@ else if ( params.mode == 'assembly' ) {
     gfa = nextdenovo.out.gfa
   }
 
-  // RAVEN assembler: out.assemblym out.gfa
+  // RAVEN assembler: out.assembly out.gfa
   if ( params.assembler == 'raven') {
 
     // params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
@@ -243,8 +245,25 @@ else if ( params.mode == 'assembly' ) {
     }
 
     if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
-      // Verterae Genome Project polishing with freebayes
-      freebayes(assembly, params.short_reads)
+      // Verterae Genome Project polishing pipeline with freebayes and bcftools
+
+      short_r = Channel.fromFilePairs( params.short_reads )
+
+      // First map short reads to genome
+      freebayes_bwa(assembly, short_r)
+      // Split genome by contigs
+      fromPath(assembly)
+        .splitFasta( file = true )
+        .set { contigs_ch }
+      // Run freebayes on each contigs
+      freebayes_call( contigs_ch, freebayes_bwa.out.avg_depth, freebayes_bwa.out.bam, freebayes_bwa.out.baidx )
+
+      freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, order: true).set { bcf_list }
+
+      freebayes_consensus( assembly, bcf_list )
+
+      polished_assembly = freebayes_consensus.out.assembly
+
     }
     else if ( params.short_polish == 'nextpolish' ) {
       // Nextpolish polishing
