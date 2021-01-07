@@ -258,7 +258,7 @@ else if ( params.mode == 'assembly' ) {
       // Run freebayes on each contigs
       freebayes_call( contigs_ch, freebayes_bwa.out.avg_depth, freebayes_bwa.out.bam, freebayes_bwa.out.baidx )
 
-      freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, order: true).set { bcf_list }
+      freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
       freebayes_consensus( assembly, bcf_list )
 
