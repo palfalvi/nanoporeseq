@@ -252,7 +252,7 @@ else if ( params.mode == 'assembly' ) {
       // First map short reads to genome
       freebayes_bwa(assembly, short_r)
       // Split genome by contigs
-      fromPath(assembly)
+      Channel.from( assembly )
         .splitFasta( file = true )
         .set { contigs_ch }
       // Run freebayes on each contigs
