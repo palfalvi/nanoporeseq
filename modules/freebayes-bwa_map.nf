@@ -21,7 +21,7 @@ process freebayes_bwa {
     bwa index ${assembly}
 
     # bwa map
-    bwa mem -t ${task.cpus} ${assembly} ${reads[0]} ${reads[1]} | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
+    bwa mem -t ${task.cpus} ${assembly} ${reads} | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
 
     samtools index ${assembly.simpleName}.bam
 
