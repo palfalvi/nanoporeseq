@@ -268,8 +268,14 @@ else if ( params.mode == 'assembly' ) {
 
         coverage = bam_coverage.out.coverage
       }
-      else if ( params.short_polish_map === "minimap2" ) {
+      else if ( params.short_polish_map == "minimap2" ) {
         // Mapping with minimap2 -ax sr
+      }
+      else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
+        // Longranger mapping for 10x data
+        // Longranger is not distributed under conda or docker. Local installation?
+
+
       }
       else {
         error 'Unknown mapping method: ${params.short_polish_map}. Please choose from bwa, minimap2 or contact developers.'
@@ -282,7 +288,7 @@ else if ( params.mode == 'assembly' ) {
 
       contig_index = Channel.from(1..100) // Split into 100 parallel processes
 
-      freebayes_call( assembly, coverage, short_bam.first(), short_baidx.first(), contig_index )
+      freebayes_call( assembly, coverage.first(), short_bam.first(), short_baidx.first(), contig_index )
 
       freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 

@@ -1,7 +1,5 @@
 process bam_coverage {
 
-  label 'small_job'
-
   conda "$baseDir/conda-envs/bwa-samtools-env.yaml"
 
   //publishDir "${params.outdir}/freebayes_polish", mode: 'copy'

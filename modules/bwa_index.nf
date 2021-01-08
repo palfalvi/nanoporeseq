@@ -1,6 +1,6 @@
 process bwa_index {
 
-  label 'large_mem'
+  label 'small_job'
 
   conda "$baseDir/conda-envs/bwa-samtools-env.yaml"
 
