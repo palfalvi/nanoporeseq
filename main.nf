@@ -265,6 +265,7 @@ else if ( params.mode == 'assembly' ) {
         bam_coverage( short_bam )
 
         bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
+
         coverage = bam_coverage.out.coverage
       }
       else if ( params.short_polish_map === "minimap2" ) {
@@ -279,15 +280,9 @@ else if ( params.mode == 'assembly' ) {
     if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
       // Verterae Genome Project polishing pipeline with freebayes and bcftools
 
-      // Split genome by contigs
-      //Channel.fromPath( assembly )
-      //  .splitFasta( by: 100, file: true )
-      //  .set { contigs_ch }
-      // Run freebayes on each contigs
+      contig_index = Channel.from(1..100) // Split into 100 parallel processes
 
-      contig_index = Channel.from(1..100)
-
-      freebayes_call( assembly, coverage, short_bam, short_baidx, contig_index )
+      freebayes_call( assembly.first(), coverage.first(), short_bam.first(), short_baidx.first(), contig_index )
 
       freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
@@ -419,4 +414,16 @@ else if ( !params.mode ) {
 }
 
 
+}
+
+
+workflow.onComplete {
+    if ( workflow.success ) {
+      log.info "[$workflow.complete] >> Nanopore $params.mode pipeline finished SUCCESSFULLY after $workflow.duration ."
+      log.info "[$workflow.complete] >> Your qunatification files are in $params.out"
+      log.info "[$workflow.complete] >> You can find further help on https://github.com/palfalvi/nanoporeseq"
+    } else {
+      log.info "[$workflow.complete] >> The script quit with ERROR after ${workflow.duration}."
+      log.info "[$workflow.complete] >> Please revise your code and resubmit jobs with the -resume option or reach out for help at https://github.com/palfalvi/nanoporeseq."
+    }
 }
