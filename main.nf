@@ -264,7 +264,7 @@ else if ( params.mode == 'assembly' ) {
 
         bam_coverage( short_bam )
 
-        bam_coverage.out.coverage.subscribe( "Short read coverage is ${it}x." )
+        bam_coverage.out.coverage.subscribe( println "Short read coverage is $it x." )
 
       }
       else if ( params.short_polish_map === "minimap2" ) {
