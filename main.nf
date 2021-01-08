@@ -265,8 +265,11 @@ else if ( params.mode == 'assembly' ) {
         bam_coverage( short_bam )
 
       }
-      if ( params.short_polish_map === "minimap2" ) {
+      else if ( params.short_polish_map === "minimap2" ) {
         // Mapping with minimap2 -ax sr
+      }
+      else {
+        error 'Unknown mapping method: ${params.short_polish_map}. Please choose from bwa, minimap2 or contact developers.'
       }
 
     }

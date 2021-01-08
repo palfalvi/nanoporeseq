@@ -10,7 +10,7 @@ process bam_coverage {
     path bam
 
   output:
-    val avg_depth, emit: coverage
+    env avg_depth, emit: coverage
 
   script:
     """
