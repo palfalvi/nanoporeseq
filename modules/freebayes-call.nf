@@ -1,5 +1,5 @@
 process freebayes_call {
-  tag "$contig"
+  tag "$contig_index"
   label 'large_mem'
 
   conda "$baseDir/conda-envs/freebayes-env.yaml"
@@ -20,7 +20,7 @@ process freebayes_call {
     """
     samtools faidx ${contig}
 
-    coverage = `printf "%.0f" ${avg_depth}`
+    coverage=`printf "%.0f" ${avg_depth}`
 
     LEN=`wc -l ${contig}.fai | awk '{print \$1}'`
 
