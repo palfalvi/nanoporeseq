@@ -265,7 +265,7 @@ else if ( params.mode == 'assembly' ) {
         bam_coverage( short_bam )
 
         bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
-
+        coverage = bam_coverage.out.coverage
       }
       else if ( params.short_polish_map === "minimap2" ) {
         // Mapping with minimap2 -ax sr
@@ -287,7 +287,7 @@ else if ( params.mode == 'assembly' ) {
 
       contig_index = Channel.from(1..100)
 
-      freebayes_call( assembly, bam_coverage.out.coverage, short_bam, short_baidx, contig_index )
+      freebayes_call( assembly, coverage, short_bam, short_baidx, contig_index )
 
       freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
