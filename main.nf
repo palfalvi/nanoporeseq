@@ -76,9 +76,9 @@ include { wtdbg } from './modules/wtdbg.nf'
 
 // Include polishing tools
 include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3 } from './modules/minimap.nf'
-include( bwa_index ) from '../modules/bwa_index.nf'
-include( bwa_mem ) from '../modules/bwa_mem.nf'
-include( bam_coverage ) from '../modules/bam_coverage.nf'
+include { bwa_index } from '../modules/bwa_index.nf'
+include { bwa_mem } from '../modules/bwa_mem.nf'
+include { bam_coverage } from '../modules/bam_coverage.nf'
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 include { medaka } from './modules/medaka.nf'
 include { hypo } from './modules/hypo.nf'
