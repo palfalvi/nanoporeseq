@@ -22,7 +22,7 @@ process freebayes_call {
 
     LEN=`wc -l ${contig}.fai | awk '{print \$1}'`
 
-    for j in $(seq ${contig_index} 100 \$LEN )
+    for j in \$(seq ${contig_index} 100 \$LEN )
     do
       contig=`sed -n \${j}p ${contig}.fai | awk '{print \$1}'`
       contig_no_pipe=`echo \$contig | sed 's/|/_/g'`
