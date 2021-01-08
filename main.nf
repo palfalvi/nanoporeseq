@@ -252,7 +252,7 @@ else if ( params.mode == 'assembly' ) {
 
       short_r.subscribe {  println "Short reads provided: $it"  }
 
-      if ( short_polish_map == "bwa" ) {
+      if ( params.short_polish_map == "bwa" ) {
         // Mapping with bwa-mem
 
         bwa_index( assembly )
@@ -265,7 +265,7 @@ else if ( params.mode == 'assembly' ) {
         bam_coverage( short_bam )
 
       }
-      if ( short_polish_map === "minimap2" ) {
+      if ( params.short_polish_map === "minimap2" ) {
         // Mapping with minimap2 -ax sr
       }
 
