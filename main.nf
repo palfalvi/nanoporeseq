@@ -282,7 +282,7 @@ else if ( params.mode == 'assembly' ) {
 
       contig_index = Channel.from(1..100) // Split into 100 parallel processes
 
-      freebayes_call( assembly.first(), coverage.first(), short_bam.first(), short_baidx.first(), contig_index )
+      freebayes_call( assembly, coverage, short_bam.first(), short_baidx.first(), contig_index )
 
       freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
