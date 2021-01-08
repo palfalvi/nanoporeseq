@@ -76,6 +76,9 @@ include { wtdbg } from './modules/wtdbg.nf'
 
 // Include polishing tools
 include { minimap2 as minimap2_1; minimap2 as minimap2_2; minimap2 as minimap2_3 } from './modules/minimap.nf'
+include( bwa_index ) from '../modules/bwa_index.nf'
+include( bwa_mem ) from '../modules/bwa_mem.nf'
+include( bam_coverage ) from '../modules/bam_coverage.nf'
 include { racon as racon1; racon as racon2; racon as racon3 } from './modules/racon.nf'
 include { medaka } from './modules/medaka.nf'
 include { hypo } from './modules/hypo.nf'
@@ -242,21 +245,44 @@ else if ( params.mode == 'assembly' ) {
 
     if ( !params.short_reads ) {
       error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq'
+    } else {
+      // Short read mapping
+
+      short_r = Channel.fromFilePairs( params.short_reads )
+
+      short_r.subscribe {  println "Short reads provided: $it"  }
+
+      if ( short_polish_map == "bwa" ) {
+        // Mapping with bwa-mem
+
+        bwa_index( assembly )
+
+        bwa_mem( short_r, assembly, bwa_index.out.index )
+
+        short_bam = bwa_mem.out.bam
+        short_baidx = bwa_mem.out.baidx
+
+        bam_coverage( short_bam )
+
+      }
+      if ( short_polish_map === "minimap2" ) {
+        // Mapping with minimap2 -ax sr
+      }
+
     }
 
     if ( params.short_polish == 'freebayes' | params.short_polish == 'vgp' | params.short_polish == true ) {
       // Verterae Genome Project polishing pipeline with freebayes and bcftools
 
-      short_r = Channel.fromFilePairs( params.short_reads )
-
-      // First map short reads to genome
-      freebayes_bwa(assembly, short_r)
       // Split genome by contigs
-      Channel.fromPath( assembly )
-        .splitFasta( file: true )
-        .set { contigs_ch }
+      //Channel.fromPath( assembly )
+      //  .splitFasta( by: 100, file: true )
+      //  .set { contigs_ch }
       // Run freebayes on each contigs
-      freebayes_call( contigs_ch, freebayes_bwa.out.avg_depth, freebayes_bwa.out.bam, freebayes_bwa.out.baidx )
+
+      contig_index = Channel.from(1..100)
+
+      freebayes_call( assembly, bam_coverage.out.coverage, short_bam, short_baidx, contig_index )
 
       freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
@@ -274,12 +300,9 @@ else if ( params.mode == 'assembly' ) {
     }
     else if ( params.short_polish == 'pilon' ) {
       // pilon polishing
-      short_r = Channel.fromFilePairs( params.short_reads )
 
-      // First map short reads to genome
-      freebayes_bwa(assembly, short_r)
 
-      pilon( assembly, freebayes_bwa.out.bam, freebayes_bwa.out.baidx)
+      pilon( assembly, short_bam, short_baidx)
 
       polished_assembly = pilon.out.assembly
     }
@@ -288,8 +311,6 @@ else if ( params.mode == 'assembly' ) {
     }
     else if ( params.short_polish == 'hypo' ) {
       // HyPo polishing
-
-      short_r = Channel.fromFilePairs( params.short_reads )
 
       hypo( assembly, short_r, params.fastq, params.genome_size )
       polished_assembly = hypo.out.assembly
