@@ -15,13 +15,11 @@ process freebayes_consensus {
 
   script:
     """
-
     ls *.bcf > bcf_files.txt
 
-    bcftools concat -f bcf_files.txt | bcftools view -Ou -e'type="ref"' --threads ${task.cpus} | bcftools norm --threads -Ob -f ${assembly} -o ${assembly.simpleName}.bcf
+    bcftools concat -af bcf_files.txt | bcftools view -Ou -e'type="ref"' --threads ${task.cpus} | bcftools norm --threads ${task.cpus} -Ob -f ${assembly} -o ${assembly.simpleName}.bcf
     bcftools index ${assembly}.bcf
 
     bcftools consensus -i'QUAL>1 && (GT="AA" || GT="Aa")' -Hla -f ${assembly} ${assembly.simpleName}.bcf > ${assembly.simpleName}_freebayes.fasta
-
     """
 }
