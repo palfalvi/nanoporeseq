@@ -290,9 +290,10 @@ else if ( params.mode == 'assembly' ) {
 
       freebayes_call( assembly, coverage.first(), short_bam.first(), short_baidx.first(), contig_index )
 
-      freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
+      // how collectFile works? Concatenate files or colelcts all files?
+      //freebayes_call.out.collectFile(name: 'concat_list.txt', newLine: true, sort: true).set { bcf_list }
 
-      freebayes_consensus( assembly, bcf_list )
+      freebayes_consensus( assembly, freebayes_call.out.collect() )
 
       polished_assembly = freebayes_consensus.out.assembly
 
