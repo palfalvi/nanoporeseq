@@ -381,7 +381,7 @@ else if ( params.mode == 'genome_qc' ) {
 
     short_reads = Channel.fromFilePairs( params.short_reads )
 
-    kat(polished_assembly, short_reads)
+    kat( params.genome, short_reads )
   }
 
 }
