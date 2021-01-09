@@ -17,6 +17,7 @@ process pilon {
 
     """
     pilon \
+    -Xmx${task.memory} \
     --genome $genome \
     --bam $bam \
     --diploid \
