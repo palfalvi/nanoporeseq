@@ -11,7 +11,7 @@ process pilon {
     path baidx
 
   output:
-    path "*pilon.fasta", emit: assembly
+    path "pilon*.fasta", emit: assembly
 
   script:
 
@@ -20,8 +20,7 @@ process pilon {
     --genome $genome \
     --bam $bam \
     --diploid \
-    --outdir pilon_polish \
-    --output genome \
+    --output pilon \
     --threads ${task.cpus}
     """
 }

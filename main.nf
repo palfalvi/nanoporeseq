@@ -12,7 +12,7 @@ Usage:
 
 
 Mandatory arguments:
-      --mode                         Running mode. Supported: basecalling, cleanup, assembly, genome_check, annotation, expression.
+      --mode                         Running mode. Supported: basecalling, cleanup, assembly, genome_qc, annotation, expression.
 
 Universal arguments
       --outdir                       Output directory name. [results]
@@ -99,6 +99,7 @@ include { kat } from './modules/kat.nf'
 
 workflow {
 
+/////////////// BASECALLING PIPELINE ///////////////
 if ( params.mode == 'basecalling') {
 
   log.info "Starting basecalling protocol ... "
@@ -118,6 +119,7 @@ if ( params.mode == 'basecalling') {
   guppy_basecalling(sample_ch, params.guppy)
 
 }
+/////////////// CLEANUP PIPELINE ///////////////
 else if ( params.mode == 'cleanup' ) {
   log.info 'Starting read clean-up'
 
@@ -133,6 +135,7 @@ else if ( params.mode == 'cleanup' ) {
     }
 
 }
+/////////////// ASSEMBLY PIPELINE ///////////////
 else if ( params.mode == 'assembly' ) {
 
 
@@ -227,7 +230,7 @@ else if ( params.mode == 'assembly' ) {
 
   }
 
-
+//////// LONG READ POLISHING ////////
   if ( params.polish ) {
 
     minimap2_1(params.fastq, assembly)
@@ -241,6 +244,7 @@ else if ( params.mode == 'assembly' ) {
 
   }
 
+//////// SHORT READ POLISHING ////////
   if ( params.short_polish ) {
 
     if ( !params.short_reads ) {
@@ -274,7 +278,7 @@ else if ( params.mode == 'assembly' ) {
       else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
         // Longranger mapping for 10x data
         // Longranger is not distributed under conda or docker. Local installation?
-
+        error 'Sorry. Longranger mapping is not yet implemented.'
 
       }
       else {
@@ -304,22 +308,26 @@ else if ( params.mode == 'assembly' ) {
         error 'NextPolish source is not provided. Please install NextPolish locally and provide as --nextpolish /PATH/TO/nextpolish or consider using another polishing method (e.g. vgp).'
       }
 
+      error 'Sorry. Nextpolish is not yet implemented.'
+
     }
     else if ( params.short_polish == 'pilon' ) {
       // pilon polishing
 
-
-      pilon( assembly, short_bam, short_baidx)
+      pilon( assembly, short_bam, short_baidx )
 
       polished_assembly = pilon.out.assembly
+
     }
     else if ( params.short_polish == 'polca' ) {
       // POLCA polishing
+      error 'Sorry. POLCA is not yet implemented.'
     }
     else if ( params.short_polish == 'hypo' ) {
       // HyPo polishing
 
       hypo( assembly, short_r, params.fastq, params.genome_size )
+
       polished_assembly = hypo.out.assembly
     }
 
@@ -331,7 +339,7 @@ else if ( params.mode == 'assembly' ) {
   }
 
 
-
+//////// ASSEMBLY QC ////////
   if ( !params.skip_qc) {
     // QC
     quast(polished_assembly)
@@ -357,7 +365,8 @@ else if ( params.mode == 'assembly' ) {
 
 
 }
-else if ( params.mode == 'genome_check' ) {
+/////////////// GENOME QC PIPELINE ///////////////
+else if ( params.mode == 'genome_qc' ) {
 
   // Run quast and busco on an assembled genome
   quast(params.genome)
@@ -375,6 +384,8 @@ else if ( params.mode == 'genome_check' ) {
   }
 
 }
+
+/////////////// ANNOTATION PIPELINE ///////////////
 
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
