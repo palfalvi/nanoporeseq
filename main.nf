@@ -85,6 +85,7 @@ include { hypo } from './modules/hypo.nf'
 include { freebayes_bwa } from './modules/freebayes-bwa_map.nf'
 include { freebayes_call } from './modules/freebayes-call.nf'
 include { freebayes_consensus } from './modules/freebayes-consensus.nf'
+include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
 include { lorean } from './modules/lorean.nf'
