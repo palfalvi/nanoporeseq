@@ -17,7 +17,7 @@ process pilon {
 
     """
     pilon \
-    -Xmx${task.memory} \
+    -Xmx${task.memory.toGiga()}GB \
     --genome $genome \
     --bam $bam \
     --diploid \
