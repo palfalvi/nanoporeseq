@@ -20,7 +20,7 @@ process canu {
     -p  canu_assembly \
     -d canu_out \
     genomeSize=$genome_size \
-    useGrid = false \
-    -nanopore $fastq 
+    useGrid=false \
+    -nanopore $fastq
     """
 }
