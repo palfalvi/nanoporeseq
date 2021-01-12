@@ -402,7 +402,7 @@ else if ( params.mode == 'annotation' ) {
     log.info 'No reference genome is provided for transcript annotation.'
     log.info 'Attempting de novo transcript assembly...'
     // No genome file is provided, do de novo transcript assembly
-    log.info 'Sorry, these functions are not yet implemented .... '
+    error 'Sorry, these functions are not yet implemented .... '
     if ( !params.short_rna && !params.long_rna ) {
       // Both short and long reads are provided.
       //rnaSPAdes?

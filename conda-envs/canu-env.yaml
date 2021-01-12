@@ -5,4 +5,3 @@ channels:
     - defaults
 dependencies:
     - canu=2.1.1
-    - minimap2=2.17

@@ -4,7 +4,7 @@ process freebayes_consensus {
 
   conda "$baseDir/conda-envs/freebayes-env.yaml"
 
-  publishDir "${params.outdir}/freebayes_polish", mode: 'copy'
+  publishDir "${params.outdir}/short_polished", mode: 'copy'
 
   input:
     path assembly
