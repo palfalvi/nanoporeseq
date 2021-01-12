@@ -4,9 +4,9 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - libgcc=9.3.0
-    - perl=5.12.0
+    - libgcc
+    - perl
     - perl-file-path
     - java-jdk
-    - gnuplot 5.2
+    - gnuplot
     - canu=2.1.1
