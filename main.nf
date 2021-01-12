@@ -202,9 +202,9 @@ else if ( params.mode == 'assembly' ) {
   //  params.fastq ? log.info "Fastq file provided: $it" : error "Fastq file is not provided. Please specify with --fastq parameter."
   //  params.genome_size ? log.info "Estimated genome size: $it" : error "Estimated genome size is missing but needed for wtdbg2. Please provide with --genome_size."
 
-    wtdbg2(params.fastq, params.genome_size)
+    wtdbg(params.fastq, params.genome_size)
 
-    assembly = wtdbg2.out.assembly
+    assembly = wtdbg.out.assembly
   }
 
   // NextDenovo: out.assembly
