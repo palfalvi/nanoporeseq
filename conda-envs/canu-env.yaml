@@ -1,9 +1,7 @@
 name: canu-env
 channels:
-    - bioconda
     - conda-forge
+    - bioconda
     - defaults
 dependencies:
     - canu=2.1.1
-    - perl
-    - perl-module-build
