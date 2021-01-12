@@ -4,5 +4,6 @@ channels:
     - conda-forge
     - defaults
 dependencies:
-    - perl
     - canu=2.1.1
+    - perl
+    - perl-module-build
