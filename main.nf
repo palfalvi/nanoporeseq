@@ -423,7 +423,6 @@ else if ( params.mode == 'annotation' ) {
     // Genome file is provided, ru
     log.info "Genome file provided: ${params.genome}"
     log.info "Annotation pipeline is starting ..."
-    log.info
     log.info "Soft masking repeats ... "
     // edta repeat masking
     edta_softmask(params.genome)
