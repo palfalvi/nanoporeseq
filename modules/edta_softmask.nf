@@ -1,5 +1,5 @@
 process edta_softmask {
-  
+
   label "long_job"
 
   conda "$baseDir/conda-envs/edta-env.yaml"
@@ -19,7 +19,7 @@ process edta_softmask {
     def cds       = params.cds  ? "--cds ${params.cds}"        : ""
 
     """
-    perl EDTA.pl \
+    EDTA.pl \
     --genome $genome \
     $cds \
     --sensitive 1 \
