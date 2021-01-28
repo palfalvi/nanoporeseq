@@ -232,6 +232,7 @@ else if ( params.mode == 'assembly' ) {
   }
 
 //////// LONG READ POLISHING ////////
+
   if ( params.polish ) {
     // racon and medaka polishing
     minimap2_1(params.fastq, assembly)
@@ -425,7 +426,7 @@ else if ( params.mode == 'annotation' ) {
     log.info
     log.info "Soft masking repeats ... "
     // edta repeat masking
-    edta_softmask(params.genome, cds?)
+    edta_softmask(params.genome)
 
     masked_genome = edta_softmask.out.masked
     masked_gff = edta_softmask.out.te_anno
