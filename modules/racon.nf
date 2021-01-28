@@ -4,7 +4,7 @@ process racon {
 
   conda "$baseDir/conda-envs/racon-env.yaml"
 
-  // publishDir "${params.outdir}/racon", mode: 'copy'
+  publishDir "${params.outdir}/racon", mode: 'copy'
 
   input:
     path fastq

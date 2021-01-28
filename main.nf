@@ -233,7 +233,7 @@ else if ( params.mode == 'assembly' ) {
 
 //////// LONG READ POLISHING ////////
   if ( params.polish ) {
-
+    // racon and medaka polishing
     minimap2_1(params.fastq, assembly)
     racon1(params.fastq, minimap2_1.out.map, assembly)
 
@@ -243,6 +243,18 @@ else if ( params.mode == 'assembly' ) {
 
     assembly = medaka.out.assembly
 
+  } else if (params.racon_polish) {
+    // only racon polishing
+    minimap2_1(params.fastq, assembly)
+
+    racon1(params.fastq, minimap2_1.out.map, assembly)
+
+    assembly = racon1.out.assembly
+  }else if (params.medaka_polish) {
+    // only medaka polishing
+    medaka(params.fastq, assembly)
+
+    assembly = medaka.out.assembly
   }
 
 //////// SHORT READ POLISHING ////////
@@ -275,6 +287,18 @@ else if ( params.mode == 'assembly' ) {
       }
       else if ( params.short_polish_map == "minimap2" ) {
         // Mapping with minimap2 -ax sr
+
+        minimap2_sr( short_r, assembly )
+
+        short_bam = minimap2_sr.out.bam
+        short_baidx = minimap2_sr.out.baidx
+
+        bam_coverage( short_bam )
+
+        bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
+
+        coverage = bam_coverage.out.coverage
+
       }
       else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
         // Longranger mapping for 10x data
@@ -327,15 +351,13 @@ else if ( params.mode == 'assembly' ) {
     else if ( params.short_polish == 'hypo' ) {
       // HyPo polishing
 
-      hypo( assembly, short_r, params.fastq, params.genome_size )
+      hypo( assembly, short_r, params.fastq, params.genome_size, short_bam, short_baidx, coverage )
 
       polished_assembly = hypo.out.assembly
     }
 
   }
-  else if ( params.polish ) {
-    polished_assembly = medaka.out.assembly
-  } else {
+  else {
     polished_assembly = assembly
   }
 
@@ -344,6 +366,10 @@ else if ( params.mode == 'assembly' ) {
   if ( !params.skip_qc) {
     // QC
     quast(polished_assembly)
+
+    // busco_lineages = Channel.fromList = ['eudicots_odb10', 'embryophyta_odb10', 'viridiplantae_odb10']
+    // busco(polished_assembly, busco_lineages, "genome")
+
     busco_eud(polished_assembly, "eudicots_odb10", "genome")
     busco_emb(polished_assembly, "embryophyta_odb10", "genome")
     busco_vir(polished_assembly, "viridiplantae_odb10", "genome")
@@ -391,41 +417,121 @@ else if ( params.mode == 'genome_qc' ) {
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
 
+  // Genome file is provided
   if ( params.genome != false ) {
-    // Genome file is provided, run LoReAn
+    // Genome file is provided, ru
     log.info "Genome file provided: ${params.genome}"
-    log.info "LoReAn annotation is starting ..."
+    log.info "Annotation pipeline is starting ..."
+    log.info
+    log.info "Soft masking repeats ... "
+    // edta repeat masking
+    edta_softmask(params.genome, cds?)
 
-    lorean(params.genome, params.lorean_proteins)
+    masked_genome = edta_softmask.out.masked
+    masked_gff = edta_softmask.out.te_anno
 
   } else {
-    log.info 'No reference genome is provided for transcript annotation.'
-    log.info 'Attempting de novo transcript assembly...'
-    // No genome file is provided, do de novo transcript assembly
-    error 'Sorry, these functions are not yet implemented .... '
-    if ( !params.short_rna && !params.long_rna ) {
-      // Both short and long reads are provided.
-      //rnaSPAdes?
-    }
-    else if( !params.long_rna ) {
-      // Only long RNA-seq data provided
-      // IsOnClust2?
-    }
-    else if ( !params.short_rna ) {
-      //Only short RNA is provided
-      //Trinity?
-      //rnaSPAdes?
-    }
-    else { error 'No read file is provided for transcriptome assembly. Please provide fastq files with --short_rna and/or --long_rna options.'}
+    log.info "No genome is provided."
+    error "This is not yet supported."
   }
 
+  if ( params.short_reads != false ) {
+    // Map short reads to genome and assemble transcripts
+    short_reads = Channel.fromFilePairs(params.short_reads)
+    // STAR and Hisat2 mapping
+    star_idx(params.genome)
+    star_align(star_idx.out, short_reads)
+
+    star_align.out.bam.collect() // sorted bams included
+
+    //stringtie2_star()
+    //cufflinks_star()
+    //psiclass_star()
+    //trinity_genome_star()
+
+    hisat2_idx(params.genome)
+
+    hisat2(hisat2_idx.out, short_reads)
+
+    hisat2_align.out.bam.collect()
+
+    //stringtie2_hisat()
+    //cufflinks_hisat()
+    //psiclass_hisat()
+    //trinity_hisat()
+    // Stringtie2 or Cufflinks or CLASS2 or genome guided Trinity to reconstruct transcripts (fasta)
+    //Stringtie, cufflinks, trinity possible, but CLASS has no conda installation, but PsiCLASS has/
+    // TACO or Mikado to merge transcript models
+    // PASA to generate gff3
+
+
+    //outputs:
+    // short.bam
+    // short_transcripts.fasta
+    // short_transcripts.gff3
+
+  }
+
+  if ( params.long_reads != false ) {
+
+    minimap_rna(params.long_reads, params.genome)
+
+    minimap_rna.out.bam
+    minimap_rna.out.baidx
+
+    //stringtie2_long()
+    //cufflinks_long()
+    //psiclass_long()
+    //unagi_long()
+
+    // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)
+    // TACO or Mikado to merge transcript models
+    // PASA to generate gff3
+
+    // predict CDS? transdecoder()
+
+    //outputs:
+    // long.bam
+    // long_transcriots.fasta
+    // long_transcripts.gff3
+    // long_transdecoder.cds ?
+  }
+
+  if ( params.proteins != false ) {
+    // protein based prediction?
+    // blastx()
+    //outputs:
+  }
+
+  if ( params.skip_abinitio ) {
+    // run BRAKER2
+    // braker2()
+    //outputs:
+    // ab_initio.gff3
+  }
+
+  // Merge all models
+  // mikado() or evm() ?
+
+  // Update annotation with funannotation or PASA for UTRs and isoforms
+
+  // Predict CDS?
+
+  // Functional annotation?
 
 
 }
+
+/////////////// Expression pipeline ///////////////
+// Is this possible/needed? Just use the rnaseq pipeline.
+
 else if ( params.mode == 'expression' ) {
   log.info "Starting gene expression protocol ... "
   log.info 'Except... I cannot do that yet. Sorry.'
 }
+
+/////////////// Errors when no or invalid mode is provided. ///////////////
+
 else if ( !params.mode ) {
   error 'Running mode is not supplied. Please specify with --mode'
 } else {

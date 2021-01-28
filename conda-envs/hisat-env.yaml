@@ -1,0 +1,8 @@
+name: hisat-env
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - hisat2
+  - samtools

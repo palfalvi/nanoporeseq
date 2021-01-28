@@ -1,0 +1,15 @@
+name: pasa-env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - mysql
+    - perl-dbd-mysql=4.046
+    - perl-dbd-sqlite=1.64
+    - perl-db-file=1.852
+    - gmap=2018.03.25
+    - blat=36 fasta3=36.3
+    - perl-uri=1.76
+    - samtools=1.10
+    - pasa
