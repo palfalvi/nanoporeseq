@@ -88,7 +88,7 @@ include { freebayes_consensus } from './modules/freebayes-consensus.nf'
 include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
-include { lorean } from './modules/lorean.nf'
+include { edta_softmask } from './modules/edta_softmask.nf'
 
 // Include QC tools
 include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
