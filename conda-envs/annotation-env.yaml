@@ -1,0 +1,21 @@
+name: annotation-env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - stringtie
+    - cufflink
+    - samtools
+    - trinity
+    - funannotate
+    - samtools
+    - minimap2
+    - mikado
+    - portcullis
+    - pasa
+    - gffread
+    - psiclass
+    - bedtools
+    - biopython
+    - flair

@@ -1,0 +1,8 @@
+name: cufflinks-env
+channels:
+    - bioconda
+    - conda-forge
+    - defaults
+dependencies:
+    - cufflinks
+    - samtools

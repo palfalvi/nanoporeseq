@@ -425,10 +425,12 @@ else if ( params.mode == 'annotation' ) {
     log.info "Annotation pipeline is starting ..."
     log.info "Soft masking repeats ... "
     // edta repeat masking
-    edta_softmask(params.genome)
+    if ( !skip_softmask ) {
+      edta_softmask(params.genome)
 
-    masked_genome = edta_softmask.out.masked
-    masked_gff = edta_softmask.out.te_anno
+      masked_genome = edta_softmask.out.masked
+      masked_gff = edta_softmask.out.te_anno
+    }
 
   } else {
     log.info "No genome is provided."
@@ -437,30 +439,53 @@ else if ( params.mode == 'annotation' ) {
 
   if ( params.short_reads != false ) {
     // Map short reads to genome and assemble transcripts
-    short_reads = Channel.fromFilePairs(params.short_reads)
-    // STAR and Hisat2 mapping
+    Channel
+    .fromFilePairs( params.short_reads, size: params.single_end ? 1 : 2 )
+    .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
+    .into { short_reads }
+
+    // STAR mapping
     star_idx(params.genome)
     star_align(star_idx.out, short_reads)
 
-    star_align.out.bam.collect() // sorted bams included
+    //merge bam files to one bam file
+    merge_bams_star( star_align.out.bam.collect(), "star" )
 
-    //stringtie2_star()
-    //cufflinks_star()
-    //psiclass_star()
-    //trinity_genome_star()
-
+    // HISAT2 mapping
     hisat2_idx(params.genome)
-
     hisat2(hisat2_idx.out, short_reads)
 
-    hisat2_align.out.bam.collect()
+    //merge bam files to one bam file
+    merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
 
-    //stringtie2_hisat()
-    //cufflinks_hisat()
-    //psiclass_hisat()
-    //trinity_hisat()
-    // Stringtie2 or Cufflinks or CLASS2 or genome guided Trinity to reconstruct transcripts (fasta)
-    //Stringtie, cufflinks, trinity possible, but CLASS has no conda installation, but PsiCLASS has/
+    // Transcript assemblies
+
+    stringtie2_short( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam), '' ) // The last '' is a placeholder for long read settings
+
+    strawberry( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
+
+    trinity_gg( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
+
+    psiclass( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
+
+    // cufflinks( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Cufflinks might be too slow for larger datasets
+
+    portcullis( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam).collect() )
+
+    stringtie2_short.out.gtf
+    .collect()
+    .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect(), psiclass.out.gtf.collect() )
+    .collect()
+    .into { short_gtfs }
+
+    short_gtfs.subscribe {  println "Collected GTF files of short read assemblies: \n$it" }
+
+    mikado_prepare( params.genome, portcullis.out.junctions, short_gtfs, params.proteins )
+
+    blast_mikado( "blastx", params.protein, mikado_prepare.out.fasta )
+
+    mikado_pick( params.genome, blast.mikado.out.xml, mikado_prepare.out.config, mikado_prepare.out.gtf, mikado_prepare.out.fasta )
+
     // TACO or Mikado to merge transcript models
     // PASA to generate gff3
 
@@ -479,9 +504,10 @@ else if ( params.mode == 'annotation' ) {
     minimap_rna.out.bam
     minimap_rna.out.baidx
 
-    //stringtie2_long()
-    //cufflinks_long()
-    //psiclass_long()
+    merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
+
+    stringtie2_long( params.genome, merge_bams_minimap2.out.bam, '-L -l STRGL' )
+    //flair_long()
     //unagi_long()
 
     // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)

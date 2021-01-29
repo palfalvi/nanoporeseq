@@ -21,7 +21,7 @@ process star_align {
 		--readFilesIn $reads \
 		--readFilesCommand zcat \
 		--outFileNamePrefix ${sample_id}.star \
-		--quantMode GeneCounts \
+		--outSAMattributes XS \
 		--outSAMtype BAM SortedByCoordinate \
 		--outSAMstrandField intronMotif
 		"""
