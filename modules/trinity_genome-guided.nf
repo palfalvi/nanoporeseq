@@ -4,7 +4,7 @@ process trinity_gg {
 
   conda "$baseDir/conda-envs/annotation-env.yaml"
 
-  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf', pattern: '*.fasta'
+  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
   input:
     path genome
