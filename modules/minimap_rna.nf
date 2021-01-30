@@ -1,4 +1,4 @@
-process minimap2 {
+process minimap_rna {
 
   label 'long_job'
 

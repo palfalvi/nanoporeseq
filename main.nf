@@ -40,14 +40,6 @@ Assembler specific options?
 Annotation mode
       --genome                       Reference genome. If not provided, reference-free annotation is attempted.
 
-      --lorean_long                  Long read fastq file.
-      --lorean_short                 Short read fastq file. If pair end, write them seprataed by a come, e.g. "read1.fastq,read2.fastq".
-      --lorean_proteins              Protein homologs for the gene prediction.
-      --lorean_iproscan              Boolean. If provided, LoReAn runs with InterProScan.
-      --lorean_adapters              Adapter fasta file.
-      --lorean_species               Species name.
-      --lorean_prefix                Prefix for the gene names.
-
 """.stripIndent()
 }
 
