@@ -27,7 +27,7 @@ process trinity_gg {
     --CPU $task.cpus \
     --output trinity_gg \
     --full_cleanup \
-    $orientation
+    $strand
 
     mv ./trinity_gg/Trinity-GG.fasta ./${bam.simpleName}_trinity.fasta
 
