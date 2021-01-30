@@ -516,7 +516,7 @@ else if ( params.mode == 'annotation' ) {
     .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
     .set { ont_reads }
 
-    minimap_rna(ont_reads, params.genome)
+    minimap_rna( params.genome, ont_reads )
 
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
