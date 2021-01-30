@@ -9,8 +9,8 @@ process star_align {
     path genome_idx
     tuple val(sample_id), file(reads)
   output:
-    path "*.star.bam", emit: bam
-		path "*.star.bam.bai", emit: baidx
+    path "*.bam", emit: bam
+		
   script:
     """
     mkdir $sample_id

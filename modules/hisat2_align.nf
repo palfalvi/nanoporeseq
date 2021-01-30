@@ -10,7 +10,7 @@ process hisat2_align {
     tuple val(sample_id), file(reads)
   output:
     path "*.hisat.bam", emit: bam
-		path "*.hisat.bam.bai", emit: baidx
+		
   script:
 		def strandedness = params.orientation  ? "--fr" : "--rf"
     """
@@ -21,7 +21,6 @@ process hisat2_align {
 		-1 ${reads[0]} -2 ${reads[1]} |
 		samtools sort -@ $task.cpus -O BAM - > ${sample_id}.hisat.bam
 
-		samtools index ${sample_id}.hisat.bam
 
 		"""
 }
