@@ -91,6 +91,7 @@ include { stringtie2 as stringtie2_short; stringtie2 as stringtie2_long } from '
 include { strawberry } from './modules/strawberry.nf'
 include { trinity_gg } from './modules/trinity_genome-guided.nf'
 include { psiclass } from './modules/psiclass.nf'
+include { tama } from './modules/tama.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { mikado_prepare } from './modules/mikado_prepare.nf'
 
