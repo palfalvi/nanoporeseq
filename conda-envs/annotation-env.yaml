@@ -9,7 +9,6 @@ dependencies:
     - samtools
     - trinity
     - funannotate
-    - samtools
     - minimap2
     - mikado
     - portcullis

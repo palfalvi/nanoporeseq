@@ -452,6 +452,8 @@ else if ( params.mode == 'annotation' ) {
     .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
     .set { short_reads }
 
+    //fastp ?
+
     // STAR mapping
     star_idx(params.genome)
     star_align(star_idx.out, short_reads)
@@ -506,6 +508,8 @@ else if ( params.mode == 'annotation' ) {
 
   if ( params.long_reads != false ) {
 
+    //nanoq() ?
+    //pychopper() ?
     minimap_rna(params.long_reads, params.genome)
 
     minimap_rna.out.bam
