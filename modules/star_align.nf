@@ -1,7 +1,7 @@
 process star_align {
 	tag "$sample_id"
 	label 'small_plus'
-	publishDir "${params.out}/star", mode: 'copy'
+	publishDir "${params.outdir}/star", mode: 'copy'
 
   conda "$baseDir/conda-envs/star-env.yaml"
 
@@ -10,7 +10,7 @@ process star_align {
     tuple val(sample_id), file(reads)
   output:
     path "*.bam", emit: bam
-		
+
   script:
     """
     mkdir $sample_id

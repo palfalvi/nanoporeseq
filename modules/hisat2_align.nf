@@ -1,7 +1,7 @@
 process hisat2_align {
 	tag "$sample_id"
 	label 'small_plus'
-	publishDir "${params.out}/hisat2", mode: 'copy'
+	publishDir "${params.outdir}/hisat2", mode: 'copy'
 
   conda "$baseDir/conda-envs/hisat-env.yaml"
 
@@ -10,7 +10,7 @@ process hisat2_align {
     tuple val(sample_id), file(reads)
   output:
     path "*.hisat.bam", emit: bam
-		
+
   script:
 		def strandedness = params.orientation  ? "--fr" : "--rf"
     """
