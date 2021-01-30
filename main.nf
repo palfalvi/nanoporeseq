@@ -89,6 +89,21 @@ include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
 include { edta_softmask } from './modules/edta_softmask.nf'
+include { star_idx } from './modules/star_index.nf'
+include { star_align } from './modules/star_align.nf'
+include { hisat2_idx } from './modules/hisat2_index.nf'
+include { hisat2_align } from './modules/hisat2_align.nf'
+include { minimap_rna } from './modules/minimap_rna.nf'
+include { bam_merge as merge_bam_star; bam_merge as merge_bams_hisat2; bam_merge as merge_bams_minimap2 } from './modules/bam_merge.nf'
+include { stringtie2 as stringtie2_short; stringtie2 as stringtie2_long } from './modules/stringtie2.nf'
+include { strawberry } from './modules/strawberry.nf'
+include { trinity_gg } from './modules/trinity_genome-guided.nf'
+include { psiclass } from './modules/psiclass.nf'
+include { portcullis } from './modules/portcullis.nf'
+include { mikado_prepare } from './modules/mikado_prepare.nf'
+
+
+
 
 // Include QC tools
 include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
@@ -482,11 +497,10 @@ else if ( params.mode == 'annotation' ) {
 
     mikado_prepare( params.genome, portcullis.out.junctions, short_gtfs, params.proteins )
 
-    blast_mikado( "blastx", params.protein, mikado_prepare.out.fasta )
+    // blast_mikado( "blastx", params.protein, mikado_prepare.out.fasta )
 
-    mikado_pick( params.genome, blast.mikado.out.xml, mikado_prepare.out.config, mikado_prepare.out.gtf, mikado_prepare.out.fasta )
+    // mikado_pick( params.genome, blast.mikado.out.xml, mikado_prepare.out.config, mikado_prepare.out.gtf, mikado_prepare.out.fasta )
 
-    // TACO or Mikado to merge transcript models
     // PASA to generate gff3
 
 
