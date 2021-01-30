@@ -476,7 +476,7 @@ else if ( params.mode == 'annotation' ) {
 
     trinity_gg( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
 
-    psiclass( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
+    // psiclass( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Does not work atm
 
     // cufflinks( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Cufflinks might be too slow for larger datasets
 
@@ -506,18 +506,22 @@ else if ( params.mode == 'annotation' ) {
 
   }
 
-  if ( params.long_reads != false ) {
+  if ( params.ont_reads != false ) {
 
     //nanoq() ?
     //pychopper() ?
-    minimap_rna(params.long_reads, params.genome)
+    Channel
+    .fromFilePairs( params.ont_reads, size: 1 )
+    .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
+    .set { ont_reads }
 
-    minimap_rna.out.bam
-    minimap_rna.out.baidx
+    minimap_rna(ont_reads, params.genome)
 
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
     stringtie2_long( params.genome, merge_bams_minimap2.out.bam, '-L -l STRGL' )
+
+    tama( params.genome, merge_bams_minimap2.out.bam )
     //flair_long()
     //unagi_long()
 

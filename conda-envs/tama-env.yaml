@@ -1,0 +1,10 @@
+name: star-env
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - python=2.7
+  - pysam
+  - biopython
+  - git
