@@ -18,7 +18,7 @@ process hisat2_align {
 		--dta-cufflinks \
 		-p $task.cpus \
 		-x $genome_idx \
-		-1 ${reads[1]} -2 ${reads[2]} |
+		-1 ${reads[0]} -2 ${reads[1]} |
 		samtools sort -@ $task.cpus -O BAM - > ${sample_id}.hisat.bam
 
 		samtools index ${sample_id}.hisat.bam
