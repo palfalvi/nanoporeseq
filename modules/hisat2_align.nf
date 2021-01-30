@@ -12,7 +12,7 @@ process hisat2_align {
     path "*.hisat.bam", emit: bam
 		path "*.hisat.bam.bai", emit: baidx
   script:
-		def strandedness = params.strandedness  ? "--fr" : "--rf"
+		def strandedness = params.orientation  ? "--fr" : "--rf"
     """
     hisat2 \
 		--dta-cufflinks \
