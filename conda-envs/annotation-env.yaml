@@ -9,9 +9,6 @@ dependencies:
     - minimap2
     - mikado
     - portcullis
-    - pasa
-    - gffread
     - psiclass
     - bedtools
     - biopython
-    - flair
