@@ -484,7 +484,7 @@ else if ( params.mode == 'annotation' ) {
 
     stringtie2_short.out.gtf
     .collect()
-    .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect(), psiclass.out.gtf.collect() )
+    .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect() )
     .collect()
     .set { short_gtfs }
 
