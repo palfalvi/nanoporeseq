@@ -6,7 +6,6 @@ channels:
 dependencies:
     - stringtie
     - trinity
-    - funannotate
     - minimap2
     - mikado
     - portcullis
