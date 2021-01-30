@@ -17,7 +17,7 @@ process stringtie2 {
   script:
 
     """
-    stringtie2 \
+    stringtie \
     -p $task.cpus \
     -o ${bam.simpleName}_stringtie2.gtf \
     $extra \
