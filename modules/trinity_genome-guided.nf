@@ -23,7 +23,7 @@ process trinity_gg {
     --genome_guided_bam $bam \
     --min_contig_length 100 \
     --genome_guided_max_intron 10000 \
-    --max_memory $task.memory \
+    --max_memory ${task.memory.toMega()}M \
     --CPU $task.cpus \
     --output trinity_gg \
     --full_cleanup \
