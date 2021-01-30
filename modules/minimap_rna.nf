@@ -7,14 +7,14 @@ process minimap_rna {
   // publishDir "${params.outdir}/bwa", mode: 'copy'
 
   input:
+    path genome
     tuple val(sample_id), file(reads)
-    path assembly
 
   output:
     path "*.bam", emit: bam
 
   script:
     """
-    minimap2 -ax splice -uf -k14 -t ${task.cpus} $reads $fastq | samtools sort -@ $task.cpus -O BAM - > ${sample_id}_minimap2.bam
+    minimap2 -ax splice -uf -k14 -t ${task.cpus} $genome $reads | samtools sort -@ $task.cpus -O BAM - > ${sample_id}_minimap2.bam
     """
 }
