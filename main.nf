@@ -432,7 +432,7 @@ else if ( params.mode == 'annotation' ) {
     log.info "Annotation pipeline is starting ..."
     log.info "Soft masking repeats ... "
     // edta repeat masking
-    if ( !skip_softmask ) {
+    if ( !params.skip_softmask ) {
       edta_softmask(params.genome)
 
       masked_genome = edta_softmask.out.masked
