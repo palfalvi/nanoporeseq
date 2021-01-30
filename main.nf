@@ -430,9 +430,10 @@ else if ( params.mode == 'annotation' ) {
     // Genome file is provided, ru
     log.info "Genome file provided: ${params.genome}"
     log.info "Annotation pipeline is starting ..."
-    log.info "Soft masking repeats ... "
+
     // edta repeat masking
     if ( !params.skip_softmask ) {
+      log.info "Soft masking repeats ... "
       edta_softmask(params.genome)
 
       masked_genome = edta_softmask.out.masked
@@ -449,7 +450,7 @@ else if ( params.mode == 'annotation' ) {
     Channel
     .fromFilePairs( params.short_reads, size: params.single_end ? 1 : 2 )
     .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
-    .into { short_reads }
+    .set { short_reads }
 
     // STAR mapping
     star_idx(params.genome)
@@ -483,7 +484,7 @@ else if ( params.mode == 'annotation' ) {
     .collect()
     .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect(), psiclass.out.gtf.collect() )
     .collect()
-    .into { short_gtfs }
+    .set { short_gtfs }
 
     short_gtfs.subscribe {  println "Collected GTF files of short read assemblies: \n$it" }
 
