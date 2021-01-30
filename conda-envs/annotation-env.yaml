@@ -6,7 +6,6 @@ channels:
 dependencies:
     - stringtie
     - cufflinks
-    - samtools
     - trinity
     - funannotate
     - minimap2
