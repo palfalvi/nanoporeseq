@@ -1,6 +1,7 @@
 process bam_merge {
 
-  conda "$baseDir/conda-envs/samtools-env.yaml"
+  conda "$baseDir/conda-envs/star-env.yaml"
+  //conda "$baseDir/conda-envs/samtools-env.yaml"
 
   //publishDir "${params.outdir}/freebayes_polish", mode: 'copy'
 
