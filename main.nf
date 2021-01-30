@@ -461,7 +461,7 @@ else if ( params.mode == 'annotation' ) {
 
     // HISAT2 mapping
     hisat2_idx(params.genome)
-    hisat2(hisat2_idx.out, short_reads)
+    hisat2_align(hisat2_idx.out, short_reads)
 
     //merge bam files to one bam file
     merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
