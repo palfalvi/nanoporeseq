@@ -528,38 +528,42 @@ else if ( params.mode == 'annotation' ) {
 
     // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)
     // TACO or Mikado to merge transcript models
-    // PASA to generate gff3
 
     // predict CDS? transdecoder()
-
-    //outputs:
-    // long.bam
-    // long_transcriots.fasta
-    // long_transcripts.gff3
-    // long_transdecoder.cds ?
   }
 
-  if ( params.proteins != false ) {
-    // protein based prediction?
-    // blastx()
-    //outputs:
-  }
-
-  if ( params.skip_abinitio ) {
+  if ( !params.skip_abinitio ) {
     // run BRAKER2
-    // braker2()
+    if ( list.contains(merge_bams_star.out.bam) ) {
+      
+    } else {
+
+    }
+    // braker2( params.genome )
     //outputs:
     // ab_initio.gff3
   }
 
+
   // Merge all models
-  // mikado() or evm() ?
+  // mikado_prepare()
+  // transdecoder + blastx
+  //mikado_pick()
 
   // Update annotation with funannotation or PASA for UTRs and isoforms
+  // Use merged transcripts + cDNA evidence from long reads
 
   // Predict CDS?
 
   // Functional annotation?
+  // interproscan()
+  // eggnog()
+
+  // trnascan-se()
+
+  //small RNA
+  // https://github.com/MikeAxtell/ShortStack
+  // https://github.com/miRkwood-RNA/miRkwood
 
 
 }
@@ -587,7 +591,7 @@ else if ( !params.mode ) {
 workflow.onComplete {
     if ( workflow.success ) {
       log.info "[$workflow.complete] >> Nanopore $params.mode pipeline finished SUCCESSFULLY after $workflow.duration ."
-      log.info "[$workflow.complete] >> Your qunatification files are in $params.out"
+      log.info "[$workflow.complete] >> "
       log.info "[$workflow.complete] >> You can find further help on https://github.com/palfalvi/nanoporeseq"
     } else {
       log.info "[$workflow.complete] >> The script quit with ERROR after ${workflow.duration}."

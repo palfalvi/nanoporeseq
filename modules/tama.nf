@@ -23,7 +23,7 @@ process tama {
     -f $genome \
     -p ${bam.baseName}_tama \
     -sj sj_priority \
-    -lde 1 -sjt 20 -a 100 -z 100
+    -lde 5 -sjt 20 -a 100 -z 100
 
     python ./tama/tama_go/format_converter/tama_convert_bed_gtf_ensembl_no_cds.py \
     ${bam.baseName}_tama.bed \

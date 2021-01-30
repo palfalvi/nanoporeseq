@@ -8,28 +8,29 @@ process braker2 {
 
   input:
     path genome
-    path junctions
-    path gtfs
-    path blast_db
+    path bam
 
   output:
-    path "mikado_prepared.gtf", emit: gtf
-    path "mikado_prepared.fasta", emit: fasta
-    path "prepare.log", emit: log
-    path "configuration.yaml", emit: config
+    path "braker.gtf", emit: gtf
 
   script:
+    def protein   = params.protein                          ? "--prot_seq=${params.proteins}" : ""
+    def mapping   = bam!=null                               ? "--bam $bam"                    : ""
+    //def shorts    = params.short_reads.or(params.ont_reads) ? "--bam ${bam}"                  : ""
+    def tmark     = shorts != ""                            ? "t"                             : ""
+    def pmark     = params.protein                          ? "p"                             : ""
+    def tpsmark   = (tmark+park).length()>0                 ? tmark+pmark                     : "s"
 
     """
     braker.pl \
     --genome=$genome \
-    --bam=$bam \
-    --prot_seq=$proteins \
+    $shorts \
+    $protein \
     --prg=gth \
+    --e${tpsmark}mode \
     --gth2traingenes \
     --species = $params.species \
     --softmasking \
-    --cores $task.cpus \
-    --gff3
+    --cores $task.cpus
     """
 }
