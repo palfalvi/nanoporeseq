@@ -1,4 +1,4 @@
-process prepare_mikado_file {
+process mikado_prepare {
 
   label "small_job"
 
