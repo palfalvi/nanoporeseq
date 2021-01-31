@@ -21,7 +21,7 @@ process portcullis {
     portcullis full \
     -t $task.cpus \
     -o ${bam.simpleName}_portcullis \
-    $orientation \
+    $strand \
     $genome \
     $bam
     """
