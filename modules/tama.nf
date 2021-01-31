@@ -1,6 +1,6 @@
 process tama {
 
-  label "small_plus"
+  label "long_job"
 
   conda "$baseDir/conda-envs/tama-env.yaml"
 
