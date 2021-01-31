@@ -93,6 +93,7 @@ include { trinity_gg } from './modules/trinity_genome-guided.nf'
 include { psiclass } from './modules/psiclass.nf'
 include { tama } from './modules/tama.nf'
 include { portcullis } from './modules/portcullis.nf'
+include { braker2 } from './modules/braker2.nf'
 include { mikado_prepare } from './modules/mikado_prepare.nf'
 include { prepare_mikado_file } from './modules/prepare_mikado_file.nf'
 
