@@ -1,35 +1,35 @@
 process braker2 {
 
-  label "small_job"
+  label "long_job"
 
   conda "$baseDir/conda-envs/braker2-env.yaml"
 
-  publishDir "${params.outdir}/braker2/", mode: 'copy'
+  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy'
 
   input:
     path genome
     path bam
 
   output:
-    path "braker.gtf", emit: gtf
+    path "*braker.gtf", emit: gtf
 
   script:
     def protein   = params.protein                          ? "--prot_seq=${params.proteins}" : ""
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
-    //def shorts    = params.short_reads.or(params.ont_reads) ? "--bam ${bam}"                  : ""
-    def tmark     = shorts != ""                            ? "t"                             : ""
+    def tmark     = mapping != ""                           ? "t"                            : ""
     def pmark     = params.protein                          ? "p"                             : ""
     def tpsmark   = (tmark+park).length()>0                 ? tmark+pmark                     : "s"
+    def species   = params.species                          ?: "sp1"
 
     """
     braker.pl \
     --genome=$genome \
-    $shorts \
+    $mapping \
     $protein \
     --prg=gth \
     --e${tpsmark}mode \
     --gth2traingenes \
-    --species = $params.species \
+    $species \
     --softmasking \
     --cores $task.cpus
     """

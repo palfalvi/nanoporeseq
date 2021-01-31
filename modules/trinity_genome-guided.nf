@@ -1,6 +1,6 @@
 process trinity_gg {
 
-  label "small_job"
+  label "assembly"
 
   //conda "$baseDir/conda-envs/annotation-env.yaml"
 
