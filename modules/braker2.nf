@@ -18,7 +18,7 @@ process braker2 {
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
     def tmark     = mapping != ""                           ? "t"                            : ""
     def pmark     = params.protein                          ? "p"                             : ""
-    def tpsmark   = (tmark+park).length()>0                 ? tmark+pmark                     : "s"
+    def tpsmark   = (tmark+pmark).length()>0                 ? tmark+pmark                     : "s"
     def species   = params.species                          ?: "sp1"
 
     """
