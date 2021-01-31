@@ -22,7 +22,7 @@ process prepare_mikado_file {
   script:
     def protein  =   params.protein  ? "-bt ${params.protein}" : ""
     def blastdb  =   params.protein ? "makeblastdb -in ${params.protein} -dbtype prot -parse_seqids > blast_prepare.log" : ""
-    def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads 10 -query mikado_prepared.fasta -outfmt 5 -db ${params.protein} -evalue 0.000001 2> blast.log | sed '/^$/d' | gzip -c - > mikado.blast.xml.gz"
+    def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads 10 -query mikado_prepared.fasta -outfmt 5 -db ${params.protein} -evalue 0.000001 2> blast.log | sed '/^\$/d' | gzip -c - > mikado.blast.xml.gz"
     def prot     =   params.protein ? "--xml mikado.blast.xml.gz" : ""
     def junc     =   junction != ''  ? "--junction ${junction}": ""
 
