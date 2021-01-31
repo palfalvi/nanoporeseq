@@ -464,25 +464,25 @@ else if ( params.mode == 'annotation' ) {
     merge_bams_star( star_align.out.bam.collect(), "star" )
 
     // HISAT2 mapping
-    hisat2_idx(params.genome)
-    hisat2_align(hisat2_idx.out, short_reads)
+    //hisat2_idx(params.genome)
+    //hisat2_align(hisat2_idx.out, short_reads)
 
     //merge bam files to one bam file
-    merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
+    //merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
 
     // Transcript assemblies
+    //stringtie2_short( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam), '' )
+    stringtie2_short( params.genome, merge_bams_star.out.bam, '' ) // The last '' is a placeholder for long read settings
 
-    stringtie2_short( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam), '' ) // The last '' is a placeholder for long read settings
+    strawberry( params.genome, merge_bams_star.out.bam )
 
-    strawberry( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
-
-    trinity_gg( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) )
+    trinity_gg( params.genome, merge_bams_star.out.bam )
 
     // psiclass( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Does not work atm
 
     // cufflinks( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Cufflinks might be too slow for larger datasets
 
-    portcullis( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam).collect() )
+    portcullis( params.genome, merge_bams_star.out.bam )
 
 
     // This should move out and merged with other gtf files from long reads and braker
