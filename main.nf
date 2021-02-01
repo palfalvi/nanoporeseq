@@ -551,9 +551,18 @@ else if ( params.mode == 'annotation' ) {
     }
 
   if ( !params.skip_abinitio ) {
+    if ( ( params.short_reads || params.ont_reads ) && params.protein) {
+      mark = "--etpmode"
+    } else if ( params.protein ) {
+      mark = "--epmode"
+    } else if ( params.short_reads || params.ont_reads ) {
+      mark = ""
+    } else {
+      mark = "--esmode"
+    }
     // run BRAKER2
     if ( params.short_reads ) {
-      braker2( params.genome, merge_bams_star.out.bam )
+      braker2( params.genome, merge_bams_star.out.bam, mark )
     } else {
       braker2( params.genome, null )
     }

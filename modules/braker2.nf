@@ -9,6 +9,7 @@ process braker2 {
   input:
     path genome
     path bam
+    val mark
 
   output:
     path "*braker.gtf", emit: gtf
@@ -16,15 +17,6 @@ process braker2 {
   script:
     def protein   = params.protein                          ? "--prot_seq=${params.proteins}" : ""
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
-    if (mapping != "" && params.protein) {
-      def mark = "--etpmode"
-    } else if (params.protein) {
-      def mark = "--epmode"
-    } else if (mapping != "") {
-      def mark = ""
-    } else {
-      def mark = "--esmode"
-    }
     def species   = params.species                          ?: "sp1"
 
     """
