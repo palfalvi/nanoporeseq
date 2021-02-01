@@ -16,9 +16,15 @@ process braker2 {
   script:
     def protein   = params.protein                          ? "--prot_seq=${params.proteins}" : ""
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
-    def tmark     = mapping != ""                           ? "t"                            : ""
-    def pmark     = params.protein                          ? "p"                             : ""
-    def tpsmark   = (tmark+pmark).length()>0                 ? tmark+pmark                     : "s"
+    if (mapping != "" && params.protein) {
+      def mark = "--etpmode"
+    } else if (params.protein) {
+      def mark = "--epmode"
+    } else if (mapping != "") {
+      def mark = ""
+    } else {
+      def mark = "--esmode"
+    }
     def species   = params.species                          ?: "sp1"
 
     """
@@ -27,7 +33,7 @@ process braker2 {
     $mapping \
     $protein \
     --prg=gth \
-    --e${tpsmark}mode \
+    $mark \
     --gth2traingenes \
     $species \
     --softmasking \
