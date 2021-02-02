@@ -80,7 +80,7 @@ include { freebayes_consensus } from './modules/freebayes-consensus.nf'
 include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
-include { edta_softmask } from './modules/edta_softmask.nf'
+include { edta } from './modules/edta.nf'
 include { star_idx } from './modules/star_index.nf'
 include { star_align } from './modules/star_align.nf'
 include { hisat2_idx } from './modules/hisat2_index.nf'
@@ -436,10 +436,10 @@ else if ( params.mode == 'annotation' ) {
     // edta repeat masking
     if ( !params.skip_softmask ) {
       log.info "Soft masking repeats ... "
-      edta_softmask(params.genome)
+      edta(params.genome)
 
-      masked_genome = edta_softmask.out.masked
-      masked_gff = edta_softmask.out.te_anno
+      masked_genome = edta.out.masked
+      masked_gff = edta.out.te_anno
     }
 
   } else {
@@ -604,6 +604,15 @@ else if ( params.mode == 'annotation' ) {
   //small RNA
   // https://github.com/MikeAxtell/ShortStack
   // https://github.com/miRkwood-RNA/miRkwood
+  if ( params.srna ) {
+    if ( params.srna_reads ) {
+      // Annotation based on sequencing data
+
+    } else {
+      // Ab initio annotation of sRNAs
+
+    }
+  }
 
 
 }

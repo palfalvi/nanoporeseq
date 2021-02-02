@@ -1,4 +1,4 @@
-process edta_softmask {
+process edta {
 
   label "long_job"
 
