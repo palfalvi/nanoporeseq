@@ -3,7 +3,5 @@ channels:
     - conda-forge
     - bioconda
     - defaults
-    - thiesgehrmann
 dependencies:
     - braker2=2.1.5
-    - genemark_es=4.33
