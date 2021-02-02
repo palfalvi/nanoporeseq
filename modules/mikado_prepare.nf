@@ -2,7 +2,7 @@ process mikado_prepare {
 
   label "small_job"
 
-  conda "$baseDir/conda-envs/annotation-env.yaml"
+  conda "$baseDir/conda-envs/mikado-env.yaml"
 
   publishDir "${params.outdir}/mikado/", mode: 'copy', pattern: 'mikado*'
 

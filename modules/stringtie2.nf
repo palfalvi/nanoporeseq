@@ -2,7 +2,7 @@ process stringtie2 {
 
   label "small_job"
 
-  //conda "$baseDir/conda-envs/annotation-env.yaml"
+  conda "$baseDir/conda-envs/stringtie2-env.yaml"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 

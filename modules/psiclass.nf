@@ -2,7 +2,7 @@ process psiclass {
 
   label "small_job"
 
-  //conda "$baseDir/conda-envs/annotation-env.yaml"
+  conda "$baseDir/conda-envs/psiclass-env.yaml"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*psiclass.gtf'
 

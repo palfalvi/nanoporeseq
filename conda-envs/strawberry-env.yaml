@@ -1,0 +1,8 @@
+name: strawberry-env
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - bedtools
+    - biopython

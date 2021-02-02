@@ -1,0 +1,7 @@
+name: psiclass-env
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - psiclass

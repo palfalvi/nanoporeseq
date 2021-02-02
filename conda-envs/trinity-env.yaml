@@ -1,0 +1,9 @@
+name: trinity-env
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - trinity
+    - minimap2
+    - mikado

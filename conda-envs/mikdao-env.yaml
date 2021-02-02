@@ -1,0 +1,8 @@
+name: mikado-env
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - mikado
+    - blast

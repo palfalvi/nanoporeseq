@@ -1,0 +1,7 @@
+name: stringtie2-env
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - stringtie
