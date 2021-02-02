@@ -5,3 +5,10 @@ channels:
     - defaults
 dependencies:
     - braker2=2.1.5
+    - perl-yaml
+    - perl-hash-merge
+    - perl-logger-simple
+    - perl-parallel-forkmanager
+    - perl-mce
+    - perl-threaded
+    - perl-math-utils
