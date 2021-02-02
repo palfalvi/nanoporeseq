@@ -15,7 +15,7 @@ process braker2 {
     path "*braker.gtf", emit: gtf
 
   script:
-    def protein   = params.protein                          ? "--prot_seq=${params.proteins}" : ""
+    def protein   = params.protein                          ? "--prot_seq=${params.protein}" : ""
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
     def species   = params.species                          ?: "sp1"
 
