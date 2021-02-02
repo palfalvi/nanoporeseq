@@ -17,7 +17,6 @@ process braker2 {
   script:
     def protein   = params.protein                          ? "--prot_seq=${params.protein}" : ""
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
-    def species   = params.species                          ?: "sp1"
 
     """
     braker.pl \
@@ -27,7 +26,7 @@ process braker2 {
     --prg=gth \
     $mark \
     --gth2traingenes \
-    $species \
+    --species=$params.species \
     --softmasking \
     --cores $task.cpus
     """
