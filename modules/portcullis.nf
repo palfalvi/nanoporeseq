@@ -11,7 +11,7 @@ process portcullis {
     tuple file(bam), file(baidx)
 
   output:
-    path "*_portcullis/junctions.bed", emit: junctions
+    path "*_portcullis/3-filt/portcullis_filtered.pass.junctions.bed", emit: junctions
 
   script:
 
