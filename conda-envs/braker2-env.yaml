@@ -1,4 +1,4 @@
-name: samtools-env
+name: braker2-env
 channels:
     - conda-forge
     - bioconda
