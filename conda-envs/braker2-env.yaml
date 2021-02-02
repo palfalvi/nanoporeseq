@@ -5,5 +5,5 @@ channels:
     - defaults
     - thiesgehrmann
 dependencies:
-    - braker2
-    - genemark_es
+    - braker2=2.1.5
+    - genemark_es=4.33
