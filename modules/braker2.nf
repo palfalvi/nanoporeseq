@@ -15,9 +15,9 @@ process braker2 {
     path "*braker.gtf", emit: gtf
 
   script:
-    def protein   = params.protein                          ? "--prot_seq=${params.protein}" : ""
-    def mapping   = bam!=null                               ? "--bam $bam"                    : ""
-
+    def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
+    def mapping   = bam!=null          ? "--bam ${bam}"                               : ""
+    def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     """
     which perl
 
@@ -28,7 +28,7 @@ process braker2 {
     --prg=gth \
     $mark \
     --gth2traingenes \
-    --species=$params.species \
+    $sp \
     --softmasking \
     --cores $task.cpus
     """

@@ -2,7 +2,7 @@ process trinity_gg {
 
   label "long_job"
 
-  conda "$baseDir/conda-envs/trinity-env.yaml"
+  //conda "$baseDir/conda-envs/trinity-env.yaml"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
