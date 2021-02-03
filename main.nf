@@ -564,7 +564,7 @@ else if ( params.mode == 'annotation' ) {
     if ( params.short_reads ) {
       braker2( params.genome, merge_bams_star.out.bam, mark )
     } else {
-      braker2( params.genome, null )
+      braker2( params.genome, null, mark )
     }
     // braker2( params.genome )
     //outputs:
