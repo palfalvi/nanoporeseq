@@ -5,6 +5,7 @@ channels:
     - defaults
 dependencies:
     - braker2=2.1.5
+    - perl
     - perl-yaml
     - perl-hash-merge
     - perl-logger-simple
