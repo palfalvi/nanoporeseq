@@ -19,6 +19,8 @@ process braker2 {
     def mapping   = bam!=null                               ? "--bam $bam"                    : ""
 
     """
+    which perl
+
     braker.pl \
     --genome=$genome \
     $mapping \

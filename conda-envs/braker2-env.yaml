@@ -13,3 +13,4 @@ dependencies:
     - perl-mce
     - perl-threaded
     - perl-math-utils
+    - perl-object-insideout
