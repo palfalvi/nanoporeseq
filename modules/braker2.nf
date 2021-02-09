@@ -2,7 +2,8 @@ process braker2 {
 
   label "long_job"
 
-  conda "$baseDir/conda-envs/braker2-env.yaml"
+  //conda "$baseDir/conda-envs/braker2-env.yaml"
+  container "quay.io/biocontainers/braker2"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy'
 
