@@ -13,10 +13,6 @@ RUN apt-get update && apt-get upgrade -y &&\
 # Start working in /opt
 WORKDIR /opt
 
-# Compile and install canu:
-RUN git clone https://github.com/marbl/canu.git &&\
-    cd canu/src && make -j && cd -
-
 # BRAKER installation
 # Perl modules
 RUN cpanm \
@@ -34,7 +30,8 @@ RUN cpanm \
   Thread::Queue \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
-  wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz
+  wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz &&\
+  wget -c http://sourceforge.net/projects/splicebox/
 
 
 
