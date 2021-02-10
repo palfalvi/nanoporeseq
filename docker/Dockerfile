@@ -61,7 +61,7 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  wget -c https://github.com/Gaius-Augustus/Augustus/releases/download/v3.4.0/augustus-3.4.0.tar.gz | tar -xz &&\
+  wget -c https://github.com/Gaius-Augustus/Augustus/releases/download/v3.4.0/augustus-3.4.0.tar.gz -O - | tar -xz &&\
   cpanm File::HomeDir
 
 WORKDIR /opt/augustus-3.4.0
