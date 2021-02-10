@@ -3,7 +3,7 @@ process braker2 {
   label "long_job"
 
   //conda "$baseDir/conda-envs/braker2-env.yaml"
-  container "palfalvi/nanoporeseq"
+  container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy'
 
