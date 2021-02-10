@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y &&\
 # Start working in /opt
 WORKDIR /opt
 
+
 # BRAKER installation
 # Perl modules
 RUN cpanm \
@@ -30,9 +31,7 @@ RUN cpanm \
   Thread::Queue \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
-  wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  wget -c https://github.com/splicebox/PsiCLASS/archive/v1.0.2.tar.gz | tar -xz
-
+  wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz
 
 
 ENV PATH=/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
