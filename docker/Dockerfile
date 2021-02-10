@@ -66,8 +66,8 @@ RUN cpanm \
 
 WORKDIR /opt/augustus-3.4.0
 RUN sudo make install
-WORKDIR /opt/augustus-3.4.0/auxprogs
-RUN sudo make install
+WORKDIR /opt/augustus-3.4.0/auxprogs/bam2hints
+RUN sudo make clean
 WORKDIR /opt
 
-ENV PATH=/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
