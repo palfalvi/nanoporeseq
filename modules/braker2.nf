@@ -3,7 +3,7 @@ process braker2 {
   label "long_job"
 
   //conda "$baseDir/conda-envs/braker2-env.yaml"
-  container "quay.io/biocontainers/braker2"
+  container "palfalvi/nanoporeseq"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy'
 
@@ -20,8 +20,6 @@ process braker2 {
     def mapping   = bam!=null          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     """
-    which perl
-
     braker.pl \
     --genome=$genome \
     $mapping \
