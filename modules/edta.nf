@@ -11,7 +11,7 @@ process edta {
 
   output:
     path "*.mod.EDTA.TElib.fa", emit: novel_tes
-    path "*.mod.EDTA.TEanno.gff", emit: te_anno
+    path "*.mod.EDTA.TEanno.gff3", emit: te_anno
     path "*.mod.EDTA.TEanno.sum", emit: summary
     path "*.mod.MAKER.masked", emit: masked // This can be used for masking
 
