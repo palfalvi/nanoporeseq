@@ -1,6 +1,8 @@
 # Set the base image to debian bionic
 FROM ubuntu:18.04
-
+USER root
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # File Author / Maintainer
 MAINTAINER Gergo Palfalvi <palfalvi.gergo@gmail.com>
 
