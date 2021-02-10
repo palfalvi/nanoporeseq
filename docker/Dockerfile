@@ -31,8 +31,8 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_5plNo/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  wget -c http://sourceforge.net/projects/splicebox/
+  wget -c https://github.com/splicebox/PsiCLASS/archive/v1.0.2.tar.gz | tar -xz
 
 
 
-ENV PATH=/opt/canu/Linux-amd64/bin:/opt/BRAKER/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
