@@ -71,3 +71,6 @@ RUN sudo make clean
 WORKDIR /opt
 
 ENV PATH=/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV AUGUSTUS_CONFIG_PATH=/opt/augustus-3.4.0/config/
+ENV AUGUSTUS_BIN_PATH=/opt/augustus-3.4.0/bin/
+ENV AUGUSTUS_SCRIPTS_PATH=/opt/augustus-3.4.0/scripts/
