@@ -23,6 +23,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     zlib1g-dev \
     mc \
     wget \
+    autoconf \
     libatlas-base-dev \
     python-pip \
     python-pandas \
@@ -37,6 +38,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     liblpsolve55-dev \
     libsqlite3-dev \
     libboost-all-dev
+
 
 
 # Start working in /opt
@@ -61,8 +63,8 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  git clone https://github.com/Gaius-Augustus/Augustus && cd Augustus && make install &&\
-  cd auxprogs/bam2hints && make clean && cd /opt &&\
+  git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && make clean && make && make install &&\
+  cd ./auxprogs/bam2hints && make clean && cd /opt &&\
   cpanm File::HomeDir
 
 
