@@ -8,36 +8,44 @@ MAINTAINER Gergo Palfalvi <palfalvi.gergo@gmail.com>
 
 RUN apt-get update && apt-get upgrade -y &&\
     apt-get install -y sudo \
-    csh \
-    cpanminus \
-    git \
-    make \
-    build-essential \
-    mummer \
-    last-align \
-    python-numpy \
-    python-matplotlib \
-    time \
-    software-properties-common \
-    gnuplot \
-    zlib1g-dev \
-    mc \
-    wget \
     autoconf \
-    libatlas-base-dev \
-    python-pip \
-    python-pandas \
-    cmake \
-    default-jre \
-    libbamtools-dev \
     bamtools \
-    libmysql++-dev \
-    libgsl-dev \
+    build-essential \
+    cdbfasta \
+    cmake \
+    cpanminus \
+    csh \
+    default-jre \
+    diamond-aligner \
+    git \
+    gnuplot \
+    last-align \
+    libatlas-base-dev \
+    libbamtools-dev \
     libboost-all-dev \
-    libsuitesparse-dev \
+    libdbd-mysql-perl \
+    libfile-which-perl \
+    libgsl-dev \
+    libhts-dev \
     liblpsolve55-dev \
+    libmysql++-dev \
+    libparallel-forkmanager-perl \
     libsqlite3-dev \
-    libboost-all-dev
+    libsuitesparse-dev \
+    libyaml-perl \
+    make \
+    mc \
+    mummer \
+    python-matplotlib \
+    python-numpy \
+    python-pandas \
+    python-pip \
+    samtools \
+    software-properties-common \
+    time \
+    wget \
+    zlib1g-dev \
+
 
 
 
