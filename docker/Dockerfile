@@ -31,13 +31,13 @@ RUN apt-get update && apt-get upgrade -y &&\
     liblpsolve55-dev \
     libmysql++-dev \
     libparallel-forkmanager-perl \
+    libpthread-stubs0-dev \
     libsqlite3-dev \
     libsuitesparse-dev \
     libyaml-perl \
     make \
     mc \
     mummer \
-    pthread \
     python-matplotlib \
     python-numpy \
     python-pandas \
