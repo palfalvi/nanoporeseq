@@ -61,7 +61,7 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  git clone https://github.com/Gaius-Augustus/Augustus && mv Augustus augustus-3.4.0 && cd augustus-3.4.0 && make install &&\
+  git clone https://github.com/Gaius-Augustus/Augustus && cd Augustus && make install &&\
   cd auxprogs/bam2hints && make clean && cd /opt &&\
   cpanm File::HomeDir
 
