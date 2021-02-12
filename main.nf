@@ -462,6 +462,7 @@ else if ( params.mode == 'annotation' ) {
 
     //merge bam files to one bam file
     merge_bams_star( star_align.out.bam.collect(), "star" )
+    // SHOULD NOT MERGE BAM, BUT ASSEMBLY INDEPENDENTLY AND USE TACO TO MERGE
 
     // HISAT2 mapping
     //hisat2_idx(params.genome)
