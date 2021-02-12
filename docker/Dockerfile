@@ -61,12 +61,12 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
-  git clone https://github.com/Gaius-Augustus/Augustus && cd Augustus && make install &&\
+  git clone https://github.com/Gaius-Augustus/Augustus && mv Augustus augustus-3.4.0 && cd augustus-3.4.0 && make install &&\
   cd auxprogs/bam2hints && make clean && cd /opt &&\
   cpanm File::HomeDir
 
 
-ENV PATH=/opt/Augustus/auxprogs/bam2hints:/opt/Augustus/bin:/opt/Augustus/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
 ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
