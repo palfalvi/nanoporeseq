@@ -44,7 +44,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     software-properties-common \
     time \
     wget \
-    zlib1g-dev \
+    zlib1g-dev
 
 
 
