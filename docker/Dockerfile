@@ -9,6 +9,7 @@ MAINTAINER Gergo Palfalvi <palfalvi.gergo@gmail.com>
 RUN apt-get update && apt-get upgrade -y &&\
     apt-get install -y sudo \
     autoconf \
+    automake \
     bamtools \
     build-essential \
     cdbfasta \
@@ -36,6 +37,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
+    pthread \
     python-matplotlib \
     python-numpy \
     python-pandas \
@@ -44,7 +46,11 @@ RUN apt-get update && apt-get upgrade -y &&\
     software-properties-common \
     time \
     wget \
-    zlib1g-dev
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libcurl4-gnutls-dev \
+    libssl-dev
 
 
 
@@ -54,6 +60,8 @@ WORKDIR /opt
 
 
 # BRAKER installation
+# HTSlib, braker, GeneMark-ES, Augustus
+# GENEMARK-EX need a new link in every week or so
 # Perl modules
 RUN cpanm \
   File::Spec::Functions \
@@ -69,13 +77,16 @@ RUN cpanm \
   MCE::Mutex \
   Thread::Queue \
   threads &&\
+  wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 -O - | tar -xf &&\
+  cd htslib-1.11 && ./configure && make && make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && make clean && make && make install && cd .. &&\
+  git clone git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && sudo make install &&\
   cpanm File::HomeDir
 
 
-ENV PATH=/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
 ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
