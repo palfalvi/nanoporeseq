@@ -2,6 +2,7 @@
 FROM ubuntu:18.04
 USER root
 ENV TZ=Asia/Tokyo
+ENV CONDA_DIR $HOME/miniconda3
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # File Author / Maintainer
 MAINTAINER Gergo Palfalvi <palfalvi.gergo@gmail.com>
@@ -77,18 +78,32 @@ RUN cpanm \
   MCE::Mutex \
   Thread::Queue \
   threads &&\
-  wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && make install && cd .. &&\
+  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && chmod +x ./miniconda.sh && bash ./miniconda.sh -b -p $CONDA_DIR && echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.profile && conda init bash &&\
+  wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && make clean && make && make install && cd .. &&\
   git clone git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && sudo make install && cd .. &&\
   wget -c https://github.com/ruolin/strawberry/releases/download/v1.1.2/strawberry && chmod +c strawberry &&\
   git clone https://github.com/mpertea/stringtie2 && cd stringtie2 && make release && cd .. &&\
-  wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0.FULL && make && make install &&\
+  wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0.FULL && make && make install && cd .. &&\
+  wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
+  git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
+  conda install portcullis --channel=bioconda &&\
   cpanm File::HomeDir
 
+  #edta
+  #portcullis
+  #tama
+  #unagi
+  #taco
+  #mikado
+  #pasa
 
-ENV PATH=/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+  #busco
+
+
+ENV PATH=/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
 ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
