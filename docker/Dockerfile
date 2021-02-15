@@ -39,8 +39,6 @@ RUN apt-get update && apt-get upgrade -y &&\
     libbz2-dev \
     liblzma-dev \
     libncurses5-dev \
-    libssl-dev \
-    libcurl3-dev \
     make \
     mc \
     mummer \
@@ -85,6 +83,7 @@ RUN cpanm \
   threads &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
+  # wget -c https://github.com/lfaino/LoReAn/blob/master/third_party/software/gm_et_linux_64_4.48_3.60.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_EcBpI/gmes_linux_64.tar.gz -O - | tar -xz &&\
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && make clean && make && make install && cd .. &&\
   git clone git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && sudo make install && cd .. &&\
