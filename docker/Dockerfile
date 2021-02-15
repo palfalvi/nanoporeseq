@@ -88,7 +88,7 @@ RUN cpanm \
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_EcBpI/gmes_linux_64.tar.gz -O - | tar -xz &&\
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && sed -i 's/	cd bam2wig; make/	#cd bam2wig; make/g' ./auxprogs/Makefile && make clean && make && make install && cd .. &&\
   git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && cd .. &&\
-  wget -c https://github.com/ruolin/strawberry/releases/download/v1.1.2/strawberry && chmod +c strawberry &&\
+  wget -c https://github.com/ruolin/strawberry/releases/download/v1.1.2/strawberry && chmod +x strawberry &&\
   git clone https://github.com/mpertea/stringtie2 && cd stringtie2 && make release && cd .. &&\
   wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0.FULL && make && make install && cd .. &&\
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
