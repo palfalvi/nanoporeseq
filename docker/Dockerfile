@@ -78,7 +78,6 @@ RUN cpanm \
   MCE::Mutex \
   Thread::Queue \
   threads &&\
-  wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && chmod +x ./miniconda.sh && bash ./miniconda.sh -b -p $CONDA_DIR && echo ". $CONDA_DIR/etc/profile.d/conda.sh" >> ~/.profile && conda init bash &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_BvMnP/gmes_linux_64.tar.gz -O - | tar -xz &&\
@@ -89,7 +88,6 @@ RUN cpanm \
   wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0.FULL && make && make install && cd .. &&\
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
   git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
-  conda install portcullis --channel=bioconda &&\
   cpanm File::HomeDir
 
   #edta
