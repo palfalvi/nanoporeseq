@@ -36,6 +36,11 @@ RUN apt-get update && apt-get upgrade -y &&\
     libsqlite3-dev \
     libsuitesparse-dev \
     libyaml-perl \
+    libbz2-dev \
+    liblzma-dev \
+    libncurses5-dev \
+    libssl-dev \
+    libcurl3-dev \
     make \
     mc \
     mummer \
