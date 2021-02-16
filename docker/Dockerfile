@@ -1,6 +1,5 @@
 # Set the base image to debian bionic
-FROM ubuntu:18.04
-FROM python:3.7.3-stretch
+FROM ubuntu:20.04
 USER root
 ENV TZ=Asia/Tokyo
 ENV CONDA_DIR $HOME/miniconda3
@@ -44,9 +43,6 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
-    python3.6 \
-    python3.6-dev \
-    python3-pip \
     python-matplotlib \
     python-numpy \
     python-pandas \
@@ -89,6 +85,7 @@ RUN cpanm \
   Thread::Queue \
   URI::Escape \
   threads &&\
+  wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&
   python3 -m pip install biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
