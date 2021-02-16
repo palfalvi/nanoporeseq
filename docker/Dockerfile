@@ -47,6 +47,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     python-numpy \
     python-pandas \
     python-pip \
+    rsync \
     samtools \
     software-properties-common \
     time \
@@ -81,6 +82,8 @@ RUN cpanm \
   Math::Utils \
   MCE::Mutex \
   Thread::Queue \
+  URI::Escape \
+  DB_File \
   threads &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
