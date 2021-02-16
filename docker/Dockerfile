@@ -84,6 +84,7 @@ RUN cpanm \
   Thread::Queue \
   URI::Escape \
   threads &&\
+  pip install biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   # wget -c https://github.com/lfaino/LoReAn/blob/master/third_party/software/gm_et_linux_64_4.48_3.60.tar.gz -O - | tar -xz &&\
@@ -95,7 +96,9 @@ RUN cpanm \
   wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0 && make && make install && cd .. &&\
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
   git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
-  cpanm File::HomeDir
+  git clone https://github.com/iMetOsaka/UNAGI &&\
+  cpanm File::HomeDir &&\
+  chmod -R a+w /opt/Augustus/config/
 
   #edta
   #portcullis
@@ -108,7 +111,7 @@ RUN cpanm \
   #busco
 
 
-ENV PATH=/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
 ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
