@@ -85,7 +85,7 @@ RUN cpanm \
   Thread::Queue \
   URI::Escape \
   threads &&\
-  wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&
+  wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
   python3 -m pip install biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
