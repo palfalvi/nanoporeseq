@@ -89,7 +89,7 @@ RUN cpanm \
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && sed -i 's/	cd bam2wig; make/	#cd bam2wig; make/g' ./auxprogs/Makefile && make clean && make && make install && cd .. &&\
   git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && cd .. &&\
   wget -c https://github.com/ruolin/strawberry/releases/download/v1.1.2/strawberry && chmod +x strawberry &&\
-  git clone https://github.com/gpertea/stringtie && cd stringtie2 && make release && cd .. &&\
+  git clone https://github.com/gpertea/stringtie && cd stringtie && make release && cd .. &&\
   wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0 && make && make install && cd .. &&\
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
   git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
