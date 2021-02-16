@@ -43,10 +43,6 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
-    python-matplotlib \
-    python-numpy \
-    python-pandas \
-    python-pip \
     rsync \
     samtools \
     software-properties-common \
@@ -86,7 +82,7 @@ RUN cpanm \
   URI::Escape \
   threads &&\
   wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
-  python3 -m pip install biopython &&\
+  python3 -m pip install matplotlib numpy pandas biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   # wget -c https://github.com/lfaino/LoReAn/blob/master/third_party/software/gm_et_linux_64_4.48_3.60.tar.gz -O - | tar -xz &&\
