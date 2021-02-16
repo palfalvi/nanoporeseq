@@ -1,5 +1,6 @@
 # Set the base image to debian bionic
 FROM ubuntu:18.04
+FROM python:3.7.3-stretch
 USER root
 ENV TZ=Asia/Tokyo
 ENV CONDA_DIR $HOME/miniconda3
@@ -43,6 +44,9 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
+    python3.6 \
+    python3.6-dev \
+    python3-pip \
     python-matplotlib \
     python-numpy \
     python-pandas \
@@ -63,7 +67,7 @@ RUN apt-get update && apt-get upgrade -y &&\
 
 # Start working in /opt
 WORKDIR /opt
-
+ENV PASA_CO eebd6223e1a7aa008c8aa63c8969296a0285bd8b
 
 # BRAKER installation
 # HTSlib, braker, GeneMark-ES, Augustus
@@ -81,10 +85,11 @@ RUN cpanm \
   YAML \
   Math::Utils \
   MCE::Mutex \
+  DBD::mysql \
   Thread::Queue \
   URI::Escape \
   threads &&\
-  pip install biopython &&\
+  python3 -m pip install biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
   wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
   # wget -c https://github.com/lfaino/LoReAn/blob/master/third_party/software/gm_et_linux_64_4.48_3.60.tar.gz -O - | tar -xz &&\
@@ -96,14 +101,16 @@ RUN cpanm \
   wget -c https://github.com/trinityrnaseq/trinityrnaseq/releases/download/v2.11.0/trinityrnaseq-v2.11.0.FULL.tar.gz -O - | tar -xz && cd trinityrnaseq-v2.11.0 && make && make install && cd .. &&\
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
   git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
-  git clone https://github.com/iMetOsaka/UNAGI &&\
+  git clone https://github.com/iMetOsaka/UNAGI && chmod a+x UNAGI/unagi &&\
+  wget -c http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/blat/blat && chmod 755 ./blat &&\
+  wget -c http://faculty.virginia.edu/wrpearson/fasta/fasta36/fasta-36.3.8g.tar.gz -O - | tar -xz && cd ./fasta-36.3.8g/src && make -f ../make/Makefile.linux_sse2 all && cp ../bin/fasta36 /usr/local/bin/fasta &&\
+  git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline && git checkout $PASA_CO && git submodule init && git submodule update && make &&\
   cpanm File::HomeDir &&\
   chmod -R a+w /opt/Augustus/config/
 
   #edta
   #portcullis
   #tama
-  #unagi
   #taco
   #mikado
   #pasa
@@ -111,7 +118,7 @@ RUN cpanm \
   #busco
 
 
-ENV PATH=/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
+ENV PATH=/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:/opt/gmes_linux_64/:/opt/gmes_linux_64/ProtHint/bin/:$PATH
 ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
