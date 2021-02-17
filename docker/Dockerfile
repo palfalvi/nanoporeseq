@@ -2,6 +2,7 @@
 FROM ubuntu:20.04
 USER root
 ENV TZ=Asia/Tokyo
+ENV DEBIAN_FRONTEND=noninteractive
 ENV CONDA_DIR $HOME/miniconda3
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # File Author / Maintainer
