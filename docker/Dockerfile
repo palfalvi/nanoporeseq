@@ -44,6 +44,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
+    python3-pip \
     rsync \
     samtools \
     software-properties-common \
