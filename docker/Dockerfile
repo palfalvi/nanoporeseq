@@ -108,7 +108,7 @@ RUN cpanm \
   chmod -R a+w /opt/Augustus/config/
   
 RUN rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config
-RUN cp /opt/ProtHint/bin/* /opt/gth/bin/
+RUN cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
 
   #edta
   #portcullis
