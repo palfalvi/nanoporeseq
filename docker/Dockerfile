@@ -44,7 +44,6 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
-    python-minimal \
     python3-pip \
     rsync \
     samtools \
@@ -84,6 +83,7 @@ RUN cpanm \
   Thread::Queue \
   URI::Escape \
   threads &&\
+  sudo ln -s /usr/bin/python3 /usr/bin/python &&\
   wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
   python3 -m pip install matplotlib numpy pandas biopython &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
