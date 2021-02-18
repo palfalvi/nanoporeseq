@@ -22,7 +22,7 @@ process braker2 {
     """
     svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
     
-    export AUGUSTUS_CONFIG_PATH=${workdir}/config
+    export AUGUSTUS_CONFIG_PATH=${workDir}/config
     
     braker.pl \
     --genome=$genome \
