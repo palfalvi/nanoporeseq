@@ -106,6 +106,8 @@ RUN cpanm \
   git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline && git checkout $PASA_CO && git submodule init && git submodule update && make &&\
   cpanm File::HomeDir &&\
   chmod -R a+w /opt/Augustus/config/
+  
+RUN rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config
 
   #edta
   #portcullis
@@ -118,7 +120,6 @@ RUN cpanm \
 
 
 ENV PATH=/opt/gth/bin/:/opt/ProtHint/bin:/opt/gmes_linux_64/:/opt/gmes_linux_64/bin/:/opt/ProtHint/dependencies/:/opt/diamond-linux64/:/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:$PATH
-ENV AUGUSTUS_CONFIG_PATH=/opt/Augustus/config/
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
 ENV BSSMDIR=/opt/gth/bin/bssm
