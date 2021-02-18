@@ -33,6 +33,7 @@ process braker2 {
     --gth2traingenes \
     $sp \
     --softmasking \
-    --cores $task.cpus
+    --cores $task.cpus \
+    --AUGUSTUS_CONFIG_PATH=${workDir}/config
     """
 }
