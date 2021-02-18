@@ -44,6 +44,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     make \
     mc \
     mummer \
+    python-minimal \
     python3-pip \
     rsync \
     samtools \
