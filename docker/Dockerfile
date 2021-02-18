@@ -47,6 +47,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     python3-pip \
     rsync \
     samtools \
+    subversion \
     software-properties-common \
     time \
     wget \
