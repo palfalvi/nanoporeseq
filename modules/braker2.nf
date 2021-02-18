@@ -23,7 +23,7 @@ process braker2 {
     svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
     workdir=`pwd`
     
-    export AUGUSTUS_CONFIG_PATH=${workdir}/config
+    export AUGUSTUS_CONFIG_PATH=\${workdir}/config
     
     braker.pl \
     --genome=$genome \
@@ -35,6 +35,6 @@ process braker2 {
     $sp \
     --softmasking \
     --cores $task.cpus \
-    --AUGUSTUS_CONFIG_PATH=${workdir}/config
+    --AUGUSTUS_CONFIG_PATH=\${workdir}/config
     """
 }
