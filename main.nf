@@ -580,6 +580,7 @@ else if ( params.mode == 'annotation' ) {
 
 
   braker_gtf
+    .collect()
     .mix(short_gtf, ont_gtf)
     .collect()
     .set { all_gtf }
