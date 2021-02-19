@@ -111,12 +111,10 @@ RUN cpanm \
   rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config &&\
   cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
 
-  #edta
-  #portcullis
+RUN python3 -m pip install mikado
+  #edta has its own dockerfile
   #tama
   #taco
-  #mikado
-  #pasa
 
   #busco
 
