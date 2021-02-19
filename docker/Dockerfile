@@ -87,7 +87,8 @@ RUN cpanm \
   sudo ln -s /usr/bin/python3 /usr/bin/python &&\
   wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
   python3 -m pip install matplotlib numpy pandas biopython &&\
-  git clone https://github.com/gatech-genemark/ProtHint.git &&\
+  #git clone https://github.com/gatech-genemark/ProtHint.git &&\
+  wget -c https://github.com/gatech-genemark/ProtHint/releases/download/v2.4.0/ProtHint-2.4.0.tar.gz -O - | tar -xz &&\
   wget -c https://genomethreader.org/distributions/gth-1.7.3-Linux_x86_64-64bit.tar.gz -O - | tar -xz && mv gth-1.7.3-Linux_x86_64-64bit gth &&\
   wget -c http://github.com/bbuchfink/diamond/releases/download/v0.9.24/diamond-linux64.tar.gz -O - | tar -xz &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
@@ -108,7 +109,7 @@ RUN cpanm \
   chmod -R a+w /opt/Augustus/config/
   
 RUN rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config
-RUN cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
+RUN cp /opt/ProtHint-2.4.0/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint-2.4.0/dependencies/ /opt/gth/
 
   #edta
   #portcullis
