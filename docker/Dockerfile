@@ -14,6 +14,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     automake \
     bamtools \
     bcftools \
+    bowtie2 \
     build-essential \
     cdbfasta \
     cmake \
@@ -55,7 +56,8 @@ RUN apt-get update && apt-get upgrade -y &&\
     libbz2-dev \
     liblzma-dev \
     libcurl4-gnutls-dev \
-    libssl-dev
+    libssl-dev \
+    jellyfish
 
 
 
@@ -112,9 +114,6 @@ RUN cpanm \
   cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
 
 RUN python3 -m pip install mikado
-RUN apt install \
-    jellyfish \
-    bowtie2
   #edta has its own dockerfile
   #tama
   #taco
