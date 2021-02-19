@@ -106,10 +106,9 @@ RUN cpanm \
   wget -c http://faculty.virginia.edu/wrpearson/fasta/fasta36/fasta-36.3.8g.tar.gz -O - | tar -xz && cd ./fasta-36.3.8g/src && make -f ../make/Makefile.linux_sse2 all && cp ../bin/fasta36 /usr/local/bin/fasta &&\
   git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline && git checkout $PASA_CO && git submodule init && git submodule update && make &&\
   cpanm File::HomeDir &&\
-  chmod -R a+w /opt/Augustus/config/
-  
-RUN rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config
-RUN cp /opt/ProtHint-2.4.0/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint-2.4.0/dependencies/ /opt/gth/
+  chmod -R a+w /opt/Augustus/config/ &&\
+  rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config &&\
+  cp /opt/ProtHint-2.4.0/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint-2.4.0/dependencies/ /opt/gth/
 
   #edta
   #portcullis
