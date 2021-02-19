@@ -3,6 +3,7 @@ process trinity_gg {
   label "long_job"
 
   //conda "$baseDir/conda-envs/trinity-env.yaml"
+  container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
