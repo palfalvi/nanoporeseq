@@ -29,7 +29,6 @@ process braker2 {
     --genome=$genome \
     $mapping \
     $protein \
-    --prg=gth \
     $mark \
     --gth2traingenes \
     $sp \
