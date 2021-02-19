@@ -30,7 +30,6 @@ process braker2 {
     $mapping \
     $protein \
     $mark \
-    --gth2traingenes \
     $sp \
     --softmasking \
     --cores $task.cpus \
