@@ -87,12 +87,13 @@ RUN cpanm \
   sudo ln -s /usr/bin/python3 /usr/bin/python &&\
   wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
   python3 -m pip install matplotlib numpy pandas biopython &&\
-  #git clone https://github.com/gatech-genemark/ProtHint.git &&\
-  wget -c https://github.com/gatech-genemark/ProtHint/releases/download/v2.4.0/ProtHint-2.4.0.tar.gz -O - | tar -xz &&\
+  git clone https://github.com/gatech-genemark/ProtHint.git &&\
+  #wget -c https://github.com/gatech-genemark/ProtHint/releases/download/v2.4.0/ProtHint-2.4.0.tar.gz -O - | tar -xz &&\
   wget -c https://genomethreader.org/distributions/gth-1.7.3-Linux_x86_64-64bit.tar.gz -O - | tar -xz && mv gth-1.7.3-Linux_x86_64-64bit gth &&\
   wget -c http://github.com/bbuchfink/diamond/releases/download/v0.9.24/diamond-linux64.tar.gz -O - | tar -xz &&\
   wget -c https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2 && tar -xf htslib-1.11.tar.bz2 && cd htslib-1.11 && ./configure && make && sudo make install && cd .. &&\
-  wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
+  #wget -c https://github.com/Gaius-Augustus/BRAKER/archive/v2.1.5.tar.gz -O - | tar -xz &&\
+  git clone https://github.com/Gaius-Augustus/BRAKER.git &&\
   wget -c http://topaz.gatech.edu/GeneMark/tmp/GMtool_EcBpI/gmes_linux_64.tar.gz -O - | tar -xz &&\
   git clone https://github.com/Gaius-Augustus/Augustus && cd ./Augustus && sed -i 's/	cd bam2wig; make/	#cd bam2wig; make/g' ./auxprogs/Makefile && make clean && make && make install && cd .. &&\
   git clone https://github.com/splicebox/psiclass.git && cd psiclass && sudo make && cd .. &&\
@@ -108,7 +109,7 @@ RUN cpanm \
   cpanm File::HomeDir &&\
   chmod -R a+w /opt/Augustus/config/ &&\
   rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config &&\
-  cp /opt/ProtHint-2.4.0/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint-2.4.0/dependencies/ /opt/gth/
+  cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
 
   #edta
   #portcullis
@@ -120,7 +121,7 @@ RUN cpanm \
   #busco
 
 
-ENV PATH=/opt/gth/bin/:/opt/ProtHint/bin:/opt/gmes_linux_64/:/opt/gmes_linux_64/bin/:/opt/ProtHint/dependencies/:/opt/diamond-linux64/:/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER-2.1.5/scripts/:$PATH
+ENV PATH=/opt/gth/bin/:/opt/ProtHint/bin:/opt/gmes_linux_64/:/opt/gmes_linux_64/bin/:/opt/ProtHint/dependencies/:/opt/diamond-linux64/:/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKE/scripts/:$PATH
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
 ENV BSSMDIR=/opt/gth/bin/bssm
