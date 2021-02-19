@@ -557,9 +557,9 @@ else if ( params.mode == 'annotation' ) {
     } else if ( params.protein ) {
       mark = "--epmode"
     } else if ( params.short_reads || params.ont_reads ) {
-      mark = "--prg=gth"
+      mark = "--prg=gth --gth2traingenes"
     } else {
-      mark = "--esmode --prg=gth"
+      mark = "--esmode --prg=gth --gth2traingenes"
     }
     // run BRAKER2
     if ( params.short_reads ) {
