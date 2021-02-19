@@ -112,7 +112,7 @@ RUN cpanm \
   cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
 
 RUN python3 -m pip install mikado
-RUN sudo apt install \
+RUN apt install \
     jellyfish \
     bowtie2
   #edta has its own dockerfile
