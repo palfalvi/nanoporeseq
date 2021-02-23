@@ -13,7 +13,7 @@ process braker2 {
     val mark
 
   output:
-    path "*braker.gtf", emit: gtf
+    path "braker/*braker.gtf", emit: gtf
 
   script:
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
@@ -22,9 +22,9 @@ process braker2 {
     """
     svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
     workdir=`pwd`
-    
+
     export AUGUSTUS_CONFIG_PATH=\${workdir}/config
-    
+
     braker.pl \
     --genome=$genome \
     $mapping \
