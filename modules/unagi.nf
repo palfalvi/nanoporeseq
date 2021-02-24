@@ -8,20 +8,20 @@ process unagi {
 
   input:
     path genome
-    path fastq
+    tuple val(sample_id), file(reads)
 
   output:
-    path "*.gtf", emit: gtf
+    path "*.gff3", emit: gtf
 
   script:
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
     unagi \
-    --input $fastq \
+    --input $reads \
     --genome $genome \
     --output unagi \
     $stranded
 
-    $workDir/scripts/bed2gff.py -q unagi/Splicing_Isoforms.bed -o unagi.gff3
+    $workDir/scripts/bed2gff.py -q unagi/Splicing_Isoforms.bed -o unagi_${sample_id}.gff3
     """
 }
