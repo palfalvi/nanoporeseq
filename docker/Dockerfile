@@ -118,9 +118,6 @@ RUN cpanm \
   cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/ &&\
   wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz -O - | tar -xz && mv salmon-latest_linux_x86_64 salmon
 
-  minimap_path=./tools/minimap2/minimap2
-  samtools_path=./tools/samtools/samtools
-  bedtools_path=./tools/bedtools/bin/bedtools
   #tama
   #taco
 
