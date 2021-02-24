@@ -16,7 +16,7 @@ process unagi {
   script:
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
-    tar -xz $reads -C ${reads.simpleName}.fastq
+    gunzip -c $reads > ${reads.simpleName}.fastq
 
     unagi \
     --input ${reads.simpleName}.fastq \
