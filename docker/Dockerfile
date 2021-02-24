@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y &&\
     autoconf \
     automake \
     bamtools \
+    bedtools \
     bcftools \
     bowtie2 \
     build-essential \
@@ -88,7 +89,7 @@ RUN cpanm \
   threads &&\
   sudo ln -s /usr/bin/python3 /usr/bin/python &&\
   wget -c https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz -O - | tar -xz &&\
-  python3 -m pip install matplotlib numpy pandas biopython &&\
+  python3 -m pip install matplotlib numpy pandas biopython mikado &&\
   git clone https://github.com/gatech-genemark/ProtHint.git &&\
   #wget -c https://github.com/gatech-genemark/ProtHint/releases/download/v2.4.0/ProtHint-2.4.0.tar.gz -O - | tar -xz &&\
   wget -c https://genomethreader.org/distributions/gth-1.7.3-Linux_x86_64-64bit.tar.gz -O - | tar -xz && mv gth-1.7.3-Linux_x86_64-64bit gth &&\
@@ -105,17 +106,21 @@ RUN cpanm \
   wget -c https://github.com/alexdobin/STAR/archive/2.7.7a.tar.gz -O - | tar -xz && cd STAR-2.7.7a/source && make STAR && cd ../.. &&\
   git clone https://github.com/lh3/minimap2 && cd minimap2 && make && cd .. &&\
   git clone https://github.com/iMetOsaka/UNAGI && chmod a+x UNAGI/unagi &&\
+  sed -i 's/minimap_path=.\/tools\/minimap2\/minimap2/minimap_path=minimap2/g' /opt/UNAGI/app/conf.ini &&\
+  sed -i 's/samtools_path=.\/tools\/samtools\/samtools/samtools_path=samtools/g' /opt/UNAGI/app/conf.ini &&\
+  sed -i 's/bedtools_path=.\/tools\/bedtools\/bin\/bedtools/bedtools_path=bedtools/g' /opt/UNAGI/app/conf.ini &&\
   wget -c http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/blat/blat && chmod 755 ./blat &&\
   wget -c http://faculty.virginia.edu/wrpearson/fasta/fasta36/fasta-36.3.8g.tar.gz -O - | tar -xz && cd ./fasta-36.3.8g/src && make -f ../make/Makefile.linux_sse2 all && cp ../bin/fasta36 /usr/local/bin/fasta &&\
   git clone https://github.com/PASApipeline/PASApipeline.git && cd PASApipeline && git checkout $PASA_CO && git submodule init && git submodule update && make &&\
   cpanm File::HomeDir &&\
   chmod -R a+w /opt/Augustus/config/ &&\
   rm -rf /opt/Augustus/config && rm -rf /opt/augustus-3.4.0/config &&\
-  cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/
+  cp /opt/ProtHint/bin/* /opt/gth/bin/ && cp -r /opt/ProtHint/dependencies/ /opt/gth/ &&\
+  wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz -O - | tar -xz && mv salmon-latest_linux_x86_64 salmon
 
-RUN python3 -m pip install mikado
-RUN wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz -O - | tar -xz && mv salmon-latest_linux_x86_64 salmon
-  #edta has its own dockerfile
+  minimap_path=./tools/minimap2/minimap2
+  samtools_path=./tools/samtools/samtools
+  bedtools_path=./tools/bedtools/bin/bedtools
   #tama
   #taco
 
@@ -128,4 +133,3 @@ ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
 ENV BSSMDIR=/opt/gth/bin/bssm
 ENV GTHDATADIR=/opt/gth/bin/gthdata
 ENV GTHNOFLOCK=yes
-
