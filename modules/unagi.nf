@@ -16,8 +16,10 @@ process unagi {
   script:
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
+    tar -xz $reads -C ${reads.baseName}.fastq
+
     unagi \
-    --input `tar -xz $reads` \
+    --input ${reads.baseName}.fastq \
     --genome $genome \
     --output unagi \
     $stranded
