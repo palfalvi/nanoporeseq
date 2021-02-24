@@ -5,7 +5,7 @@ process braker2 {
   //conda "$baseDir/conda-envs/braker2-env.yaml"
   container "peegee/nanoporeseq:latest"
 
-  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy'
+  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: 'braker/braker.gtf'
 
   input:
     path genome

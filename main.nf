@@ -92,6 +92,7 @@ include { strawberry } from './modules/strawberry.nf'
 include { trinity_gg } from './modules/trinity_genome-guided.nf'
 include { psiclass } from './modules/psiclass.nf'
 include { tama } from './modules/tama.nf'
+include { unagi } from './modules/unagi.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { braker2 } from './modules/braker2.nf'
 include { mikado_prepare } from './modules/mikado_prepare.nf'
@@ -533,7 +534,7 @@ else if ( params.mode == 'annotation' ) {
 
     tama( params.genome, merge_bams_minimap2.out.bam )
     //flair_long()
-    //unagi_long()
+    unagi( params.genome, ont_reads )
 
     // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)
     // TACO or Mikado to merge transcript models
