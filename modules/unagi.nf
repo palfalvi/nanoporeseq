@@ -17,11 +17,11 @@ process unagi {
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
     unagi \
-    --input $reads \
+    --input `tar -xz $reads` \
     --genome $genome \
     --output unagi \
     $stranded
 
-    $workDir/scripts/bed2gff.py -q unagi/Splicing_Isoforms.bed -o unagi_${sample_id}.gff3
+    $baseDir/scripts/bed2gff.py -q unagi/Splicing_Isoforms.bed -o unagi_${sample_id}.gff3
     """
 }
