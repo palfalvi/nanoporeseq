@@ -19,7 +19,7 @@ process taco {
     ls -1 *.gtf > gtf_files.txt
 
     taco_run \
-    --num-processes $task.ncpus \
+    --num-processes $task.cpus \
     -o taco
     gtf_files.txt
 
