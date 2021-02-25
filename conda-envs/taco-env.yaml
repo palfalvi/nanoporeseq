@@ -1,0 +1,7 @@
+name: taco-env
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+dependencies:
+  - taco
