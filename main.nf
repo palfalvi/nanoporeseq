@@ -484,7 +484,7 @@ else if ( params.mode == 'annotation' ) {
     taco_strawberry_short( strawberry.out.gtf.collect(), "strawberry_short" )
 
     trinity_gg( params.genome, star_align.out.bam )
-    taco_trinity_gg( trinity.out.gtf.collect(), "trinity_short" )
+    taco_trinity_gg( trinity_gg.out.gtf.collect(), "trinity_short" )
 
     //psiclass( params.genome, merge_bams_star.out.bam.collect() )
 
