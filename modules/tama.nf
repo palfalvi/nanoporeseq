@@ -2,7 +2,8 @@ process tama {
 
   label "long_job"
 
-  conda "$baseDir/conda-envs/tama-env.yaml"
+  //conda "$baseDir/conda-envs/tama-env.yaml"
+  container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
@@ -21,9 +22,7 @@ process tama {
     python ./tama/tama_collapse.py \
     -s $bam -b BAM \
     -f $genome \
-    -p ${bam.baseName}_tama \
-    -sj sj_priority \
-    -lde 5 -sjt 20 -a 100 -z 100
+    -p ${bam.baseName}_tama
 
     python ./tama/tama_go/format_converter/tama_convert_bed_gtf_ensembl_no_cds.py \
     ${bam.baseName}_tama.bed \

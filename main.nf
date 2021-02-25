@@ -473,16 +473,13 @@ else if ( params.mode == 'annotation' ) {
     //merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
 
     // Transcript assemblies
-    //stringtie2_short( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam), '' )
     stringtie2_short( params.genome, merge_bams_star.out.bam, '' ) // The last '' is a placeholder for long read settings
 
     strawberry( params.genome, merge_bams_star.out.bam )
 
     trinity_gg( params.genome, merge_bams_star.out.bam )
 
-    // psiclass( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Does not work atm
-
-    // cufflinks( params.genome, merge_bams_star.out.bam.mix(merge_bams_hisat2.out.bam) ) // Cufflinks might be too slow for larger datasets
+    psiclass( params.genome, merge_bams_star.out.bam.collect() )
 
     portcullis( params.genome, merge_bams_star.out.bam )
 
@@ -490,7 +487,7 @@ else if ( params.mode == 'annotation' ) {
     // This should move out and merged with other gtf files from long reads and braker
     stringtie2_short.out.gtf
       .collect()
-      .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect() )
+      .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect(), psiclass.out.gtf.collect() )
       .collect()
       .set { short_gtf }
     short_gtf.subscribe { println "Gene models generated from long reads:\n$it" }

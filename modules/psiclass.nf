@@ -2,7 +2,8 @@ process psiclass {
 
   label "small_job"
 
-  conda "$baseDir/conda-envs/psiclass-env.yaml"
+  //conda "$baseDir/conda-envs/psiclass-env.yaml"
+  container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*psiclass.gtf'
 
@@ -11,18 +12,16 @@ process psiclass {
     tuple file(bam), file(baidx)
 
   output:
-    path "*psiclass.gtf", emit: gtf
+    path "psiclass_vote.gtf", emit: gtf
 
   script:
 
-    def strand = params.orientation ? "--fr" : ""
-
     """
+    ls -1 *.bam > bamlist.txt
+
+
     psiclass \
     -p $task.cpus \
-    -o ${bam.simpleName}_psiclass \
-    -b $bam
-
-    mv ${bam.simpleName}_psiclass_vote.gtf ${bam.simpleName}_psiclass.gtf
+    --lb bamlist.txt
     """
 }

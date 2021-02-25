@@ -11,7 +11,7 @@ process unagi {
     tuple val(sample_id), file(reads)
 
   output:
-    path "*.gff3", emit: gtf
+    path "unagi/Splicing_Isoforms.bed", emit: gtf
 
   script:
     def stranded  = params.ont_stranded ? "--stranded"  : ""
@@ -24,6 +24,5 @@ process unagi {
     --output unagi \
     $stranded
 
-    $baseDir/scripts/bed2gff.py -q unagi/Splicing_Isoforms.bed -o unagi_${sample_id}.gff3
     """
 }
