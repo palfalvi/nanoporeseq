@@ -8,7 +8,7 @@ process stringtie2 {
 
   input:
     path genome
-    tuple file(bam), file(baidx)
+    path bam
     val extra
 
   output:

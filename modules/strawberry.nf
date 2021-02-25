@@ -8,7 +8,7 @@ process strawberry {
 
   input:
     path genome
-    tuple file(bam), file(baidx)
+    path bam
 
   output:
     path "*.gtf", emit: gtf

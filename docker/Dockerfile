@@ -122,6 +122,12 @@ RUN cpanm \
   #taco
 
   #busco
+RUN git clone https://github.com/COMBINE-lab/salmon.git && \
+      cd salmon && \
+      git checkout develop && \
+      mkdir build && \
+      cd build && \
+      cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 RUN git clone https://github.com/GenomeRIK/tama
 
 

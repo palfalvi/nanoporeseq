@@ -9,7 +9,7 @@ process trinity_gg {
 
   input:
     path genome
-    tuple file(bam), file(baidx)
+    path bam
 
   output:
     path "*trinity.fasta", emit: fasta
