@@ -20,7 +20,7 @@ process taco {
 
     taco_run \
     --num-processes $task.cpus \
-    -o taco
+    -o taco \
     gtf_files.txt
 
     cp taco/assembly.gtf ./${name}_taco.gtf
