@@ -473,21 +473,27 @@ else if ( params.mode == 'annotation' ) {
     //merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
 
     // Transcript assemblies
-    stringtie2_short( params.genome, merge_bams_star.out.bam, '' ) // The last '' is a placeholder for long read settings
 
-    strawberry( params.genome, merge_bams_star.out.bam )
+    //stringtie2_short( params.genome, merge_bams_star.out.bam, '' )
+    // ##### #TRY ##########
+    stringtie2_short( params.genome, star_align.out.bam, '' ) // The last '' is a placeholder for long read settings
+    taco_stringtie2_short( stringtie2_short.out.gtf.collect(), "stringtie2_short" )
 
-    trinity_gg( params.genome, merge_bams_star.out.bam )
+    strawberry( params.genome, star_align.out.bam )
+    taco_strawberry_short( strawberry.out.gtf.collect(), "strawberry_short" )
 
-    psiclass( params.genome, merge_bams_star.out.bam.collect() )
+    trinity_gg( params.genome, star_align.out.bam )
+    taco_trinity_gg( trinity.out.gtf.collect(), "trinity_short" )
+
+    //psiclass( params.genome, merge_bams_star.out.bam.collect() )
 
     portcullis( params.genome, merge_bams_star.out.bam )
 
 
     // This should move out and merged with other gtf files from long reads and braker
-    stringtie2_short.out.gtf
+    taco_stringtie2_short.out.gtf
       .collect()
-      .mix( strawberry.out.gtf.collect(), trinity_gg.out.gtf.collect(), psiclass.out.gtf.collect() )
+      .mix( taco_strawberry_short.out.gtf.collect(), taco_trinity_gg.out.gtf.collect() )
       .collect()
       .set { short_gtf }
     short_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
@@ -527,9 +533,9 @@ else if ( params.mode == 'annotation' ) {
 
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
-    stringtie2_long( params.genome, merge_bams_minimap2.out.bam, '-L -l STRGL' )
+    stringtie2_long( params.genome, minimap_rna.out.bam, '-L -l STRGL' )
 
-    tama( params.genome, merge_bams_minimap2.out.bam )
+    tama( params.genome, minimap_rna.out.bam )
     //flair_long()
     unagi( params.genome, ont_reads )
 
