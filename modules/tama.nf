@@ -2,8 +2,8 @@ process tama {
 
   label "long_job"
 
-  //conda "$baseDir/conda-envs/tama-env.yaml"
-  container "peegee/nanoporeseq:latest"
+  conda "$baseDir/conda-envs/tama-env.yaml"
+  //container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
