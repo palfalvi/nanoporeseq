@@ -8,7 +8,7 @@ process taco {
 
   input:
     path gtf
-    value name
+    val name
 
   output:
     path "*taco.gtf", emit: gtf
