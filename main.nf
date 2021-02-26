@@ -95,7 +95,7 @@ include { tama } from './modules/tama.nf'
 include { unagi } from './modules/unagi.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { braker2 } from './modules/braker2.nf'
-include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_trinity_gg } from './modules/taco.nf'
+include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_stringtie_long } from './modules/taco.nf'
 include { mikado_prepare } from './modules/mikado_prepare.nf'
 include { prepare_mikado_file } from './modules/prepare_mikado_file.nf'
 
@@ -543,7 +543,7 @@ else if ( params.mode == 'annotation' ) {
 
     // predict CDS? transdecoder()
 
-    stringtie2_long.out.gtf
+    taco_stringtie_long.out.gtf
       .collect()
       .mix( unagi.out.gtf.collect() )
       .collect()
