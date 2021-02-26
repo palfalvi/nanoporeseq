@@ -35,7 +35,7 @@ process mikado_prepare {
     --scoring $scoring  \
     $junc \
     $protein \
-    --threads = $task.cpus \
+    --threads $task.cpus \
     configuration.yaml
 
     mikado prepare \
