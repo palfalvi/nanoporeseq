@@ -485,7 +485,7 @@ else if ( params.mode == 'annotation' ) {
 
     trinity_gg( params.genome, merge_bams_star.out.bam )
 
-    psiclass( params.genome, star_align.out.bam.collect() )
+    //psiclass( params.genome, star_align.out.bam.collect() )
 
     portcullis( params.genome, merge_bams_star.out.bam )
 
