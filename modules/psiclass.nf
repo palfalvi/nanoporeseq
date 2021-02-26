@@ -9,7 +9,7 @@ process psiclass {
 
   input:
     path genome
-    tuple file(bam), file(baidx)
+    path bam
 
   output:
     path "psiclass_vote.gtf", emit: gtf
@@ -18,7 +18,6 @@ process psiclass {
 
     """
     ls -1 *.bam > bamlist.txt
-
 
     psiclass \
     -p $task.cpus \
