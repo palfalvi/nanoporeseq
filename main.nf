@@ -534,7 +534,7 @@ else if ( params.mode == 'annotation' ) {
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
     stringtie2_long( params.genome, minimap_rna.out.bam, '-L -l STRGL' )
-
+    taco_stringtie_long( stringtie2_long.out.gtf.collect(), "stringtie2_long" )
     // tama( params.genome, minimap_rna.out.bam )
     unagi( params.genome, ont_reads )
 
@@ -620,14 +620,6 @@ else if ( params.mode == 'annotation' ) {
   }
 
 
-}
-
-/////////////// Expression pipeline ///////////////
-// Is this possible/needed? Just use the rnaseq pipeline.
-
-else if ( params.mode == 'expression' ) {
-  log.info "Starting gene expression protocol ... "
-  log.info 'Except... I cannot do that yet. Sorry.'
 }
 
 /////////////// Errors when no or invalid mode is provided. ///////////////

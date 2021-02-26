@@ -1,2 +1,1 @@
-minimap2_tama.gtf  tama  True  3
-minimap2_stringtie2.gtf lstr  True  3
+stringtie2_long_taco.gtf  lstr  True  3

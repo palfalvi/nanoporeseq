@@ -1,4 +1,3 @@
-star_psiclass.gtf clas  True  1
-star_strawberry.gtf stra  True  1
-star_stringtie2.gtf stri  True  1
-star_trinity.gff3  trin  False  1
+strawberry_short_taco.gtf stra  True  1
+stringtie2_short_taco.gtf stri  True  1
+star_trinity.gtf  trin  False  1
