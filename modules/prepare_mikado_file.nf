@@ -17,5 +17,6 @@ process prepare_mikado_file {
     def pr  = !params.skip_abinitio ? "${projectDir}/scripts/prot_gtf.txt"    : ""
     """
     cat $sh $ont $pb $pr > gtf_list.txt
+    sed -e 's/ /\t/g' gtf_list.txt > gtf_list.txt 
     """
 }

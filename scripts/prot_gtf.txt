@@ -1,1 +1,1 @@
-braker.gtf      brak    True    2
+braker.gtf brak True 2
