@@ -545,7 +545,7 @@ else if ( params.mode == 'annotation' ) {
 
     stringtie2_long.out.gtf
       .collect()
-      .mix( tama.out.gtf.collect(), unagi.out.gtf.collect() )
+      .mix( unagi.out.gtf.collect() )
       .collect()
       .set { ont_gtf }
     ont_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
