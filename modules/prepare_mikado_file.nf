@@ -16,7 +16,7 @@ process prepare_mikado_file {
     def pb  = params.pb_reads       ? "${projectDir}/scripts/pb_gtf.txt"      : ""
     def pr  = !params.skip_abinitio ? "${projectDir}/scripts/prot_gtf.txt"    : ""
     """
-    cat $sh $ont $pb $pr > gtf_list.txt
-    sed -e 's/ /\t/g' gtf_list.txt > gtf_list.txt 
+    cat $sh $ont $pb $pr > file.txt
+    sed -e 's/ /\t/g' file.txt > gtf_list.txt 
     """
 }
