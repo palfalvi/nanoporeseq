@@ -483,10 +483,9 @@ else if ( params.mode == 'annotation' ) {
     strawberry( params.genome, star_align.out.bam )
     taco_strawberry_short( strawberry.out.gtf.collect(), "strawberry_short" )
 
-    trinity_gg( params.genome, star_align.out.bam )
-    taco_trinity_gg( trinity_gg.out.gtf.collect(), "trinity_short" )
+    trinity_gg( params.genome, merge_bams_star.out.bam )
 
-    //psiclass( params.genome, merge_bams_star.out.bam.collect() )
+    //psiclass( params.genome, star_align.out.bam.collect() )
 
     portcullis( params.genome, merge_bams_star.out.bam )
 
@@ -494,7 +493,7 @@ else if ( params.mode == 'annotation' ) {
     // This should move out and merged with other gtf files from long reads and braker
     taco_stringtie2_short.out.gtf
       .collect()
-      .mix( taco_strawberry_short.out.gtf.collect(), taco_trinity_gg.out.gtf.collect() )
+      .mix( taco_strawberry_short.out.gtf.collect(), trinity_gg.out.gtf.collect() )
       .collect()
       .set { short_gtf }
     short_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
@@ -536,8 +535,7 @@ else if ( params.mode == 'annotation' ) {
 
     stringtie2_long( params.genome, minimap_rna.out.bam, '-L -l STRGL' )
 
-    tama( params.genome, minimap_rna.out.bam )
-    //flair_long()
+    // tama( params.genome, minimap_rna.out.bam )
     unagi( params.genome, ont_reads )
 
     // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)

@@ -11,9 +11,8 @@ process bam_merge {
     val name
 
   output:
-    tuple file("*.merged.bam"), file("*.merged.bam.bai"), emit: bam
-    //path "*.merged.bam", emit: bam
-    //path "*.merged.bam.bai", emit: baidx
+    path "*.merged.bam", emit: bam
+    path "*.merged.bam.bai", emit: baidx
 
   script:
     """

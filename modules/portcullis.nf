@@ -8,7 +8,7 @@ process portcullis {
 
   input:
     path genome
-    tuple file(bam), file(baidx)
+    path bam
 
   output:
     path "*_portcullis/3-filt/portcullis_filtered.pass.junctions.bed", emit: junctions

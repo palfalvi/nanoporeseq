@@ -21,7 +21,6 @@ process strawberry {
     chmod +x $projectDir/scripts/strawberry
 
     $projectDir/scripts/strawberry \
-    --no-quant \
     $strand \
     --num-threads $task.cpus \
     --output-gtf ${bam.simpleName}_strawberry.gtf \

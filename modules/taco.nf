@@ -21,6 +21,7 @@ process taco {
     taco_run \
     --num-processes $task.cpus \
     -o taco \
+    --filter-min-expr 0 \
     gtf_files.txt
 
     cp taco/assembly.gtf ./${name}_taco.gtf
