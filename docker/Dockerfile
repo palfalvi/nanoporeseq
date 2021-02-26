@@ -122,8 +122,7 @@ RUN cpanm \
   #taco
 
   #busco
-RUN wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz &&\
-    tar -xz salmon-1.4.0_linux_x86_64.tar.gz
+RUN wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmon-1.4.0_linux_x86_64.tar.gz -O - | tar -xz
 RUN git clone https://github.com/GenomeRIK/tama
 
 
