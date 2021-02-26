@@ -2,13 +2,13 @@ process prepare_mikado_file {
 
   label "small_job"
 
-  publishDir "${params.outdir}/mikado/", mode: 'copy', pattern: 'mikado*'
+  publishDir "${params.outdir}/mikado/", mode: 'copy', pattern: 'gtf_list.txt'
 
   input:
     path gtf
 
   output:
-    path "*.txt", emit: gtf_list
+    path "gtf_list.txt", emit: gtf_list
 
   script:
     def sh  = params.short_reads    ? "${projectDir}/scripts/short_gtf.txt"   : ""
