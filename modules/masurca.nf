@@ -2,7 +2,7 @@ process masurca {
 
   label 'assembly'
 
-  conda "$baseDir/conda-envs/masurca-env.yaml"
+  container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/masurca", mode: 'copy'
 
