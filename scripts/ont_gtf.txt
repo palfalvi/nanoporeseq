@@ -1,1 +1,1 @@
-stringtie2_long_taco.gtf  lstr  True  3
+stringtie2_long_taco.gtf        lstr    True    3
