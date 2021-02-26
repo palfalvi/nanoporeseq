@@ -4,7 +4,7 @@ process taco {
 
   conda "$baseDir/conda-envs/taco-env.yaml"
 
-  publishDir "${params.outdir}/taco/", mode: 'copy', pattern: '*taco.gtf'
+  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*taco.gtf'
 
   input:
     path gtf
