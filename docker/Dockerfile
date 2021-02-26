@@ -126,7 +126,7 @@ RUN wget -c https://github.com/COMBINE-lab/salmon/releases/download/v1.4.0/salmo
 RUN git clone https://github.com/GenomeRIK/tama
 
 
-ENV PATH=/opt/tama:/opt/tama/tama_go/format_converter/:/opt/salmon-1.4.0_linux_x86_64/bin:/opt/trinityrnaseq-v2.11.0/:/opt/gth/bin/:/opt/ProtHint/bin:/opt/gmes_linux_64/:/opt/gmes_linux_64/bin/:/opt/ProtHint/dependencies/:/opt/diamond-linux64/:/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER/scripts/:$PATH
+ENV PATH=/opt/tama:/opt/tama/tama_go/format_converter/:/opt/salmon-latest_linux_x86_64/bin:/opt/trinityrnaseq-v2.11.0/:/opt/gth/bin/:/opt/ProtHint/bin:/opt/gmes_linux_64/:/opt/gmes_linux_64/bin/:/opt/ProtHint/dependencies/:/opt/diamond-linux64/:/opt/PASApipeline/:/opt/PASApipeline/bin/:/opt/UNAGI/:/opt/minimap2/:/opt/psiclass/:/opt/augustus-3.4.0/auxprogs/bam2hints:/opt/augustus-3.4.0/bin:/opt/augustus-3.4.0/scipts:/opt/canu/Linux-amd64/bin:/opt/BRAKER/scripts/:$PATH
 ENV AUGUSTUS_BIN_PATH=/opt/Augustus/bin/
 ENV AUGUSTUS_SCRIPTS_PATH=/opt/Augustus/scripts/
 ENV BSSMDIR=/opt/gth/bin/bssm
