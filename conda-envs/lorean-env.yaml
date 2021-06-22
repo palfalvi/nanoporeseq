@@ -1,9 +1,10 @@
-name: busco-env
+name: lorean-env
 channels:
   - bioconda
   - conda-forge
   - defaults
 dependencies:
+  - diamond=0.9.31
   - transdecoder=3.0.1
   - samtools=0.1.19-96b5f2294a
   - bedtools=2.25.0
@@ -11,7 +12,7 @@ dependencies:
   - bamtools=2.4.1
 #AATpackage r03052011  http://aatpackage.sourceforge.net/ # make
 #iAssembler v1.3.2.x64 http://bioinfo.bti.cornell.edu/tool/iAssembler/#install # Just download and uncompress
-  - genemark_es v.4.33 64bit (THIS SOFTWARE IS NOT FREE FOR EVERYONE, check installation instruction)
+  - genemark_es=4.33
   - pasa=2.1.0
   - augustus=3.3.3
   - trinity=2.5.1
