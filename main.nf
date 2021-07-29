@@ -424,6 +424,19 @@ else if ( params.mode == 'genome_qc' ) {
 
 }
 
+/////////////// GENOME QC PIPELINE ///////////////
+else if ( params.mode == 'transcriptome_qc' ) {
+
+  // Run quast and busco on an assembled genome
+  quast(params.transcripts)
+  busco_eud(params.transcripts, "eudicots_odb10", "transcriptome")
+  busco_emb(params.transcripts, "embryophyta_odb10", "transcriptome")
+  busco_vir(params.transcripts, "viridiplantae_odb10", "transcriptome")
+
+  multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+
+}
+
 /////////////// ANNOTATION PIPELINE ///////////////
 
 else if ( params.mode == 'annotation' ) {
