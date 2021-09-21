@@ -20,7 +20,7 @@ process braker2 {
     def mapping   = bam!=[]          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     """
-    #svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
+    svn checkout https://github.com/Gaius-Augustus/Augustus/tree/master/config
     workdir=`pwd`
 
     export AUGUSTUS_CONFIG_PATH=\${workdir}/config
@@ -33,6 +33,6 @@ process braker2 {
     $sp \
     --softmasking \
     --cores $task.cpus
-    #--AUGUSTUS_CONFIG_PATH=\${workdir}/config
+    --AUGUSTUS_CONFIG_PATH=\${workdir}/config
     """
 }
