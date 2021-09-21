@@ -2,8 +2,8 @@ process braker2 {
 
   label "long_job"
 
-  //conda "$baseDir/conda-envs/braker2-env.yaml"
-  container "peegee/nanoporeseq:latest"
+  conda "$baseDir/conda-envs/braker2-env.yaml"
+  //container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: 'braker/braker.gtf'
 
