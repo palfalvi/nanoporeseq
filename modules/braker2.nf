@@ -17,10 +17,10 @@ process braker2 {
 
   script:
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
-    def mapping   = bam!=null          ? "--bam ${bam}"                               : ""
+    def mapping   = bam!=[]          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     """
-    svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
+    #svn checkout https://github.com/Gaius-Augustus/Augustus/trunk/config
     workdir=`pwd`
 
     export AUGUSTUS_CONFIG_PATH=\${workdir}/config
@@ -32,7 +32,7 @@ process braker2 {
     $mark \
     $sp \
     --softmasking \
-    --cores $task.cpus \
-    --AUGUSTUS_CONFIG_PATH=\${workdir}/config
+    --cores $task.cpus
+    #--AUGUSTUS_CONFIG_PATH=\${workdir}/config
     """
 }
