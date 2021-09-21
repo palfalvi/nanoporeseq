@@ -16,7 +16,12 @@ process unagi {
   script:
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
-    gunzip -c $reads > ${reads.simpleName}.fastq
+    if [[ ( $reads == *.gz )
+    then
+      gunzip -c $reads > ${reads.simpleName}.fastq
+    else
+      cat $reads > ${reads.simpleName}.fastq
+    fi
 
     unagi \
     --input ${reads.simpleName}.fastq \
