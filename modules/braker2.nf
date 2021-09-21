@@ -19,7 +19,7 @@ process braker2 {
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
     def mapping   = bam!=[]          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
-    def augustus_con = "--AUGUSTUS_CONFIG_PATH=\${workdir}/config ${params.augustus_conf_path}"
+    def augustus_con = "--AUGUSTUS_CONFIG_PATH=${params.augustus_conf_path}"
     """
     # svn checkout https://github.com/Gaius-Augustus/Augustus/tree/master/config
     workdir=`pwd`
