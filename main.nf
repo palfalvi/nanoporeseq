@@ -439,12 +439,14 @@ else if ( params.mode == 'transcriptome_qc' ) {
 
 /////////////// ANNOTATION PIPELINE ///////////////
 
+// nextflow run palfalvi/nanoporeseq --mode annotation --genome $genome --skip_softmask --short_reads $short_reads --ont_reads $ont_reads
+
 else if ( params.mode == 'annotation' ) {
   log.info "Starting annotation protocol ... "
 
   // Genome file is provided
   if ( params.genome != false ) {
-    // Genome file is provided, ru
+    // Genome file is provided, run
     log.info "Genome file provided: ${params.genome}"
     log.info "Annotation pipeline is starting ..."
 
@@ -462,6 +464,7 @@ else if ( params.mode == 'annotation' ) {
     error "This is not yet supported."
   }
 
+  // Short RNA-seq reads are provided
   if ( params.short_reads != false ) {
     // Map short reads to genome and assemble transcripts
     Channel
@@ -533,6 +536,7 @@ else if ( params.mode == 'annotation' ) {
       .set { junctions }
   }
 
+  // Nanopore RNA-seq reads provided
   if ( params.ont_reads != false ) {
 
     //nanoq() ?
@@ -567,14 +571,21 @@ else if ( params.mode == 'annotation' ) {
         .set { ont_gtf }
     }
 
+  // Run ab initio prediction
   if ( !params.skip_abinitio ) {
-    if ( ( params.short_reads || params.ont_reads ) && params.protein) {
+    //if ( ( params.short_reads || params.ont_reads ) && params.protein) {
+    if ( ( params.short_reads ) && params.protein) {
+      // Both RNA and protein files provided
       mark = "--etpmode"
     } else if ( params.protein ) {
+      // Only protein file provided
       mark = "--epmode"
-    } else if ( params.short_reads || params.ont_reads ) {
+    //} else if ( params.short_reads || params.ont_reads ) {
+    } else if ( params.short_reads ) {
+      // RNA-seq reads provided
       mark = "--prg=gth --gth2traingenes"
     } else {
+      // No external file provided
       mark = "--esmode --prg=gth --gth2traingenes"
     }
     // run BRAKER2
