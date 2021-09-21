@@ -33,7 +33,8 @@ process braker2 {
     $mark \
     $sp \
     --softmasking \
-    --cores $task.cpus
-    --AUGUSTUS_CONFIG_PATH=\${workdir}/config
+    --cores $task.cpus \
+    $augustus_con
+    # --AUGUSTUS_CONFIG_PATH=\${workdir}/config
     """
 }
