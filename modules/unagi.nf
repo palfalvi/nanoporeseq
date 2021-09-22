@@ -2,7 +2,7 @@ process unagi {
   tag "$sample_id"
   label "long_job"
 
-  conda "$baseDir/conda-envs/braker2-env.yaml"
+  conda "$baseDir/conda-envs/unagi-env.yaml"
   // container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
