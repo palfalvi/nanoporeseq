@@ -2,7 +2,8 @@ process unagi {
 
   label "long_job"
 
-  container "peegee/nanoporeseq:latest"
+  conda "$baseDir/conda-envs/braker2-env.yaml"
+  // container "peegee/nanoporeseq:latest"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
 
@@ -17,6 +18,10 @@ process unagi {
     def stranded  = params.ont_stranded ? "--stranded"  : ""
     """
 
+    wget https://github.com/iMetOsaka/UNAGI/archive/refs/heads/master.zip
+    unzip master.zip
+    chmod a+x UNAGI-master/unagi
+
     if [[ $reads == *.gz ]]
     then
       gunzip -c $reads > ${reads.simpleName}.fastq
@@ -24,7 +29,7 @@ process unagi {
       cat $reads > ${reads.simpleName}.fastq
     fi
 
-    unagi \
+    UNAGI-master/unagi \
     --input ${reads.simpleName}.fastq \
     --genome $genome \
     --output unagi \

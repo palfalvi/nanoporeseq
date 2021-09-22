@@ -21,10 +21,8 @@ process braker2 {
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     def augustus_con = "--AUGUSTUS_CONFIG_PATH=${params.augustus_conf_path}"
     """
-    # svn checkout https://github.com/Gaius-Augustus/Augustus/tree/master/config
-    workdir=`pwd`
 
-    # export AUGUSTUS_CONFIG_PATH=\${workdir}/config
+    workdir=`pwd`
 
     braker.pl \
     --genome=$genome \
@@ -35,6 +33,5 @@ process braker2 {
     --softmasking \
     --cores $task.cpus \
     $augustus_con
-    # --AUGUSTUS_CONFIG_PATH=\${workdir}/config
     """
 }
