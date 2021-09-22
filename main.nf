@@ -408,12 +408,13 @@ else if ( params.mode == 'assembly' ) {
 else if ( params.mode == 'genome_qc' ) {
 
   // Run quast and busco on an assembled genome
-  quast(params.genome)
-  busco_eud(params.genome, ["eudicots_odb10", "embryophyta_odb10"], "genome")
+  // quast(params.genome)
+  //busco_eud(params.genome, ["eudicots_odb10", "embryophyta_odb10"], "genome")
+  busco_eud(params.genome, Channel.fromList(params.busco_lineages), "genome")
   //busco_emb(params.genome, "embryophyta_odb10", "genome")
   //busco_vir(params.genome, "viridiplantae_odb10", "genome")
 
-  multiqc(quast.out.summary.mix(busco_eud.out.collect()).collect(), "$baseDir/${params.outdir}")
+  // multiqc(quast.out.summary.mix(busco_eud.out.collect()).collect(), "$baseDir/${params.outdir}")
   // multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
   if ( params.short_reads ) {
