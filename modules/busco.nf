@@ -1,4 +1,5 @@
 process busco {
+  tag "$genome-$lineage"
   label "long_job"
 
   conda "$baseDir/conda-envs/busco-env.yaml"

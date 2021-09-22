@@ -102,7 +102,7 @@ include { prepare_mikado_file } from './modules/prepare_mikado_file.nf'
 
 
 // Include QC tools
-include { busco as busco_vir; busco as busco_emb; busco as busco_eud } from './modules/busco.nf'
+include { busco } from './modules/busco.nf'
 include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
 include { kat } from './modules/kat.nf'
@@ -408,14 +408,10 @@ else if ( params.mode == 'assembly' ) {
 else if ( params.mode == 'genome_qc' ) {
 
   // Run quast and busco on an assembled genome
-  // quast(params.genome)
-  //busco_eud(params.genome, ["eudicots_odb10", "embryophyta_odb10"], "genome")
-  busco_eud(params.genome, Channel.fromList(params.busco_lineages), "genome")
-  //busco_emb(params.genome, "embryophyta_odb10", "genome")
-  //busco_vir(params.genome, "viridiplantae_odb10", "genome")
+  quast(params.genome)
+  busco(params.genome, Channel.fromList(params.busco_lineages), "genome")
 
-  // multiqc(quast.out.summary.mix(busco_eud.out.collect()).collect(), "$baseDir/${params.outdir}")
-  // multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+  multiqc(quast.out.summary.mix(busco.out.collect()).collect(), "$baseDir/${params.outdir}")
 
   if ( params.short_reads ) {
 
@@ -431,13 +427,11 @@ else if ( params.mode == 'transcriptome_qc' ) {
 
   // Run quast and busco on an assembled genome
   quast(params.transcripts)
-  busco_eud(params.transcripts, ["eudicots_odb10", "embryophyta_odb10"], "transcriptome")
-  busco_emb(params.transcripts, "embryophyta_odb10", "transcriptome")
-  busco_vir(params.transcripts, "viridiplantae_odb10", "transcriptome")
+  busco(params.transcriptome, Channel.fromList(params.busco_lineages), "transcriptome")
 
   // Implement stats from gff file (e.g. CDS length, exon number, etc). Maybe AGAT or MIKADO?
 
-  multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+  multiqc(quast.out.summary.mix(busco.out.collect()).collect(), "$baseDir/${params.outdir}")
 
 }
 

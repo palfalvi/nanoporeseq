@@ -5,7 +5,7 @@ process unagi {
   conda "$baseDir/conda-envs/unagi-env.yaml"
   // container "peegee/nanoporeseq:latest"
 
-  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: '*.gtf'
+  publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: 'unagi/Splicing_Isoforms.bed'
 
   input:
     path genome
@@ -29,7 +29,9 @@ process unagi {
       cat $reads > ${reads.simpleName}.fastq
     fi
 
-    UNAGI-master/unagi \
+    cd UNAGI-master
+
+    unagi \
     --input ${reads.simpleName}.fastq \
     --genome $genome \
     --output unagi \
