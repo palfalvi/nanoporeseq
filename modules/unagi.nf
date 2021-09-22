@@ -32,9 +32,9 @@ process unagi {
     cd UNAGI-master
 
     unagi \
-    --input ${reads.simpleName}.fastq \
-    --genome $genome \
-    --output unagi \
+    --input ../${reads.simpleName}.fastq \
+    --genome ../$genome \
+    --output ../unagi \
     $stranded
 
     """
