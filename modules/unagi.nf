@@ -1,5 +1,5 @@
 process unagi {
-
+  tag "$sample_id"
   label "long_job"
 
   conda "$baseDir/conda-envs/braker2-env.yaml"

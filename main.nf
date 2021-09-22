@@ -409,9 +409,9 @@ else if ( params.mode == 'genome_qc' ) {
 
   // Run quast and busco on an assembled genome
   quast(params.genome)
-  busco_eud(params.genome, "eudicots_odb10", "genome")
-  busco_emb(params.genome, "embryophyta_odb10", "genome")
-  busco_vir(params.genome, "viridiplantae_odb10", "genome")
+  busco_eud(params.genome, ["eudicots_odb10", "embryophyta_odb10"], "genome")
+  //busco_emb(params.genome, "embryophyta_odb10", "genome")
+  //busco_vir(params.genome, "viridiplantae_odb10", "genome")
 
   multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
@@ -424,14 +424,16 @@ else if ( params.mode == 'genome_qc' ) {
 
 }
 
-/////////////// GENOME QC PIPELINE ///////////////
+/////////////// TRANSCRIPTOME QC PIPELINE ///////////////
 else if ( params.mode == 'transcriptome_qc' ) {
 
   // Run quast and busco on an assembled genome
   quast(params.transcripts)
-  busco_eud(params.transcripts, "eudicots_odb10", "transcriptome")
+  busco_eud(params.transcripts, ["eudicots_odb10", "embryophyta_odb10"], "transcriptome")
   busco_emb(params.transcripts, "embryophyta_odb10", "transcriptome")
   busco_vir(params.transcripts, "viridiplantae_odb10", "transcriptome")
+
+  // Implement stats from gff file (e.g. CDS length, exon number, etc). Maybe AGAT or MIKADO?
 
   multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
@@ -617,9 +619,6 @@ else if ( params.mode == 'annotation' ) {
   prepare_mikado_file( all_gtf )
 
   mikado_prepare( params.genome, all_gtf, prepare_mikado_file.out.gtf_list, params.mikado_scoring, junctions )
-
-  // transdecoder + blastx
-  //mikado_pick()
 
   // Update annotation with funannotation or PASA for UTRs and isoforms
   // Use merged transcripts + cDNA evidence from long reads
