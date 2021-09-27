@@ -1,2 +1,2 @@
-transcript_predictions/stringtie2_long_taco.gtf lstr True 3
-transcript_predictions/unagi/Splicing_Isoforms.bed unagi True 2 
+/transcript_predictions/stringtie2_long_taco.gtf lstr True 3
+/transcript_predictions/unagi/Splicing_Isoforms.bed unagi True 2 
