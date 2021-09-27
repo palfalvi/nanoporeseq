@@ -1,4 +1,4 @@
-process mikado_prepare {
+process mikado {
 
   label "small_job"
 
@@ -18,7 +18,6 @@ process mikado_prepare {
     path "mikado_prepared.gtf", emit: gtf
     path "mikado_prepared.fasta", emit: fasta
     path "prepare.log", emit: log
-    path "configuration.yaml", emit: config
 
   script:
     def sh  = params.short_reads    ? "${projectDir}/scripts/short_gtf.txt"   : ""

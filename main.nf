@@ -96,8 +96,7 @@ include { unagi } from './modules/unagi.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { braker2 } from './modules/braker2.nf'
 include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_stringtie_long } from './modules/taco.nf'
-include { mikado_prepare } from './modules/mikado_prepare.nf'
-include { prepare_mikado_file } from './modules/prepare_mikado_file.nf'
+include { mikado } from './modules/mikado.nf'
 
 
 
@@ -614,7 +613,7 @@ else if ( params.mode == 'annotation' ) {
 
   // prepare_mikado_file( all_gtf )
 
-  mikado_prepare( params.genome, all_gtf, params.mikado_scoring, junctions )
+  mikado( params.genome, all_gtf, params.mikado_scoring, junctions )
 
   // Update annotation with funannotation or PASA for UTRs and isoforms
   // Use merged transcripts + cDNA evidence from long reads
