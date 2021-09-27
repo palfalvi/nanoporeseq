@@ -1,6 +1,5 @@
 process mikado {
-
-  label "small_job"
+  label "long_job"
 
   conda "$baseDir/conda-envs/mikado-env.yaml"
   // container "peegee/nanoporeseq:latest"
