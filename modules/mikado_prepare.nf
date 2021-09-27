@@ -30,7 +30,7 @@ process mikado_prepare {
     def blastdb  =   params.protein ? "makeblastdb -in ${params.protein} -dbtype prot -parse_seqids > blast_prepare.log" : ""
     def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads 10 -query mikado_prepared.fasta -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db ${params.protein} -evalue 0.000001 -out mikado_prepared.blast.tsv 2> blast.log " : ""
     def prot     =   params.protein ? "--xml mikado_prepared.blast.tsv" : ""
-    def junc     =   junction != ''  ? "--junction ${junction}": ""
+    def junc     =   junction != 'NO_FILE'  ? "--junction ${junction}": ""
 
     """
     cat $sh $ont $pb $pr > file.txt
