@@ -9,7 +9,7 @@ process mikado_prepare {
 
   input:
     path genome
-    val gtf
+    tuple gtf
     // path gtf_file
     path scoring
     path junction
