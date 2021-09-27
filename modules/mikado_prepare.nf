@@ -52,7 +52,7 @@ process mikado_prepare {
     $blastdb
     $blastjob
 
-    TransDecoder
+    #TransDecoder
 
     mikado serialise --json-conf configuration.yaml $prot --orfs mikado.bed --blast_targets
     mikado pick --json-conf configuration.yaml --subloci_out mikado.subloci.gff3
