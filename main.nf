@@ -530,7 +530,7 @@ else if ( params.mode == 'annotation' ) {
   } else {
     Channel.from('')
       .set { short_gtf }
-    Channel.from('NO_FILE')
+    Channel.from([])
       .set { junctions }
   }
 
