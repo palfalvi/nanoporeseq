@@ -614,6 +614,7 @@ else if ( params.mode == 'annotation' ) {
   // prepare_mikado_file( all_gtf )
 
   mikado( params.genome, all_gtf, params.mikado_scoring, junctions )
+  mikado.out.gtf.subscribe { println "Final gene models are in $it" }
 
   // Update annotation with funannotation or PASA for UTRs and isoforms
   // Use merged transcripts + cDNA evidence from long reads
