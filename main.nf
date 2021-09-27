@@ -499,7 +499,7 @@ else if ( params.mode == 'annotation' ) {
 
     trinity_gg( params.genome, merge_bams_star.out.bam )
 
-    //psiclass( params.genome, star_align.out.bam.collect() )
+    psiclass( params.genome, star_align.out.bam.collect() )
 
     portcullis( params.genome, merge_bams_star.out.bam )
 
@@ -612,9 +612,9 @@ else if ( params.mode == 'annotation' ) {
     .collect()
     .set { all_gtf }
 
-  prepare_mikado_file( all_gtf )
+  // prepare_mikado_file( all_gtf )
 
-  mikado_prepare( params.genome, all_gtf, prepare_mikado_file.out.gtf_list, params.mikado_scoring, junctions )
+  mikado_prepare( params.genome, all_gtf, params.mikado_scoring, junctions )
 
   // Update annotation with funannotation or PASA for UTRs and isoforms
   // Use merged transcripts + cDNA evidence from long reads
