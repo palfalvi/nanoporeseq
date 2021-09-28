@@ -529,7 +529,7 @@ else if ( params.mode == 'annotation' ) {
   } else {
     Channel.from([])
       .set { short_gtf }
-    Channel.from(['.'])
+    Channel.from([])
       .set { junctions }
   }
 
@@ -611,7 +611,7 @@ else if ( params.mode == 'annotation' ) {
     .collect()
     .set { all_gtf }
 
-  mikado( params.genome, all_gtf, params.mikado_scoring, junctions )
+  mikado( params.genome, all_gtf, params.mikado_scoring )
 
   mikado.out.gtf.subscribe { println "Final gene models are in $it" }
 

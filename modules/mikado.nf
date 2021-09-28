@@ -11,7 +11,7 @@ process mikado {
     path('*')
     // path gtf_file
     path scoring
-    path junction
+    // path junction
 
   output:
     path "mikado_prepared.gtf", emit: gtf
