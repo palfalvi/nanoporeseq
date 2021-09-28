@@ -527,7 +527,7 @@ else if ( params.mode == 'annotation' ) {
     // short_transcripts.gff3
 
   } else {
-    Channel.from('')
+    Channel.from([])
       .set { short_gtf }
     Channel.from('')
       .set { junctions }
