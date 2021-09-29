@@ -14,6 +14,7 @@ process braker2 {
 
   output:
     path "braker/*braker.gtf", emit: gtf
+    path "braker/*braker.gff", emit: gff
 
   script:
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
