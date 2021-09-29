@@ -32,7 +32,7 @@ process mikado {
 
     """
     cat $sh $ont $pb $pr > file.txt
-    sed -e 's/ /\t/g' file.txt | sed -e 's/.*/${params.outdir}&/' | sed -e 's/.*/$PWD&/' > gtf_list.txt
+    sed -e 's/ /\t/g' file.txt | sed -e 's/.*/${params.outdir}&/g' | sed -e 's/.*/$PWD&/g' > gtf_list.txt
 
     mikado configure \
     --list gtf_list.txt \
