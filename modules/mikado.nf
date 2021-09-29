@@ -31,7 +31,8 @@ process mikado {
     def junc     =   params.short_reads  ? "--junction ${junction}": ""
 
     """
-    cat $sh $ont $pb $pr > gtf_list.txt
+    cat $sh $ont $pb $pr > file.txt
+    sed -e 's/ /\t/g' file.txt > gtf_list.txt
 
     mikado configure \
     --list gtf_list.txt \
