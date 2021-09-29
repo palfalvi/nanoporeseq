@@ -1,1 +1,1 @@
-/transcript_predictions/braker/braker.gtf brak True 2
+braker.gtf brak True 2
