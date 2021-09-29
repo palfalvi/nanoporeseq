@@ -32,7 +32,7 @@ process mikado {
 
     """
     cat $sh $ont $pb $pr > file.txt
-    echo "$(echo -n '$PWD/${params.outdir}'; cat file.txt)" > gtf_list.txts
+    "$(echo -n '$PWD/${params.outdir}'; cat file.txt)" > gtf_list.txts
 
     mikado configure \
     --list gtf_list.txt \
