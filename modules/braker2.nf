@@ -13,7 +13,7 @@ process braker2 {
     val mark
 
   output:
-    path "braker/*braker.gtf", emit: gtf
+    path "braker/*augustus.hints.gtf", emit: gtf
 
   script:
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""

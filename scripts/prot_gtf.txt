@@ -1,1 +1,1 @@
-braker.gtf brak True 2
+braker_agat.gff3 brak True 2

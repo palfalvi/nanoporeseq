@@ -96,6 +96,7 @@ include { unagi } from './modules/unagi.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { braker2 } from './modules/braker2.nf'
 include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_stringtie_long } from './modules/taco.nf'
+include { agat_converter } from './modules/agat_converter.nf'
 include { mikado } from './modules/mikado.nf'
 
 
@@ -509,22 +510,19 @@ else if ( params.mode == 'annotation' ) {
       .mix( taco_strawberry_short.out.gtf.collect(), trinity_gg.out.gtf.collect() )
       .collect()
       .set { short_gtf }
-    short_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
+    short_gtf.subscribe { println "Gene models generated from short reads:\n$it" }
 
     portcullis.out.junctions
       .set { junctions }
-
-    // blast_mikado( "blastx", params.protein, mikado_prepare.out.fasta )
-
-    // mikado_pick( params.genome, blast.mikado.out.xml, mikado_prepare.out.config, mikado_prepare.out.gtf, mikado_prepare.out.fasta )
+    junctions.subscribe { println "Junction predictions are generated:\n$it" }
 
     // PASA to generate gff3
 
 
     //outputs:
-    // short.bam
-    // short_transcripts.fasta
-    // short_transcripts.gff3
+    // merge_bams_star.out.bam/bai
+    // short_gtf
+    // junctions
 
   } else {
     Channel.from([])
@@ -570,8 +568,7 @@ else if ( params.mode == 'annotation' ) {
 
   // Run ab initio prediction
   if ( !params.skip_abinitio ) {
-    //if ( ( params.short_reads || params.ont_reads ) && params.protein) {
-    if ( ( params.short_reads ) && params.protein) {
+    if ( ( params.short_reads || params.ont_reads ) && params.protein) {
       // Both RNA and protein files provided
       mark = "--etpmode"
     } else if ( params.protein ) {
@@ -613,7 +610,10 @@ else if ( params.mode == 'annotation' ) {
     .collect()
     .set { all_gtf }
 
-  mikado( params.genome, all_gtf, params.mikado_scoring )
+  // Fix gtf files using AGAT
+  agat_converter(all_gtf)
+
+  mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring )
 
   mikado.out.gtf.subscribe { println "Final gene models are in $it" }
 
