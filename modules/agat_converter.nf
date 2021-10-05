@@ -15,7 +15,7 @@ process agat_converter {
 
   script:
     """
-    extension=`echo $file | awk -F"." '{ print $NF }'`
+    extension=`echo $file | awk -F"." '{ print \$NF }'`
 
     if [ $extension == 'bam' ]
     then
