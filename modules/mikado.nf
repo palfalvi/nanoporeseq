@@ -9,14 +9,15 @@ process mikado {
   input:
     path genome
     path('*')
-    // path gtf_file
     path scoring
     // path junction
 
   output:
-    path "mikado_prepared.gtf", emit: gtf
-    path "mikado_prepared.fasta", emit: fasta
-    path "prepare.log", emit: log
+    path "mikado.loci.gff3", emit: loci
+    path "mikado.subloci.gff3", emit: subloci
+    path "mikado.loci.metrics.tsv", emit: metrics
+    path "mikado.loci.scores.tsv", emit: scores
+    path "*pick.log", emit: log
 
   script:
     def sh  = params.short_reads    ? "${projectDir}/scripts/short_gtf.txt"   : ""
@@ -26,8 +27,8 @@ process mikado {
 
     def protein  =   params.protein  ? "-bt ${params.protein}" : ""
     def blastdb  =   params.protein ? "makeblastdb -in ${params.protein} -dbtype prot -parse_seqids > blast_prepare.log" : ""
-    def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads 10 -query mikado_prepared.fasta -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db ${params.protein} -evalue 0.000001 -out mikado_prepared.blast.tsv 2> blast.log " : ""
-    def prot     =   params.protein ? "--xml mikado_prepared.blast.tsv" : ""
+    def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads ${task.cpus} -query mikado_prepared.fasta -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db ${params.protein} -evalue 0.000001 -out mikado_prepared.blast.tsv 2> blast.log " : ""
+    def prot     =   params.protein ? "--xml mikado_prepared.blast.tsv --blast_targets ${params.protein}" : ""
     def junc     =   params.short_reads  ? "--junction ${junction}": ""
 
     """
@@ -50,9 +51,11 @@ process mikado {
     $blastdb
     $blastjob
 
-    #TransDecoder
+    TransDecoder.LongOrfs -t mikado_prepared.fasta
+    TransDecoder.Predict -t mikado_prepared.fasta
 
-    mikado serialise --json-conf configuration.yaml $prot --orfs mikado.bed --blast_targets
+    mikado serialise --json-conf configuration.yaml $prot --orfs mikado_prepared.fasta.transdecoder.bed $junc
+
     mikado pick --json-conf configuration.yaml --subloci_out mikado.subloci.gff3
     """
 }
