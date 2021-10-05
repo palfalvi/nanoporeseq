@@ -1,5 +1,5 @@
 process agat_converter {
-
+  tag "$file"
   label "small_job"
 
   conda "$baseDir/conda-envs/agat-env.yaml"
