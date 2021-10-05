@@ -506,9 +506,7 @@ else if ( params.mode == 'annotation' ) {
 
     // This should move out and merged with other gtf files from long reads and braker
     taco_stringtie2_short.out.gtf
-      .collect()
-      .mix( taco_strawberry_short.out.gtf.collect(), trinity_gg.out.gtf.collect() )
-      .collect()
+      .mix( taco_strawberry_short.out.gtf, trinity_gg.out.gtf )
       .set { short_gtf }
     short_gtf.subscribe { println "Gene models generated from short reads:\n$it" }
 
@@ -556,9 +554,7 @@ else if ( params.mode == 'annotation' ) {
     // predict CDS? transdecoder()
 
     taco_stringtie_long.out.gtf
-      .collect()
-      .mix( unagi.out.gtf.collect() )
-      .collect()
+      .mix( unagi.out.gtf )
       .set { ont_gtf }
     ont_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
   }  else {
