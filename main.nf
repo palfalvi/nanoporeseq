@@ -539,6 +539,7 @@ else if ( params.mode == 'annotation' ) {
       .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
       .set { ont_reads }
 
+
     minimap_rna( params.genome, ont_reads )
 
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
@@ -607,20 +608,24 @@ else if ( params.mode == 'annotation' ) {
   // Fix gtf files using AGAT
   agat_converter(all_gtf)
 
-  mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring )
+  // Run MIKADO pipeline. Might separate later and enbed into a sub-workflow
+  mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
 
   mikado.out.gtf.subscribe { println "Final gene models are in $it" }
 
-  // EvidenceModeler
+  // Rename genes and transcripts in gff file?
 
-  // Update annotation with funannotation or PASA for UTRs and isoforms
-  // Use merged transcripts + cDNA evidence from long reads
+  // agat_sp_keep_longest_isoform.pl Keep longest isoforms
 
-  // Predict CDS?
+  // agat_sp_extract_sequences.pl Extract sequences (both isoforms and longest ORFs) [--clean_final_stop]
+  // --mrna --> mRNA (UTR+CDS)
+  // -t cds --> coding regions
+  // --protein --> proteins
+  // -t gene --upstream 2000 --> promoter2kb
+
 
   // Functional annotation?
-  // interproscan()
-  // eggnog()
+  // interproscan no conda pkg
 
   // trnascan-se()
 

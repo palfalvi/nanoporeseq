@@ -6,4 +6,5 @@ channels:
 dependencies:
     - mikado
     - blast
+    - transdecoder
     - pandas
