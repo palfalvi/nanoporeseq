@@ -17,7 +17,7 @@ process agat_converter {
     """
     extension=`echo $file | awk -F"." '{ print \$NF }'`
 
-    if [ $extension == 'bam' ]
+    if [ \$extension == 'bam' ]
     then
       agat_convert_bed2gff.pl --bed $file -o ${file.getSimpleName}_agat.gff3
     else
