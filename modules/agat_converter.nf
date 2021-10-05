@@ -14,14 +14,9 @@ process agat_converter {
     path "*_agat.gff3", emit: gff
 
   script:
-    """
-    extension=`echo $file | awk -F"." '{ print \$NF }'`
+    def agat = file.Extension == 'bam'     ? "agat_convert_bed2gff.pl --bed $file" : "agat_convert_gxf2gxf.pl --gff $file"
 
-    if [ \$extension == 'bam' ]
-    then
-      agat_convert_bed2gff.pl --bed $file -o ${file.getSimpleName}_agat.gff3
-    else
-      agat_convert_gxf2gxf.pl --gff $file -o ${file.getSimpleName}_agat.gff3
-    fi
+    """
+    $agat -o ${file.SimpleName}_agat.gff3
     """
 }
