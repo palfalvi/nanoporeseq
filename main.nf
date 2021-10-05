@@ -611,7 +611,7 @@ else if ( params.mode == 'annotation' ) {
   // Run MIKADO pipeline. Might separate later and enbed into a sub-workflow
   mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
 
-  mikado.out.gtf.subscribe { println "Final gene models are in $it" }
+  mikado.out.loci.subscribe { println "Final gene models are in $it" }
 
   // Rename genes and transcripts in gff file?
 
