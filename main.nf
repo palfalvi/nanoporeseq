@@ -81,7 +81,7 @@ include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
 include { edta } from './modules/edta.nf'
-include { fastp } from './module/fastp.nf'
+include { fastp } from './modules/fastp.nf'
 include { star_idx } from './modules/star_index.nf'
 include { star_align } from './modules/star_align.nf'
 include { hisat2_idx } from './modules/hisat2_index.nf'
