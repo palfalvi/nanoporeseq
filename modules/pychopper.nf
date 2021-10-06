@@ -11,7 +11,7 @@ process pychopper {
     tuple val(sample_id), file(reads) // A list of fastq files, either gz or not
 
   output:
-    tuple val(sample_id), file("*filtered.fastq"), emit: filtered
+    tuple val(sample_id), file("*_pychopper.fastq"), emit: filtered
     path "*unclassified.fastq", emit: unclassified
     path "*rescued.fastq", emit: rescued
     path "*report.pdf", emit: report
@@ -29,6 +29,6 @@ process pychopper {
     """
     $unzip
 
-    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq $file ${reads.simpleName}_filtered.fastq
+    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq $file ${reads.simpleName}_pychopper.fastq
     """
 }
