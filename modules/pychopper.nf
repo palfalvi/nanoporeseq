@@ -1,17 +1,17 @@
 process pychopper {
   label "long_job"
 
-  tag "$reads"
+  tag "$sample_id"
 
   conda "$baseDir/conda-envs/pychopper-env.yaml"
 
-  publishDir "${params.outdir}/filtered_reads", mode: 'copy'
+  publishDir "${params.outdir}/pychopper_qc", mode: 'copy'
 
   input:
-    path reads // A list of fastq files
+    tuple val(sample_id), file(reads) // A list of fastq files, either gz or not
 
   output:
-    path "*filtered.fastq", emit: filtered
+    tuple val(sample_id), file("*filtered.fastq"), emit: filtered
     path "*unclassified.fastq", emit: unclassified
     path "*rescued.fastq", emit: rescued
     path "*report.pdf", emit: report
@@ -24,10 +24,11 @@ process pychopper {
     def adapter    = params.cu_adapters         ? "-b ${params.cu_adapters}"     : ""
     def config     = params.cu_primer_config    ? "-c ${params.cu_primer_config}": ""
     def method     = params.cu_method           ? "-m ${params.cu_method}"       : ""
-
+    def unzip      = reads.Extension == 'gz'    ? "gunzip -f -d -q $reads"       : ""
+    def file       = reads.Extension == 'gz'    ? "$reads.baseName"              : "$reads"
     """
-    gunzip -f -d -q $reads
+    $unzip
 
-    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq ${reads.simpleName}.fastq ${reads.simpleName}_filtered.fastq
+    cdna_classifier.py -t $task.cpus -r ${reads.simpleName}_report.pdf $method $adapter $config $phmm_file $qual $length -u ${reads.simpleName}_unclassified.fastq -w ${reads.simpleName}_rescued.fastq $file ${reads.simpleName}_filtered.fastq
     """
 }

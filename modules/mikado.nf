@@ -56,6 +56,6 @@ process mikado {
 
     mikado serialise --json-conf configuration.yaml $prot --orfs mikado_prepared.fasta.transdecoder.bed $junc
 
-    mikado pick --json-conf configuration.yaml --subloci_out mikado.subloci.gff3
+    mikado pick --json-conf configuration.yaml
     """
 }

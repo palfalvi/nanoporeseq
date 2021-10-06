@@ -1,6 +1,6 @@
 process edta {
 
-  label "long_job"
+  label "assembly"
 
   conda "$baseDir/conda-envs/edta-env.yaml"
 

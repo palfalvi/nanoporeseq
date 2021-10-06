@@ -6,7 +6,7 @@ process nanolyse {
   publishDir "${params.outdir}/filtered_reads", mode: 'copy'
 
   input:
-    path reads // A list of fastq files
+    tuple val(sample_id), file(reads) // A list of fastq files
 
   output:
     path "*filtered.fastq.gz", emit: filtered
@@ -18,7 +18,7 @@ process nanolyse {
     def qual       = params.cu_qual             ? "--quality ${params.cu_qual}"         : ""
     def length     = params.cu_length           ? "--length ${params.cu_length}"        : ""
     def headcrop   = params.cu_headcrop         ? "--headcrop ${params.cu_headcrop}"    : ""
-    def decompress = params.gz                  ? "gunzip -c $reads"                    : "cat $reads"
+    def decompress = reads.Extension == 'gz'    ? "gunzip -c $reads"                    : "cat $reads"
 
     """
     $decompress | NanoLyse $reference --logfile ${reads.simpleName}_lyse.log | NanoFilt --logfile ${reads.simpleName}_filter.log $qual $length $headcrop| gzip > ${reads.simpleName}_filtered.fastq.gz

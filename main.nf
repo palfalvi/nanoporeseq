@@ -81,6 +81,7 @@ include { pilon } from './modules/pilon.nf'
 
 // Include annotation tools
 include { edta } from './modules/edta.nf'
+include { fastp } from './module/fastp.nf'
 include { star_idx } from './modules/star_index.nf'
 include { star_align } from './modules/star_align.nf'
 include { hisat2_idx } from './modules/hisat2_index.nf'
@@ -95,8 +96,10 @@ include { tama } from './modules/tama.nf'
 include { unagi } from './modules/unagi.nf'
 include { portcullis } from './modules/portcullis.nf'
 include { braker2 } from './modules/braker2.nf'
-include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_stringtie_long } from './modules/taco.nf'
+include { taco as taco_stringtie2_short; taco as taco_strawberry_short; taco as taco_trinity_short; taco as taco_stringtie_long } from './modules/taco.nf'
 include { agat_converter } from './modules/agat_converter.nf'
+include { agat_extractor } from './modules/agat_extractor.nf'
+include { agat_longest } from './modules/agat_longest.nf'
 include { mikado } from './modules/mikado.nf'
 
 
@@ -135,15 +138,18 @@ if ( params.mode == 'basecalling') {
 else if ( params.mode == 'cleanup' ) {
   log.info 'Starting read clean-up'
 
+    Channel
+      .fromFilePairs( params.fastq, size: 1 )
+      .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
+      .set { ont_reads }
 
-    reads = Channel.fromPath( params.fastq )
-    reads.subscribe {  println "Reads provided: $it"  }
+    ont_reads.subscribe {  println "Reads provided: $it"  }
 
     if ( !params.rna ) {
-      nanolyse( reads )
+      nanolyse( ont_reads )
     }
     else {
-      pychopper( reads )
+      pychopper( ont_reads )
     }
 
 }
@@ -379,12 +385,7 @@ else if ( params.mode == 'assembly' ) {
     // QC
     quast(polished_assembly)
 
-    // busco_lineages = Channel.fromList = ['eudicots_odb10', 'embryophyta_odb10', 'viridiplantae_odb10']
-    // busco(polished_assembly, busco_lineages, "genome")
-
-    busco_eud(polished_assembly, "eudicots_odb10", "genome")
-    busco_emb(polished_assembly, "embryophyta_odb10", "genome")
-    busco_vir(polished_assembly, "viridiplantae_odb10", "genome")
+    busco(polished_assembly, Channel.fromList(params.busco_lineages), "genome")
 
     multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
 
@@ -393,6 +394,7 @@ else if ( params.mode == 'assembly' ) {
       short_reads = Channel.fromFilePairs( params.short_reads )
 
       kat(polished_assembly, short_reads)
+
     }
   }
 
@@ -409,6 +411,7 @@ else if ( params.mode == 'genome_qc' ) {
 
   // Run quast and busco on an assembled genome
   quast(params.genome)
+
   busco(params.genome, Channel.fromList(params.busco_lineages), "genome")
 
   multiqc(quast.out.summary.mix(busco.out.collect()).collect(), "$baseDir/${params.outdir}")
@@ -465,12 +468,29 @@ else if ( params.mode == 'annotation' ) {
   // Short RNA-seq reads are provided
   if ( params.short_reads != false ) {
     // Map short reads to genome and assemble transcripts
-    Channel
-      .fromFilePairs( params.short_reads, size: params.single_end ? 1 : 2 )
-      .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
-      .set { short_reads }
 
-    //fastp ?
+
+    //Fitlering short reads
+    if ( !params.skip_fastp ) {
+      Channel
+        .fromFilePairs( params.short_reads, size: params.single_end ? 1 : 2 )
+        .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
+        .set { input_reads }
+
+        log.info "Fitlering short reads with fastp."
+
+        fastp( input_reads )
+        fastp.out.trimmed.set { short_reads }
+
+    } else {
+      Channel
+        .fromFilePairs( params.short_reads, size: params.single_end ? 1 : 2 )
+        .ifEmpty { exit 1, "Reads are not provided correctly ${params.short_reads}\nNB: Path needs to be enclosed in quotes!\nIf this is single-end data, please specify --single_end on the command line." }
+        .set { short_reads }
+
+        log.info "Skipping short read fitlering."
+    }
+
 
     // STAR mapping
     star_idx(params.genome)
@@ -478,7 +498,6 @@ else if ( params.mode == 'annotation' ) {
 
     //merge bam files to one bam file
     merge_bams_star( star_align.out.bam.collect(), "star" )
-    // SHOULD NOT MERGE BAM, BUT ASSEMBLY INDEPENDENTLY AND USE TACO TO MERGE
 
     // HISAT2 mapping
     //hisat2_idx(params.genome)
@@ -488,41 +507,42 @@ else if ( params.mode == 'annotation' ) {
     //merge_bams_hisat2( hisat2_align.out.bam.collect(), "hisat2" )
 
     // Transcript assemblies
-
-    //stringtie2_short( params.genome, merge_bams_star.out.bam, '' )
-    // ##### #TRY ##########
+    // StringTie
     stringtie2_short( params.genome, star_align.out.bam, '' ) // The last '' is a placeholder for long read settings
     taco_stringtie2_short( stringtie2_short.out.gtf.collect(), "stringtie2_short" )
 
+    // Strawberry
     strawberry( params.genome, star_align.out.bam )
-    taco_strawberry_short( strawberry.out.gtf.collect(), "strawberry_short" )
+    taco_strawberry_short( strawberry.out.gtf.collect(), "strawberry" )
 
-    trinity_gg( params.genome, merge_bams_star.out.bam )
+    // Trinity
+    trinity_gg( params.genome, star_align.out.bam )
+    taco_trinity_short( trinity_gg.out.gtf.collect(), "trinity" )
 
+    // PsiCLASS
     psiclass( params.genome, star_align.out.bam.collect() )
 
+    // Predict reliable exon/intron junctions
     portcullis( params.genome, merge_bams_star.out.bam )
 
 
-    // This should move out and merged with other gtf files from long reads and braker
+    // Collect short read predictions
     taco_stringtie2_short.out.gtf
-      .mix( taco_strawberry_short.out.gtf, trinity_gg.out.gtf )
+      .mix( taco_strawberry_short.out.gtf, trinity_trinity_short.out.gtf )
       .set { short_gtf }
-    short_gtf.subscribe { println "Gene models generated from short reads:\n$it" }
+    short_gtf.subscribe { println "Gene models generated from short reads: $it" }
 
+    // Collect junction predictions
     portcullis.out.junctions
       .set { junctions }
     junctions.subscribe { println "Junction predictions are generated:\n$it" }
 
-    // PASA to generate gff3
-
-
     //outputs:
-    // merge_bams_star.out.bam/bai
     // short_gtf
     // junctions
 
   } else {
+    // No short reads provided, fill up variables
     Channel.from([])
       .set { short_gtf }
     Channel.from([])
@@ -534,31 +554,50 @@ else if ( params.mode == 'annotation' ) {
 
     //nanoq() ?
     //pychopper() ?
-    Channel
-      .fromFilePairs( params.ont_reads, size: 1 )
-      .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
-      .set { ont_reads }
 
 
+    // Fitlering ONT reads
+    if ( !params.skip_pychopper ) {
+      Channel
+        .fromFilePairs( params.ont_reads, size: 1 )
+        .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
+        .set { ont_input }
+
+      log.info "Filtering ONT reads with pychopper."
+
+      pychopper( ont_input )
+      pychopper.out.filtered.set { ont_reads }
+
+    } else {
+      Channel
+        .fromFilePairs( params.ont_reads, size: 1 )
+        .ifEmpty { exit 1, "ONT reads are not provided correctly ${params.ont_reads}\nNB: Path needs to be enclosed in quotes!" }
+        .set { ont_reads }
+
+      log.info "Skipping ONT read filtering."
+    }
+
+
+    // Map long RNAs to genome
     minimap_rna( params.genome, ont_reads )
 
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
+    // Predict transcripts with StringTie
     stringtie2_long( params.genome, minimap_rna.out.bam, '-L -l STRGL' )
     taco_stringtie_long( stringtie2_long.out.gtf.collect(), "stringtie2_long" )
-    // tama( params.genome, minimap_rna.out.bam )
+
+    // Predict transcripts with UNAGI
     unagi( params.genome, ont_reads )
 
-    // Stringtie2 or Cufflinks or CLASS2 or UNAGI to reconstruct transcripts (fasta)
-    // TACO or Mikado to merge transcript models
-
-    // predict CDS? transdecoder()
-
+    // Collect long read predictions
     taco_stringtie_long.out.gtf
       .mix( unagi.out.gtf )
       .set { ont_gtf }
     ont_gtf.subscribe { println "Gene models generated from long reads:\n$it" }
+
   }  else {
+      // No ONT reads provided, fill up variables
       Channel.from('')
         .set { ont_gtf }
     }
@@ -589,18 +628,18 @@ else if ( params.mode == 'annotation' ) {
       // If no RNA evidence is provided
       braker2( params.genome, [], mark )
     }
-    // braker2( params.genome )
-    //outputs:
-    // ab_initio.gff3
 
+    // Collect braker prediction (AUGUSTUS hints)
     braker2.out.gtf.set { braker_gtf }
     braker_gtf.subscribe { println "Gene models generated by BRAKER2:\n$it" }
+
   } else {
+    // Ab initio prediction is skipped, fill up variable
     Channel.from([])
       .set { braker_gtf }
   }
 
-
+  // Collect all predictions
   braker_gtf
     .mix(short_gtf, ont_gtf)
     .set { all_gtf }
@@ -611,17 +650,17 @@ else if ( params.mode == 'annotation' ) {
   // Run MIKADO pipeline. Might separate later and enbed into a sub-workflow
   mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
 
-  mikado.out.loci.subscribe { println "Final gene models are in $it" }
+  mikado.out.loci.subscribe { println "Mikado gene models in $it" }
 
   // Rename genes and transcripts in gff file?
+  // rename_ids(gff, name?)
 
-  // agat_sp_keep_longest_isoform.pl Keep longest isoforms
+  // Extract longest isoform gff3 -> gff3
+  //agat_longest(gff)
+  //agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
 
-  // agat_sp_extract_sequences.pl Extract sequences (both isoforms and longest ORFs) [--clean_final_stop]
-  // --mrna --> mRNA (UTR+CDS)
-  // -t cds --> coding regions
-  // --protein --> proteins
-  // -t gene --upstream 2000 --> promoter2kb
+  // Extract features (rna, cds, peptide, promoter), gff3 -> fasta
+  //agat_extractor( gff.mix(agat_longest.out.gff), params.genome )
 
 
   // Functional annotation?
