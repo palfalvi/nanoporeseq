@@ -1,9 +1,9 @@
-include { mikado_prepare } from './modules/mikado_prepare.nf'
-include { mikado_serialise } from './modules/mikado_serialise.nf'
-include { blast_makedb } from './modules/blast_makedb.nf'
-include { blast } from './modules/blast.nf'
-include { transdecoder } from './modules/transdecoder.nf'
-include { mikado_pick } from './modules/mikado_pick.nf'
+include { mikado_prepare } from '../modules/mikado_prepare.nf'
+include { mikado_serialise } from '../modules/mikado_serialise.nf'
+include { blast_makedb } from '../modules/blast_makedb.nf'
+include { blast } from '../modules/blast.nf'
+include { transdecoder } from '../modules/transdecoder.nf'
+include { mikado_pick } from '../modules/mikado_pick.nf'
 
 workflow mikado {
     take:
