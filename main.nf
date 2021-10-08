@@ -456,8 +456,10 @@ else if ( params.mode == 'annotation' ) {
       log.info "Soft masking repeats ... "
       edta(params.genome)
 
-      masked_genome = edta.out.masked
+      genome = edta.out.masked
       masked_gff = edta.out.te_anno
+    } else {
+      genome = params.genome
     }
 
   } else {
@@ -549,12 +551,19 @@ else if ( params.mode == 'annotation' ) {
       .set { junctions }
   }
 
+
+  // PacBio RNA-seq reads provided
+  // This should be some preprocessed transcripts from pacbio's pipeline
+  if ( params.pb_reads != false ) {
+    Channel
+      .fromFilePairs( params.pb_reads, size: 1 )
+      .ifEmpty { exit 1, "PacBio reads are not provided correctly ${params.pb_reads}\nNB: Path needs to be enclosed in quotes!" }
+      .set { pb_reads }
+  }
+
+
   // Nanopore RNA-seq reads provided
   if ( params.ont_reads != false ) {
-
-    //nanoq() ?
-    //pychopper() ?
-
 
     // Fitlering ONT reads
     if ( !params.skip_pychopper ) {
@@ -577,10 +586,11 @@ else if ( params.mode == 'annotation' ) {
       log.info "Skipping ONT read filtering."
     }
 
-
     // Map long RNAs to genome
     minimap_rna( params.genome, ont_reads )
 
+    // Do we need merged bam file?
+    // Maybe for BigWig output to check in IGV
     merge_bams_minimap2( minimap_rna.out.bam.collect(), "minimap2" )
 
     // Predict transcripts with StringTie

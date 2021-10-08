@@ -1,60 +1,40 @@
-process mikado {
-  label "long_job"
+include { mikado_prepare } from './modules/mikado_prepare.nf'
+include { mikado_serialise } from './modules/mikado_serialise.nf'
+include { blast_makedb } from './modules/blast_makedb.nf'
+include { blast } from './modules/blast.nf'
+include { transdecoder } from './modules/transdecoder.nf'
+include { mikado_pick } from './modules/mikado_pick.nf'
 
-  conda "$baseDir/conda-envs/mikado-env.yaml"
-  // container "peegee/nanoporeseq:latest"
+workflow mikado {
+    take:
+      genome
+      gffs
+      scoring
+      //junction
 
-  publishDir "${params.outdir}/mikado/", mode: 'copy', pattern: 'mikado*'
+    main:
+      mikado_prepare(  genome, gffs, scoring  )
 
-  input:
-    path genome
-    path('*')
-    path scoring
-    // path junction
+      if ( params.protein ) {
 
-  output:
-    path "mikado.loci.gff3", emit: loci
-    path "mikado.loci.metrics.tsv", emit: metrics
-    path "mikado.loci.scores.tsv", emit: scores
-    path "*pick.log", emit: log
+        mikado_blastp_makeref( params.protein, 'prot' )
+        mikado_blastp( mikado_prepare.out.fasta.splitFasta( by: 5000, file: true ), mikado_blastp_makeref.out, 'blastx' )
+        mikado_blastp.out.blast.collectFile(name: 'mikado_prepared.blast.tsv', newLine: true).set { blastp }
 
-  script:
-    def sh  = params.short_reads    ? "${projectDir}/scripts/short_gtf.txt"   : ""
-    def ont = params.ont_reads      ? "${projectDir}/scripts/ont_gtf.txt"     : ""
-    def pb  = params.pb_reads       ? "${projectDir}/scripts/pb_gtf.txt"      : ""
-    def pr  = !params.skip_abinitio ? "${projectDir}/scripts/prot_gtf.txt"    : ""
+      } else {
 
-    def protein  =   params.protein  ? "-bt ${params.protein}" : ""
-    def blastdb  =   params.protein ? "makeblastdb -in ${params.protein} -dbtype prot -parse_seqids > blast_prepare.log" : ""
-    def blastjob =   params.protein ? "blastx -max_target_seqs 5 -num_threads ${task.cpus} -query mikado_prepared.fasta -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db ${params.protein} -evalue 0.000001 -out mikado_prepared.blast.tsv 2> blast.log " : ""
-    def prot     =   params.protein ? "--xml mikado_prepared.blast.tsv --blast_targets ${params.protein}" : ""
-    def junc     =   params.short_reads  ? "--junction ${junction}": ""
+        Channel.from([]).set { blastp }
 
-    """
-    cat $sh $ont $pb $pr > file.txt
-    sed -e 's/ /\t/g' file.txt > gtf_list.txt
+      }
 
-    mikado configure \
-    --list gtf_list.txt \
-    --reference $genome \
-    --mode permissive \
-    --scoring $scoring  \
-    $junc \
-    $protein \
-    --threads $task.cpus \
-    configuration.yaml
+      mikado_transdecoder( mikado_prepare.out.fasta )
 
-    mikado prepare \
-    --json-conf configuration.yaml
+      mikado_serialise( genome, mikado_prepare.out.config, blastp, mikado_transdecoder.out.bed, scoring )
+      mikado_pick( genome, mikado_prepare.out.config, mikado_serialise.out.db, mikado_prepare.out.gtf, scoring  )
 
-    $blastdb
-    $blastjob
-
-    TransDecoder.LongOrfs -t mikado_prepared.fasta
-    TransDecoder.Predict -t mikado_prepared.fasta
-
-    mikado serialise --json-conf configuration.yaml $prot --orfs mikado_prepared.fasta.transdecoder.bed $junc
-
-    mikado pick --json-conf configuration.yaml
-    """
+    emit:
+        loci = mikado_pick.out.loci
+        subloci = mikado_pick.out.subloci
+        metrics = mikado_pick.out.metrics
+        scores = mikado_pick.out.scores
 }
