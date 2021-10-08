@@ -14,7 +14,6 @@ process mikado {
 
   output:
     path "mikado.loci.gff3", emit: loci
-    path "mikado.subloci.gff3", emit: subloci
     path "mikado.loci.metrics.tsv", emit: metrics
     path "mikado.loci.scores.tsv", emit: scores
     path "*pick.log", emit: log
