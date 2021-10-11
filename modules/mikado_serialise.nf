@@ -12,7 +12,7 @@ process mikado_serialise {
     path blastp
     path transdecoder
     path scoring
-    path junction
+    //path junction
 
   output:
     path "mikado.db", emit: db
