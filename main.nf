@@ -456,10 +456,14 @@ else if ( params.mode == 'annotation' ) {
       log.info "Soft masking repeats ... "
       edta(params.genome)
 
-      genome = edta.out.masked
-      masked_gff = edta.out.te_anno
+      softmasking( params.genome, edta.out.te_anno )
+
+      masked_genome = softmasking.out.masked
+
     } else {
-      genome = params.genome
+
+      masked_genome = params.genome
+
     }
 
   } else {
@@ -612,6 +616,13 @@ else if ( params.mode == 'annotation' ) {
         .set { ont_gtf }
     }
 
+
+  // RUN FUNANNOTATE
+
+
+
+  // FINISH FUNANNOTATE
+
   // Run ab initio prediction
   if ( !params.skip_abinitio ) {
     if ( ( params.short_reads || params.ont_reads ) && params.protein) {
@@ -630,13 +641,13 @@ else if ( params.mode == 'annotation' ) {
     // run BRAKER2
     if ( params.short_reads ) {
       // If short reads are provided
-      braker2( params.genome, merge_bams_star.out.bam, mark )
+      braker2( masked_genome, merge_bams_star.out.bam, mark )
     } else if ( params.ont_reads ) {
       // If no short reads, but ONT reads are provided
-      braker2( params.genome, merge_bams_minimap2.out.bam, mark )
+      braker2( masked_genome, merge_bams_minimap2.out.bam, mark )
     } else {
       // If no RNA evidence is provided
-      braker2( params.genome, [], mark )
+      braker2( masked_genome, [], mark )
     }
 
     // Collect braker prediction (AUGUSTUS hints)
@@ -658,7 +669,7 @@ else if ( params.mode == 'annotation' ) {
   agat_converter(all_gtf)
 
   // Run MIKADO pipeline. Might separate later and enbed into a sub-workflow
-  mikado( params.genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
+  mikado( masked_genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
 
   mikado.out.loci.subscribe { println "Mikado gene models in $it" }
 
