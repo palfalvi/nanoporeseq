@@ -6,7 +6,7 @@ process blast {
   input:
     path reference
     path query
-    value blast
+    val blast
 
   output:
     path 'mikado_prepared.blast_sub.tsv', emit: blast
