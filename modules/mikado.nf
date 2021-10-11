@@ -27,9 +27,9 @@ workflow mikado {
 
       }
 
-      mikado_transdecoder( mikado_prepare.out.fasta )
+      transdecoder( mikado_prepare.out.fasta )
 
-      mikado_serialise( genome, mikado_prepare.out.config, blastp, mikado_transdecoder.out.bed, scoring )
+      mikado_serialise( genome, mikado_prepare.out.config, blastp, transdecoder.out.bed, scoring )
       mikado_pick( genome, mikado_prepare.out.config, mikado_serialise.out.db, mikado_prepare.out.gtf, scoring  )
 
     emit:
