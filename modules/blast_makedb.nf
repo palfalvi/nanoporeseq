@@ -5,7 +5,7 @@ process blast_makedb {
 
   input:
     path reference
-    value dbtype
+    val dbtype
 
   output:
     path('*')
