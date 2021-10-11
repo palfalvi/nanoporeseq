@@ -1,4 +1,4 @@
-process edta {
+process softmasking {
 
   label "small_job"
 
