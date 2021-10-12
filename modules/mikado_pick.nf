@@ -9,7 +9,7 @@ process mikado_pick {
   input:
     path genome
     path config
-    path db
+    path mikado
     path gtf
     path scoring
     // path junction

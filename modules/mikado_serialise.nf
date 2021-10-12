@@ -12,10 +12,11 @@ process mikado_serialise {
     path blastp
     path transdecoder
     path scoring
+    path mikado
     //path junction
 
   output:
-    path "mikado.db", emit: db
+    path('*'), emit: mikado
 
   script:
     def prot     =   params.protein ? "--xml mikado_prepared.blast.tsv --blast_targets ${params.protein}" : ""
