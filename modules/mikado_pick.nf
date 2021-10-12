@@ -8,8 +8,8 @@ process mikado_pick {
 
   input:
     path genome
-    path mikado
-    path gtf
+    path prepare
+    path serialise
     path scoring
     // path junction
 
