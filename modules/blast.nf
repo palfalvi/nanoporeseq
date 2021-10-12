@@ -9,10 +9,10 @@ process blast {
     val blast
 
   output:
-    path 'mikado_prepared.blast_sub.tsv', emit: blast
+    path '*.blast_sub.tsv', emit: blast
 
   script:
     """
-    $blast -max_target_seqs 5 -num_threads ${task.cpus} -query $query -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db $reference -evalue 0.000001 -out mikado_prepared.blast_sub.tsv 2> blast.log
+    $blast -max_target_seqs 5 -num_threads ${task.cpus} -query $query -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore ppos btop' -db ${reference[0].baseName} -evalue 0.000001 -out ${reference.baseName}.blast_sub.tsv 2> blast.log
     """
 }

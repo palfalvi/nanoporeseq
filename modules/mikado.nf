@@ -18,7 +18,7 @@ workflow mikado {
       if ( params.protein ) {
 
         blast_makedb( params.protein, 'prot' )
-        blast( mikado_prepare.out.fasta.splitFasta( by: 5000, file: true ), blast_makedb.out, 'blastx' )
+        blast( blast_makedb.out, mikado_prepare.out.fasta.splitFasta( by: 5000, file: true ), 'blastx' )
         blast.out.blast.collectFile(name: 'mikado_prepared.blast.tsv', newLine: true).set { blastp }
 
       } else {

@@ -689,6 +689,7 @@ else if ( params.mode == 'annotation' ) {
   // interproscan no conda pkg
 
   // trnascan-se()
+  //https://github.com/tseemann/barrnap
 
   //small RNA
   // https://github.com/MikeAxtell/ShortStack
