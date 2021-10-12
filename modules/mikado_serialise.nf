@@ -8,7 +8,6 @@ process mikado_serialise {
 
   input:
     path genome
-    path config
     path blastp
     path transdecoder
     path scoring
@@ -23,6 +22,6 @@ process mikado_serialise {
     def junc     =   params.short_reads  ? "--junction ${junction}": ""
 
     """
-    mikado serialise --json-conf $config $prot --orfs $transdecoder $junc
+    mikado serialise --json-conf configuration.yaml $prot --orfs $transdecoder $junc
     """
 }

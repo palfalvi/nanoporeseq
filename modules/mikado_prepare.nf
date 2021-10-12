@@ -13,7 +13,6 @@ process mikado_prepare {
     //path junction
 
   output:
-    path "configuration.yaml", emit: config
     path "mikado_prepared.fasta", emit: fasta
     path "mikado_prepared.gtf", emit: gtf
     path('*'), emit: mikado

@@ -8,7 +8,6 @@ process mikado_pick {
 
   input:
     path genome
-    path config
     path mikado
     path gtf
     path scoring
@@ -27,6 +26,6 @@ process mikado_pick {
     def junc     =   params.short_reads  ? "--junction ${junction}": ""
 
     """
-    mikado pick --json-conf $config --subloci-out mikado.subloci
+    mikado pick --json-conf configuration.yaml --subloci-out mikado.subloci
     """
 }
