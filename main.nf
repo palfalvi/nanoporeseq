@@ -628,16 +628,16 @@ else if ( params.mode == 'annotation' ) {
   if ( !params.skip_abinitio ) {
     if ( ( params.short_reads || params.ont_reads ) && params.protein) {
       // Both RNA and protein files provided
-      mark = "--etpmode"
+      mark = "--etpmode --addUTR=on"
     } else if ( params.protein ) {
       // Only protein file provided
       mark = "--epmode"
     } else if ( params.short_reads || params.ont_reads ) {
       // RNA-seq reads provided
-      mark = "--prg=gth --gth2traingenes"
+      mark = "--etpmode --addUTR=on"
     } else {
       // No external file provided
-      mark = "--esmode --prg=gth --gth2traingenes"
+      mark = "--esmode"
     }
     // run BRAKER2
     if ( params.short_reads ) {
