@@ -628,13 +628,13 @@ else if ( params.mode == 'annotation' ) {
   if ( !params.skip_abinitio ) {
     if ( ( params.short_reads || params.ont_reads ) && params.protein) {
       // Both RNA and protein files provided
-      mark = "--etpmode --addUTR=on"
+      mark = "--etpmode"
     } else if ( params.protein ) {
       // Only protein file provided
       mark = "--epmode"
     } else if ( params.short_reads || params.ont_reads ) {
       // RNA-seq reads provided
-      mark = "--etpmode --addUTR=on"
+      mark = "--etpmode"
     } else {
       // No external file provided
       mark = "--esmode"
