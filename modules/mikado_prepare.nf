@@ -15,7 +15,7 @@ process mikado_prepare {
   output:
     path "mikado_prepared.fasta", emit: fasta
     path "mikado_prepared.gtf", emit: gtf
-    path('*')
+    path ('*'), emit: mikado
 
   script:
     def sh  = params.short_reads    ? "${projectDir}/scripts/short_gtf.txt"   : ""
