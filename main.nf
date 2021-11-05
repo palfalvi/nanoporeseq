@@ -388,7 +388,7 @@ else if ( params.mode == 'assembly' ) {
 
     busco(polished_assembly, Channel.fromList(params.busco_lineages), "genome")
 
-    multiqc(quast.out.summary.mix(busco_eud.out, busco_emb.out, busco_vir.out).collect(), "$baseDir/${params.outdir}")
+    multiqc(quast.out.summary.mix(busco.out).collect(), "$baseDir/${params.outdir}")
 
     if ( params.short_reads ) {
 
