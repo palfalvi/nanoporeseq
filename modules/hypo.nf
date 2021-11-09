@@ -1,5 +1,5 @@
 process hypo {
-  label "polishing"
+  label "assembly"
 
   conda "$baseDir/conda-envs/hypo-env.yaml"
 
