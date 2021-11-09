@@ -1,6 +1,6 @@
 process bwa_mem {
 
-  label 'large_mem'
+  label 'assembly'
 
   conda "$baseDir/conda-envs/bwa-samtools-env.yaml"
 
