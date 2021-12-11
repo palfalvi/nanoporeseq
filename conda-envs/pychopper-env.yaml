@@ -1,8 +1,8 @@
 name: hypo-env
 channels:
-    - bioconda
     - conda-forge
+    - bioconda
     - defaults
 dependencies:
-    - hmmer>=3.0
-    - pychopper>=2.0
+    - hmmer
+    - pychopper
