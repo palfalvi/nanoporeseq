@@ -1,4 +1,4 @@
-name: hypo-env
+name: pychopper-env
 channels:
     - conda-forge
     - bioconda
