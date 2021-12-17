@@ -1,7 +1,6 @@
 name: mikado-env
 channels:
     - bioconda
-    - conda-forge
     - defaults
 dependencies:
     - mikado
