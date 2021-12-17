@@ -1,9 +1,10 @@
 name: mikado-env
 channels:
-    - conda-forge
     - bioconda
+    - conda-forge
     - defaults
 dependencies:
     - mikado
     - blast
     - transdecoder
+    - diamond
