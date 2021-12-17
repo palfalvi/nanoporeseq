@@ -20,9 +20,9 @@ process agat_extractor {
 
   script:
     """
-    agat_sp_extract_sequences.pl -gff $file --fasta $genome --mrna -o ${file.SimpleName}_rna.fasta
-    agat_sp_extract_sequences.pl -gff $file --fasta $genome -t cds -o ${file.SimpleName}_cds.fasta
-    agat_sp_extract_sequences.pl -gff $file --fasta $genome --protein --clean_final_stop -o ${file.SimpleName}_pep.fasta
-    agat_sp_extract_sequences.pl -gff $file --fasta $genome -t gene --upstream 2000 -o ${file.SimpleName}_promoter2kb.fasta
+    agat_sp_extract_sequences.pl -gff $file --fasta $genome --mrna -o ${file.baseName}_rna.fasta
+    agat_sp_extract_sequences.pl -gff $file --fasta $genome -t cds -o ${file.baseName}_cds.fasta
+    agat_sp_extract_sequences.pl -gff $file --fasta $genome --protein --clean_final_stop -o ${file.baseName}_pep.fasta
+    agat_sp_extract_sequences.pl -gff $file --fasta $genome -t gene --upstream 2000 -o ${file.baseName}_promoter2kb.fasta
     """
 }

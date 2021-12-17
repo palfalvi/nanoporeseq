@@ -15,6 +15,6 @@ process agat_longest {
 
   script:
     """
-    agat_sp_keep_longest_isoform.pl -gff $file -o ${file.SimpleName}_longestIsoforms.gff3
+    agat_sp_keep_longest_isoform.pl -gff $file -o ${file.baseName}_longestIsoforms.gff3
     """
 }
