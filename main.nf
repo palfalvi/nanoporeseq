@@ -161,11 +161,11 @@ else if ( params.mode == 'assembly' ) {
   if ( params.assembly && !params.assembler ) {
     // assembly file is provided, but no assembler software.
     // Useful for only polishing or QC.
-    log.info "Skipping initial assembly as it is provided: $params.assembly "
+    log.info ">>> Skipping initial assembly as it is provided: $params.assembly "
     assembly = params.assembly
   }
   else {
-    log.info "Starting assembly protocol with $params.assembler ... "
+    log.info ">>> Starting assembly protocol with $params.assembler ... "
   }
 
 
@@ -249,10 +249,49 @@ else if ( params.mode == 'assembly' ) {
 
   }
 
+//////// 10X scaffolding ////////
+
+if ( params.linked_reads ) {
+  // use scaff10x and break10x
+  // need to install https://github.com/wtsi-hpag/Scaff10X manually
+
+  linked_r = Channel.fromFilePairs( params.linked_reads )
+
+  linked_r.subscribe {  println "Linked reads provided: $it"  }
+  log.info ">>> Scaffolding primary assembly with Scaff10x."
+  if ( params.scaff10x ) {
+    scaff10x(params.scaff10x, assembly, linked_r)
+  } else {
+    error 'Scaff10x path is not provided. Please install Scaff10x from https://github.com/wtsi-hpag/Scaff10X manually and provide the path to --scaff10x /path/to/Scaff10X/src/'
+  }
+
+  assembly = scaff10x.out.assembly
+
+}
+//////// HiC scaffolding ////////
+
+if ( params.hic_reads ) {
+  // use HiC reads for scaffolding
+
+  hic_r = Channel.fromFilePairs( params.hic_reads )
+
+  hic_r.subscribe {  println "HiC reads provided: $it"  }
+  log.info ">>> Scaffolding primary assembly with Salsa."
+
+  arima_mapping(assembly, hic_r)
+
+  salsa(assembly, arima_mapping.out.bam)
+
+  assembly = salsa.out.assembly
+
+}
+
 //////// LONG READ POLISHING ////////
 
   if ( params.polish ) {
     // racon and medaka polishing
+    log.info ">>> Polishing assembly with long reads."
+
     minimap2_1(params.fastq, assembly)
     racon1(params.fastq, minimap2_1.out.map, assembly)
 
@@ -264,6 +303,8 @@ else if ( params.mode == 'assembly' ) {
 
   } else if (params.racon_polish) {
     // only racon polishing
+    log.info ">>> Polishing assembly with long reads."
+
     minimap2_1(params.fastq, assembly)
 
     racon1(params.fastq, minimap2_1.out.map, assembly)
@@ -271,6 +312,8 @@ else if ( params.mode == 'assembly' ) {
     assembly = racon1.out.assembly
   }else if (params.medaka_polish) {
     // only medaka polishing
+    log.info ">>> Polishing assembly with long reads."
+
     medaka(params.fastq, assembly)
 
     assembly = medaka.out.assembly
@@ -287,11 +330,12 @@ else if ( params.mode == 'assembly' ) {
       short_r = Channel.fromFilePairs( params.short_reads )
 
       short_r.subscribe {  println "Short reads provided: $it"  }
+      log.info ">>> Polishing assembly with short reads."
 
       if ( params.short_polish_map == "bwa" ) {
         // Mapping with bwa-mem
 
-        bwa_index( assembly )
+        bwa_index( assembly, "" )
 
         bwa_mem( short_r, assembly, bwa_index.out.index )
 
@@ -678,11 +722,11 @@ else if ( params.mode == 'annotation' ) {
   // rename_ids(gff, name?)
 
   // Extract longest isoform gff3 -> gff3
-  //agat_longest(gff)
-  //agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
+  agat_longest(gff)
+  agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
 
   // Extract features (rna, cds, peptide, promoter), gff3 -> fasta
-  //agat_extractor( gff.mix(agat_longest.out.gff), params.genome )
+  agat_extractor( gff.mix(agat_longest.out.gff), params.genome )
 
 
   // Functional annotation?
