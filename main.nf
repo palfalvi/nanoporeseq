@@ -722,7 +722,7 @@ else if ( params.mode == 'annotation' ) {
   // rename_ids(gff, name?)
 
   // Extract longest isoform gff3 -> gff3
-  agat_longest(gff)
+  agat_longest(mikado.out.loci)
   agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
 
   // Extract features (rna, cds, peptide, promoter), gff3 -> fasta
