@@ -726,7 +726,7 @@ else if ( params.mode == 'annotation' ) {
   agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
 
   // Extract features (rna, cds, peptide, promoter), gff3 -> fasta
-  agat_extractor( gff.mix(agat_longest.out.gff), params.genome )
+  agat_extractor( mikado.out.loci.mix(agat_longest.out.gff), params.genome )
 
 
   // Functional annotation?
