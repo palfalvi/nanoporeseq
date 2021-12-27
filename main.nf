@@ -283,7 +283,7 @@ if ( params.hic_reads ) {
   hic_r.subscribe {  println "HiC reads provided: $it"  }
   log.info ">>> Scaffolding primary assembly with Salsa."
 
-  arima_mapping(assembly, hic_r[1])
+  arima_mapping(assembly, hic_r)
 
   salsa(assembly, arima_mapping.out.bam)
 
