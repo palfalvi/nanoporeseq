@@ -13,13 +13,13 @@ include { samtools_index} from '../modules/samtools_index.nf'
 workflow arima_mapping {
     take:
       genome
-      tuple val(sample_id), file(reads)
+      reads
 
     main:
       bwa_index(genome, "-a bwtsw")
 
-      bwa_mem_hic1( reads[0], genome, bwa_index.out.index )
-      bwa_mem_hic2( reads[1], genome, bwa_index.out.index )
+      bwa_mem_hic1( reads[1][0], genome, bwa_index.out.index )
+      bwa_mem_hic2( reads[1][1], genome, bwa_index.out.index )
 
       filter_5ends1(bwa_mem_hic1.out.bam)
       fitler_5ends2(bwa_mem_hic2.out.bam)
