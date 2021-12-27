@@ -1,13 +1,13 @@
-include { bwa_index } from '../modules/bwa_index.nf'
-include { bwa_mem as bwa_mem_hic1 } from '../modules/bwa_mem.nf'
-include { bwa_mem as bwa_mem_hic2 } from '../modules/bwa_mem.nf'
-include { arima_filter as filter_5ends1 } from '../modules/arima_filter.nf'
-include { arima_filter as filter_5ends2 } from '../modules/arima_filter.nf'
-include { arima_qc } from '../modules/arima_qc.nf'
-include { arima_add_read_group as add_read_group } from '../modules/arima_add_read_group.nf'
-include { picard_mark_duplicates as mark_duplicates } from '../modules/picard_mark_duplicates.nf'
-include { arima_stats as calc_stats } from '../modules/arima_stats.nf'
-include { samtools_index} from '../modules/samtools_index.nf'
+include { bwa_index } from './modules/bwa_index.nf'
+include { bwa_mem as bwa_mem_hic1 } from './modules/bwa_mem.nf'
+include { bwa_mem as bwa_mem_hic2 } from './modules/bwa_mem.nf'
+include { arima_filter as filter_5ends1 } from './modules/arima_filter.nf'
+include { arima_filter as filter_5ends2 } from './modules/arima_filter.nf'
+include { arima_qc } from './modules/arima_qc.nf'
+include { arima_add_read_group as add_read_group } from './modules/arima_add_read_group.nf'
+include { picard_mark_duplicates as mark_duplicates } from './modules/picard_mark_duplicates.nf'
+include { arima_stats as calc_stats } from './modules/arima_stats.nf'
+include { samtools_index} from './modules/samtools_index.nf'
 
 
 workflow arima_mapping {
