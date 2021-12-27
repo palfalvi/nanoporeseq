@@ -8,12 +8,13 @@ process bwa_index {
 
   input:
     path assembly
+    val options
 
   output:
     path "${assembly}.*", emit: index
 
   script:
     """
-    bwa index ${assembly}
+    bwa index $options ${assembly}
     """
 }

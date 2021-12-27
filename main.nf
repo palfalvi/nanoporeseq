@@ -5,7 +5,7 @@ def helpMessage() {
 log.info """
 =======================================================
        Nanopore Sequence Manipulation pipeline
-         https://github.com/palfalvi/rnaseq
+       https://github.com/palfalvi/nanoporeseq
 =======================================================
 
 Usage:
@@ -64,6 +64,11 @@ include { flye } from './modules/flye.nf'
 include { miniasm } from './modules/miniasm.nf'
 include { nextdenovo } from './modules/nextdenovo.nf'
 include { wtdbg } from './modules/wtdbg.nf'
+
+include { scaff10x } from './modules/scaff10x.nf'
+include { debarcode10x } from './modules/debarcode10x.nf'
+include { arima_mapping } from './modules/arima_mapping.nf'
+include { salsa } from './modules/salsa.nf'
 
 
 // Include polishing tools
@@ -322,15 +327,26 @@ if ( params.hic_reads ) {
 //////// SHORT READ POLISHING ////////
   if ( params.short_polish ) {
 
-    if ( !params.short_reads ) {
-      error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq'
+    if ( !params.short_reads | !params.linked_reads) {
+      error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq or as --linked_reads /path/to/linked.fastq'
     } else {
       // Short read mapping
+      if ( params.short_reads ) {
+        short_r = Channel.fromFilePairs( params.short_reads )
 
-      short_r = Channel.fromFilePairs( params.short_reads )
+        short_r.subscribe {  println "Short reads provided: $it"  }
+        log.info ">>> Polishing assembly with short reads."
+      } else {
+        linked_r = Channel.fromFilePairs( params.linked_reads )
 
-      short_r.subscribe {  println "Short reads provided: $it"  }
-      log.info ">>> Polishing assembly with short reads."
+        linked_r.subscribe {  println "Linked reads provided: $it"  }
+        log.info ">>> Polishing assembly with linked reads."
+
+        debarcode10x(params.scaff10x, linked_r)
+
+        short_r = debarcode10x.out.fastq
+
+      }
 
       if ( params.short_polish_map == "bwa" ) {
         // Mapping with bwa-mem
@@ -723,7 +739,6 @@ else if ( params.mode == 'annotation' ) {
 
   // Extract longest isoform gff3 -> gff3
   agat_longest(mikado.out.loci)
-  agat_longest.out.gff.subscribe { println "Longest isoforms are in $it" }
 
   // Extract features (rna, cds, peptide, promoter), gff3 -> fasta
   agat_extractor( mikado.out.loci.mix(agat_longest.out.gff), params.genome )
@@ -748,6 +763,9 @@ else if ( params.mode == 'annotation' ) {
     }
   }
 
+  // BUSCO check
+
+  busco(agat_extractor.out.mrna, Channel.fromList(params.busco_lineages), "transcriptome")
 
 }
 
