@@ -295,7 +295,7 @@ if ( params.hic_reads ) {
   log.info ">>> Scaffolding primary assembly with Salsa."
 
   arima_mapping( assembly, hic_r )
-  salsa( assembly, arima_mapping.out.bam )
+  salsa( assembly, arima_mapping.out.bam, arima_mapping.out.baidx )
   assembly = salsa.out.assembly
 
 }
