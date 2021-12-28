@@ -30,7 +30,7 @@ workflow arima_mapping {
 
       mark_duplicates(add_read_group.out.bam)
 
-      samtools_index(mark_duplicates.out.bam)
+      samtools_index(mark_duplicates.out.bam, "")
 
       calc_stats(mark_duplicates.out.bam, samtools_index.out.baidx)
 
