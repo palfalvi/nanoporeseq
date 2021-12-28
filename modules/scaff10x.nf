@@ -15,7 +15,7 @@ process scaff10x {
 
   script:
     """
-    export $scaff10x:\$PATH
+    export PATH=$scaff10x:\$PATH
 
     echo q1=${reads[1]} >> reads.dat
     echo q2=${reads[2]} >> reads.dat
