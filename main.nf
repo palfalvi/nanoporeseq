@@ -267,38 +267,39 @@ else if ( params.mode == 'assembly' ) {
 
 //////// 10X scaffolding ////////
 
-if ( params.linked_reads ) {
-  // use scaff10x and break10x
-  // need to install https://github.com/wtsi-hpag/Scaff10X manually
-
-  linked_r = Channel.fromFilePairs( params.linked_reads )
-
-  linked_r.subscribe {  println "Linked reads provided: $it"  }
-  log.info ">>> Scaffolding primary assembly with Scaff10x."
   if ( params.scaff10x ) {
-    scaff10x(params.scaff10x, assembly, linked_r)
-  } else {
-    error 'Scaff10x path is not provided. Please install Scaff10x from https://github.com/wtsi-hpag/Scaff10X manually and provide the path to --scaff10x /path/to/Scaff10X/src/'
+    // use scaff10x and break10x
+    // need to install https://github.com/wtsi-hpag/Scaff10X manually
+
+    linked_r = Channel.fromFilePairs( params.linked_reads )
+
+    linked_r.subscribe {  println "Linked reads provided: $it"  }
+
+    log.info ">>> Scaffolding primary assembly with Scaff10x."
+    if ( params.scaff10x ) {
+      scaff10x(params.scaff10x, assembly, linked_r)
+    } else {
+      error 'Scaff10x path is not provided. Please install Scaff10x from https://github.com/wtsi-hpag/Scaff10X manually and provide the path to --scaff10x /path/to/Scaff10X/src/'
+    }
+
+    assembly = scaff10x.out.assembly
+
   }
-
-  assembly = scaff10x.out.assembly
-
-}
 //////// HiC scaffolding ////////
 
-if ( params.hic_reads ) {
-  // use HiC reads for scaffolding
+  if ( params.hic_reads ) {
+    // use HiC reads for scaffolding
 
-  hic_r = Channel.fromFilePairs( params.hic_reads )
+    hic_r = Channel.fromFilePairs( params.hic_reads )
 
-  hic_r.subscribe {  println "HiC reads provided: $it"  }
-  log.info ">>> Scaffolding primary assembly with Salsa."
+    hic_r.subscribe {  println "HiC reads provided: $it"  }
+    log.info ">>> Scaffolding primary assembly with Salsa."
 
-  arima_mapping( assembly, hic_r )
-  salsa( assembly, arima_mapping.out.bam, arima_mapping.out.baidx )
-  assembly = salsa.out.assembly
+    arima_mapping( assembly, hic_r )
+    salsa( assembly, arima_mapping.out.bam, arima_mapping.out.baidx )
+    assembly = salsa.out.assembly
 
-}
+  }
 
 //////// LONG READ POLISHING ////////
 
@@ -324,7 +325,7 @@ if ( params.hic_reads ) {
     racon1(params.fastq, minimap2_1.out.map, assembly)
 
     assembly = racon1.out.assembly
-  }else if (params.medaka_polish) {
+  } else if (params.medaka_polish) {
     // only medaka polishing
     log.info ">>> Polishing assembly with long reads."
 
@@ -372,8 +373,7 @@ if ( params.hic_reads ) {
         bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
 
         coverage = bam_coverage.out.coverage
-      }
-      else if ( params.short_polish_map == "minimap2" ) {
+      } else if ( params.short_polish_map == "minimap2" ) {
         // Mapping with minimap2 -ax sr
 
         minimap2_sr( short_r, assembly )
@@ -387,14 +387,12 @@ if ( params.hic_reads ) {
 
         coverage = bam_coverage.out.coverage
 
-      }
-      else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
+      } else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
         // Longranger mapping for 10x data
         // Longranger is not distributed under conda or docker. Local installation?
         error 'Sorry. Longranger mapping is not yet implemented.'
 
-      }
-      else {
+      } else {
         error 'Unknown mapping method: ${params.short_polish_map}. Please choose from bwa, minimap2 or contact developers.'
       }
 
@@ -414,8 +412,7 @@ if ( params.hic_reads ) {
 
       polished_assembly = freebayes_consensus.out.assembly
 
-    }
-    else if ( params.short_polish == 'nextpolish' ) {
+    } else if ( params.short_polish == 'nextpolish' ) {
       // Nextpolish polishing
       if ( !params.nextpolish ) {
         error 'NextPolish source is not provided. Please install NextPolish locally and provide as --nextpolish /PATH/TO/nextpolish or consider using another polishing method (e.g. vgp).'
@@ -423,20 +420,17 @@ if ( params.hic_reads ) {
 
       error 'Sorry. Nextpolish is not yet implemented.'
 
-    }
-    else if ( params.short_polish == 'pilon' ) {
+    } else if ( params.short_polish == 'pilon' ) {
       // pilon polishing
 
       pilon( assembly, short_bam, short_baidx )
 
       polished_assembly = pilon.out.assembly
 
-    }
-    else if ( params.short_polish == 'polca' ) {
+    } else if ( params.short_polish == 'polca' ) {
       // POLCA polishing
       error 'Sorry. POLCA is not yet implemented.'
-    }
-    else if ( params.short_polish == 'hypo' ) {
+    } else if ( params.short_polish == 'hypo' ) {
       // HyPo polishing
 
       hypo( assembly, short_r, params.fastq, params.genome_size, short_bam, short_baidx, coverage )
@@ -444,8 +438,7 @@ if ( params.hic_reads ) {
       polished_assembly = hypo.out.assembly
     }
 
-  }
-  else {
+  } else {
     polished_assembly = assembly
   }
 
