@@ -1,5 +1,5 @@
 include { bwa_index as bwa_idx_10x } from '../modules/bwa_index.nf'
-include { bwa_mem as bwa_mem_hic1; bwa_mem as bwa_mem_hic2 } from '../modules/bwa_mem.nf'
+include { bwa_mem_hic as bwa_mem_hic1; bwa_mem_hic as bwa_mem_hic2 } from '../modules/bwa_mem_hic.nf'
 //include { bwa_mem as bwa_mem_hic2 } from '../modules/bwa_mem.nf'
 include { arima_filter as filter_5ends1; arima_filter as filter_5ends2 } from '../modules/arima_filter.nf'
 //include { arima_filter as filter_5ends2 } from '../modules/arima_filter.nf'
