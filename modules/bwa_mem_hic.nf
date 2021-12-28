@@ -8,7 +8,7 @@ process bwa_mem_hic {
 
   input:
     tuple val(sample_id), file(reads)
-    value num
+    val num
     path assembly
     path index
 
