@@ -295,25 +295,7 @@ if ( params.hic_reads ) {
   log.info ">>> Scaffolding primary assembly with Salsa."
 
   arima_mapping( assembly, hic_r )
-  //bwa_idx_10x( assembly, "-a bwtsw" )
-
-//  bwa_mem_hic1( hic_r[1][0], genome, bwa_idx_10x.out.index )
-//  bwa_mem_hic2( hic_r[1][1], genome, bwa_idx_10x.out.index )
-
-//  filter_5ends1(bwa_mem_hic1.out.bam)
-//  fitler_5ends2(bwa_mem_hic2.out.bam)
-
-//  arima_qc(filter_5ends1.out.bam, filter_5ends1.out.bam, genome)
-
-//  add_read_group(arima_qc.out.bam)
-
-//  mark_duplicates(add_read_group.out.bam)
-
-//  samtools_index(mark_duplicates.out.bam)
-
-//  calc_stats(mark_duplicates.out.bam, samtools_index.out.baidx)
-  ///////
-  salsa( assembly, mark_duplicates.out.bam )
+  salsa( assembly, arima_mapping.out.bam )
   assembly = salsa.out.assembly
 
 }
