@@ -336,7 +336,7 @@ if ( params.hic_reads ) {
 //////// SHORT READ POLISHING ////////
   if ( params.short_polish ) {
 
-    if ( !params.short_reads | !params.linked_reads) {
+    if ( !params.short_reads && !params.linked_reads) {
       error 'Short reads are not provided. Please provide short reads as --short_reads /path/to/short.fastq or as --linked_reads /path/to/linked.fastq'
     } else {
       // Short read mapping
