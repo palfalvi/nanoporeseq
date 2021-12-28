@@ -7,7 +7,8 @@ process bwa_mem_hic {
   //publishDir "${params.outdir}/freebayes_polish", mode: 'copy'
 
   input:
-    path reads
+    tuple val(sample_id), file(reads)
+    value num
     path assembly
     path index
 
@@ -17,7 +18,7 @@ process bwa_mem_hic {
 
   script:
     """
-    bwa mem -t ${task.cpus} ${assembly} ${reads} | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
+    bwa mem -t ${task.cpus} ${assembly} ${reads[$num]} | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
 
     samtools index ${assembly.simpleName}.bam
     """

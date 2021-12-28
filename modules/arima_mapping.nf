@@ -18,8 +18,8 @@ workflow arima_mapping {
     main:
       bwa_idx_10x(genome, "-a bwtsw")
 
-      bwa_mem_hic1( reads[0], genome, bwa_idx_10x.out.index )
-      bwa_mem_hic2( reads[1], genome, bwa_idx_10x.out.index )
+      bwa_mem_hic1( reads, 0, genome, bwa_idx_10x.out.index )
+      bwa_mem_hic2( reads, 1, genome, bwa_idx_10x.out.index )
 
       filter_5ends1(bwa_mem_hic1.out.bam)
       fitler_5ends2(bwa_mem_hic2.out.bam)
