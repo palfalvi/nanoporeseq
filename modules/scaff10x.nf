@@ -1,4 +1,4 @@
-process scaff10x {
+process scaffX {
   label "small_job"
 
   //conda "$baseDir/conda-envs/scaff10x-env.yaml"
@@ -6,7 +6,7 @@ process scaff10x {
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
   input:
-    path scaff10x
+    path scaffX
     path assembly
     tuple val(sample_id), file(reads)
 
@@ -15,12 +15,12 @@ process scaff10x {
 
   script:
     """
-    export PATH=$scaff10x:\$PATH
+    export PATH=$scaffX:\$PATH
 
-    echo q1=${reads[1]} >> reads.dat
+    echo q1=${reads[1]} > reads.dat
     echo q2=${reads[2]} >> reads.dat
 
-    $scaff10x/scaff10x \
+    $scaffX/scaff10x \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \

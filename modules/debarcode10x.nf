@@ -1,4 +1,4 @@
-process debarcode10x {
+process debarcodeX {
   label "small_job"
 
   //conda "$baseDir/conda-envs/scaff10x-env.yaml"

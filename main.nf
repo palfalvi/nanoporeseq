@@ -65,8 +65,8 @@ include { miniasm } from './modules/miniasm.nf'
 include { nextdenovo } from './modules/nextdenovo.nf'
 include { wtdbg } from './modules/wtdbg.nf'
 
-include { scaff10x } from './modules/scaff10x.nf'
-include { debarcode10x } from './modules/debarcode10x.nf'
+include { scaffX } from './modules/scaff10x.nf'
+include { debarcodeX } from './modules/debarcode10x.nf'
 include { arima_mapping } from './modules/arima_mapping.nf'
 include { salsa } from './modules/salsa.nf'
 
@@ -116,18 +116,6 @@ include { quast } from './modules/quast.nf'
 include { multiqc } from './modules/multiqc.nf'
 include { kat } from './modules/kat.nf'
 
-////
-include { bwa_index as bwa_idx_10x } from './modules/bwa_index.nf'
-include { bwa_mem as bwa_mem_hic1; bwa_mem as bwa_mem_hic2 } from './modules/bwa_mem.nf'
-//include { bwa_mem as bwa_mem_hic2 } from '../modules/bwa_mem.nf'
-include { arima_filter as filter_5ends1; arima_filter as filter_5ends2 } from './modules/arima_filter.nf'
-//include { arima_filter as filter_5ends2 } from '../modules/arima_filter.nf'
-include { arima_qc } from './modules/arima_qc.nf'
-include { arima_add_read_group as add_read_group } from './modules/arima_add_read_group.nf'
-include { picard_mark_duplicates as mark_duplicates } from './modules/picard_mark_duplicates.nf'
-include { arima_stats as calc_stats } from './modules/arima_stats.nf'
-include { samtools_index} from './modules/samtools_index.nf'
-////
 
 workflow {
 
@@ -267,7 +255,7 @@ else if ( params.mode == 'assembly' ) {
 
 //////// 10X scaffolding ////////
 
-  if ( params.scaff10x ) {
+  if ( params.scaffX ) {
     // use scaff10x and break10x
     // need to install https://github.com/wtsi-hpag/Scaff10X manually
 
@@ -276,13 +264,13 @@ else if ( params.mode == 'assembly' ) {
     linked_r.subscribe {  println "Linked reads provided: $it"  }
 
     log.info ">>> Scaffolding primary assembly with Scaff10x."
-    if ( params.scaff10x ) {
-      scaff10x(params.scaff10x, assembly, linked_r)
+    if ( params.scaffX ) {
+      scaffX(params.scaffX, assembly, linked_r)
     } else {
       error 'Scaff10x path is not provided. Please install Scaff10x from https://github.com/wtsi-hpag/Scaff10X manually and provide the path to --scaff10x /path/to/Scaff10X/src/'
     }
 
-    assembly = scaff10x.out.assembly
+    assembly = scaffX.out.assembly
 
   }
 //////// HiC scaffolding ////////
@@ -352,9 +340,9 @@ else if ( params.mode == 'assembly' ) {
         linked_r.subscribe {  println "Linked reads provided: $it"  }
         log.info ">>> Polishing assembly with linked reads."
 
-        debarcode10x(params.scaff10x, linked_r)
+        debarcodeX(params.scaffX, linked_r)
 
-        short_r = debarcode10x.out.fastq
+        short_r = debarcodeX.out.fastq
 
       }
 
