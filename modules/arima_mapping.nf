@@ -24,7 +24,7 @@ workflow arima_mapping {
       filter_5ends1(bwa_mem_hic1.out.bam)
       filter_5ends2(bwa_mem_hic2.out.bam)
 
-      arima_qc(filter_5ends1.out.bam, filter_5ends1.out.bam, genome)
+      arima_qc(filter_5ends1.out.bam, filter_5ends2.out.bam, genome)
 
       add_read_group(arima_qc.out.bam)
 
