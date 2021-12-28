@@ -254,6 +254,11 @@ else if ( params.mode == 'assembly' ) {
   }
 
 //////// 10X scaffolding ////////
+  if ( params.purge ) {
+    // purge_duplicates
+  }
+
+//////// 10X scaffolding ////////
 
   if ( params.scaffX ) {
     // use scaff10x and break10x
