@@ -1,7 +1,7 @@
 process scaffX {
   label "small_job"
 
-  conda "$baseDir/conda-envs/bwa-samtools-env.yaml"
+  conda "$baseDir/conda-envs/scaff10x-env.yaml"
 
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
@@ -15,10 +15,15 @@ process scaffX {
 
   script:
     """
+    git clone  https://github.com/wtsi-hpag/Scaff10X.git
+    cd Scaff10X
+    ./install.sh
+    cd ..
+
     echo q1=${reads[0]} > reads.dat
     echo q2=${reads[1]} >> reads.dat
 
-    ${scaffX}/scaff10x \
+    ./Scaff10X/src/scaff10x \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \
