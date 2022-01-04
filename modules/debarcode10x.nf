@@ -6,7 +6,7 @@ process debarcodeX {
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
   input:
-    path scaffX
+    val scaffX
     tuple val(sample_id), file(reads)
 
   output:
