@@ -15,8 +15,8 @@ process scaffX {
 
   script:
     """
-    echo q1=${reads[1]} > reads.dat
-    echo q2=${reads[2]} >> reads.dat
+    echo q1=${reads[0]} > reads.dat
+    echo q2=${reads[1]} >> reads.dat
 
     ${scaffX}/scaff10x \
         -nodes ${task.cpus} \
