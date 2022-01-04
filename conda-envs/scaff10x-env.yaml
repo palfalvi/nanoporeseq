@@ -6,5 +6,5 @@ channels:
 dependencies:
     - gcc_linux-64
     - gxx_linux-64
-    - gcc
+    - gcc-4.9.2
     - git

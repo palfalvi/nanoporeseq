@@ -15,6 +15,8 @@ process scaffX {
 
   script:
     """
+    which gcc
+    gcc --version
     git clone  https://github.com/wtsi-hpag/Scaff10X.git
     cd Scaff10X
     ./install.sh
