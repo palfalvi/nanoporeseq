@@ -14,7 +14,7 @@ process debarcodeX {
 
   script:
     """
-    export ${scaffX}:\$PATH
+    export PATH=${scaffX}:\$PATH
 
     echo q1=${reads[0]} >> reads.dat
     echo q2=${reads[1]} >> reads.dat
