@@ -17,10 +17,12 @@ process bwa_mem_hic {
     path "*.bam.bai", emit: baidx
 
   script:
+  
     def read = num == 0 ? "${reads[0]}" : "${reads[1]}"
-    """
-    bwa mem -t ${task.cpus} ${assembly} $read | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
 
-    samtools index ${assembly.simpleName}.bam
+    """
+    bwa mem -t ${task.cpus} ${assembly} $read | samtools sort -@ ${task.cpus} -O BAM - > ${read.simpleName}.bam
+
+    samtools index ${read.simpleName}.bam
     """
 }

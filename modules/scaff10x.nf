@@ -18,7 +18,7 @@ process scaffX {
     echo q1=${reads[1]} > reads.dat
     echo q2=${reads[2]} >> reads.dat
 
-    $scaffX/scaff10x \
+    ${scaffX}/scaff10x \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \
