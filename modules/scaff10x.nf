@@ -18,18 +18,17 @@ process scaffX {
     echo q1=${reads[1]} > reads.dat
     echo q2=${reads[2]} >> reads.dat
 
-    ${scaffX}/scaff10x \
-        -nodes ${task.cpus} \
-        -longread 1 \
-        -gap 100 \
-        -matrix 2000 \
-        -reads 10 \
-        -score 20 \
-        -edge 50000 \
-        -link 8 \
-        -block 50000 \
-        -data reads.dat \
-        $assembly \
-        ${assembly.simpleName}.scaff10x.fa
+#    ${scaffX}/scaff10x \
+#        -nodes ${task.cpus} \
+#        -longread 1 \
+#        -gap 100 \
+#        -matrix 2000 \
+#        -reads 10 \
+#        -score 20 \
+#        -link 8 \
+#       -block 50000 \
+#       -data reads.dat \
+#        $assembly \
+#        ${assembly.simpleName}.scaff10x.fa
     """
 }
