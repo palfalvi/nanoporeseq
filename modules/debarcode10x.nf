@@ -6,7 +6,7 @@ process debarcodeX {
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
   input:
-    path scaff10x
+    path scaffX
     tuple val(sample_id), file(reads)
 
   output:
@@ -14,12 +14,12 @@ process debarcodeX {
 
   script:
     """
-    export $scaff10x:\$PATH
+    export ${scaffX}:\$PATH
 
-    echo q1=${reads[1]} >> reads.dat
-    echo q2=${reads[2]} >> reads.dat
+    echo q1=${reads[0]} >> reads.dat
+    echo q2=${reads[1]} >> reads.dat
 
-    $scaff10x/scaff_reads \
+    ${scaffX}/scaff_reads \
         reads.dat \
         ${sample_id}_BC_R1.fastq \
         ${sample_id}_BC_R2.fastq
