@@ -269,11 +269,8 @@ else if ( params.mode == 'assembly' ) {
     linked_r.subscribe {  println "Linked reads provided: $it"  }
 
     log.info ">>> Scaffolding primary assembly with Scaff10x."
-    if ( params.scaffX ) {
-      scaffX(params.scaffX, assembly, linked_r)
-    } else {
-      error 'Scaff10x path is not provided. Please install Scaff10x from https://github.com/wtsi-hpag/Scaff10X manually and provide the path to --scaff10x /path/to/Scaff10X/src/'
-    }
+
+    scaffX(params.scaffX, assembly, linked_r)
 
     assembly = scaffX.out.assembly
 
