@@ -272,7 +272,7 @@ else if ( params.mode == 'assembly' ) {
 
     scaffX(params.scaffX, assembly, linked_r)
 
-    //assembly = scaffX.out.assembly
+    assembly = scaffX.out.assembly
 
   }
 //////// HiC scaffolding ////////
