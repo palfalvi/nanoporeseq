@@ -13,6 +13,6 @@ process arima_filter {
   script:
 
     """
-    samtools view -h $bam | perl $baseDir/modules/filter_five_end.pl | samtools view -Sb - > ${bam.simpleName}.filtered.bam
+    samtools view -h $bam | perl $baseDir/scripts/filter_five_end.pl | samtools view -Sb - > ${bam.simpleName}.filtered.bam
     """
 }

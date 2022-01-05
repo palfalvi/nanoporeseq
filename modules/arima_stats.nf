@@ -14,6 +14,6 @@ process arima_stats {
   script:
 
     """
-    perl $baseDir/modules/get_stats.pl $bam > ${bam.simpleName}.stats
+    perl $baseDir/scripts/get_stats.pl $bam > ${bam.simpleName}.stats
     """
 }

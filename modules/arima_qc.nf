@@ -17,7 +17,7 @@ process arima_qc {
     """
     samtools faidx $genome
 
-    perl $baseDir/modules/two_read_bam_combiner.pl $bam1 $bam2 samtools $params.mapq_filter | samtools view -bS -t ${genome}.faidx - | samtools sort -@ $task.cpus -o ${bam1.simpleName}.merged.bam -
+    perl $baseDir/scripts/two_read_bam_combiner.pl $bam1 $bam2 samtools $params.mapq_filter | samtools view -bS -t ${genome}.faidx - | samtools sort -@ $task.cpus -o ${bam1.simpleName}.merged.bam -
 
     """
 }
