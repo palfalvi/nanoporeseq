@@ -8,7 +8,7 @@ process arima_filter {
     path bam
 
   output:
-    path "filtered*.bam", emit: bam
+    path "*filtered.bam", emit: bam
 
   script:
 
