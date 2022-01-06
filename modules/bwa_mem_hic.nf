@@ -21,7 +21,7 @@ process bwa_mem_hic {
     def read = num == 0 ? "${reads[0]}" : "${reads[1]}"
 
     """
-    bwa mem -t ${task.cpus} ${assembly} $read | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}.bam
+    bwa mem -t ${task.cpus} ${assembly} $read | samtools sort -@ ${task.cpus} -O BAM - > ${assembly.simpleName}_${num}.bam
 
     samtools index ${assembly.simpleName}.bam
     """
