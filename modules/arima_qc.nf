@@ -10,7 +10,7 @@ process arima_qc {
     path genome
 
   output:
-    path "filtered*.bam", emit: bam
+    path "*.merged.bam", emit: bam
 
   script:
 
