@@ -14,8 +14,8 @@ process arima_add_read_group {
 
     """
     picard AddOrReplaceReadGroups \
-      -INPUT $bam \
-      -OUTPUT=${bam.simpleName}.readgrouped.bam \
+      --INPUT $bam \
+      --OUTPUT ${bam.simpleName}.readgrouped.bam \
       -ID ${bam.simpleName} \
       -LB ${bam.simpleName} \
       -SM ${bam.simpleName} \
