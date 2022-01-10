@@ -20,7 +20,7 @@ process salsa {
 
       samtools faidx $assembly
 
-      python run_pipeline.py \
+      run_pipeline.py \
         -a ${assembly} \
         -l ${assembly}.fai \
         -b ${bam.simpleName}.bed \
