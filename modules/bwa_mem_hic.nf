@@ -23,6 +23,6 @@ process bwa_mem_hic {
     """
     bwa mem -t ${task.cpus} ${assembly} $read | samtools view -@ ${task.cpus} -Sb - > ${assembly.simpleName}_${num}.bam
 
-    samtools index ${assembly.simpleName}_${num}.bam
+    #samtools index ${assembly.simpleName}_${num}.bam
     """
 }
