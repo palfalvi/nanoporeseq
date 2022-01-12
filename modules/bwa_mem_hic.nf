@@ -14,7 +14,7 @@ process bwa_mem_hic {
 
   output:
     path "*.bam", emit: bam
-    path "*.bam.bai", emit: baidx
+    //path "*.bam.bai", emit: baidx
 
   script:
 
