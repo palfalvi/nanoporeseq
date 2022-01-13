@@ -11,7 +11,7 @@ process salsa {
     path baidx
 
   output:
-    path 'scaffolds_FINAL.fasta', emit: assembly
+    path 'scaffolds/scaffolds_FINAL.fasta', emit: assembly
 
   script:
     """
