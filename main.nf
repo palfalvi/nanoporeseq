@@ -270,7 +270,7 @@ else if ( params.mode == 'assembly' ) {
 
     log.info ">>> Scaffolding primary assembly with Scaff10x."
 
-    scaffX(assembly, linked_r)
+    scaffX( assembly, linked_r )
 
     assembly = scaffX.out.assembly
 
