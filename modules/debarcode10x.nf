@@ -1,8 +1,6 @@
 process debarcodeX {
+  tag "$sample_id"
   label "small_job"
-
-  #conda "$baseDir/conda-envs/scaff10x-env.yaml"
-
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
   input:
