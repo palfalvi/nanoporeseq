@@ -1,9 +1,8 @@
 process scaffX {
   label "small_job"
-
-  conda "$baseDir/conda-envs/scaff10x-env.yaml"
-
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
+
+  #conda "$baseDir/conda-envs/scaff10x-env.yaml"
 
   input:
     path assembly
@@ -14,7 +13,8 @@ process scaffX {
 
   script:
     """
-    echo q1=${reads[0]} > reads.dat
+    touch reads.dat && \
+    echo q1=${reads[0]} > reads.dat && \
     echo q2=${reads[1]} >> reads.dat
 
     scaff10x \
