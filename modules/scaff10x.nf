@@ -12,13 +12,13 @@ process scaffX {
 
   script:
     """
-    scaff=`which scaff10x`
+    SCAFF10X=`which scaff10x`
 
     touch reads.dat && \
     echo q1=${reads[0]} > reads.dat && \
     echo q2=${reads[1]} >> reads.dat
 
-    \$scaff10x \
+    \$SCAFF10X \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \
