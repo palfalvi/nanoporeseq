@@ -6,7 +6,6 @@ process scaffX {
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
 
   input:
-    path scaffX
     path assembly
     tuple val(sample_id), file(reads)
 
@@ -18,7 +17,7 @@ process scaffX {
     echo q1=${reads[0]} > reads.dat
     echo q2=${reads[1]} >> reads.dat
 
-    ${scaffX}/scaff10x \
+    scaff10x \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \
