@@ -270,7 +270,7 @@ else if ( params.mode == 'assembly' ) {
 
     log.info ">>> Scaffolding primary assembly with Scaff10x."
 
-    scaffX(params.scaffX, assembly, linked_r)
+    scaffX(assembly, linked_r)
 
     assembly = scaffX.out.assembly
 
@@ -342,7 +342,7 @@ else if ( params.mode == 'assembly' ) {
         linked_r.subscribe {  println "Linked reads provided: $it"  }
         log.info ">>> Polishing assembly with linked reads."
 
-        debarcodeX(params.scaffX, linked_r)
+        debarcodeX(linked_r)
 
         short_r = debarcodeX.out.fastq
 
