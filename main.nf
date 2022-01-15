@@ -32,6 +32,7 @@ Assembly mode:
       --short                        Short read fastq file. Used for some assemblers (e.g masurca, haslr) and for optional polishing.
       --polish                       True/False or software?
       --genome_size                  Expected size of genome.
+      --scaffX                       Scaff10x executable have to be in PATH!
 
 Assembler specific options?
       --masurca_file                 Setup file for masurca.

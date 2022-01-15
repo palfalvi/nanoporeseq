@@ -14,9 +14,12 @@ process scaffX {
     """
     SCAFF10X=`which scaff10x`
 
+    cp ${reads[0]} ${reads[0].simpleName}_data1.fastq.gz
+    cp ${reads[1]} ${reads[1].simpleName}_data2.fastq.gz
+
     touch reads.dat && \
-    echo q1=${reads[0]} > reads.dat && \
-    echo q2=${reads[1]} >> reads.dat
+    echo q1=${reads[0].simpleName}_data1.fastq.gz > reads.dat && \
+    echo q2=${reads[1].simpleName}_data2.fastq.gz >> reads.dat
 
     \$SCAFF10X \
         -nodes ${task.cpus} \
