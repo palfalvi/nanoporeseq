@@ -15,17 +15,10 @@ process scaffX {
 
   script:
     """
-    which gcc
-    gcc --version
-    git clone  https://github.com/wtsi-hpag/Scaff10X.git
-    cd Scaff10X
-    ./install.sh
-    cd ..
-
     echo q1=${reads[0]} > reads.dat
     echo q2=${reads[1]} >> reads.dat
 
-    ./Scaff10X/src/scaff10x \
+    ${scaffX}/scaff10x \
         -nodes ${task.cpus} \
         -longread 1 \
         -gap 100 \

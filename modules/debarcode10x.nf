@@ -14,15 +14,10 @@ process debarcodeX {
 
   script:
     """
-    git clone  https://github.com/wtsi-hpag/Scaff10X.git
-    cd Scaff10X
-    ./install.sh
-    cd ..
-
     echo q1=${reads[0]} >> reads.dat
     echo q2=${reads[1]} >> reads.dat
 
-    ./Scaff10X/src/scaff_reads \
+    ${scaffX}/scaff_reads \
         reads.dat \
         ${sample_id}_BC_R1.fastq \
         ${sample_id}_BC_R2.fastq
