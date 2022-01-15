@@ -1,8 +1,7 @@
 process scaffX {
-  label "small_job"
+  tag "$assembly"
+  label "small_plus"
   publishDir "${params.outdir}/scaff10x", mode: 'copy'
-
-  #conda "$baseDir/conda-envs/scaff10x-env.yaml"
 
   input:
     path assembly
