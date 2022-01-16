@@ -2,7 +2,7 @@ process masurca {
 
   label 'assembly'
 
-  container 'https://depot.galaxyproject.org/singularity/masurca:4.0.7--pl5262h86ccdc5_0'
+  container "https://depot.galaxyproject.org/singularity/masurca:4.0.7--pl5262h86ccdc5_0"
 
   publishDir "${params.outdir}/masurca", mode: 'copy'
 
