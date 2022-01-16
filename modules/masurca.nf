@@ -7,14 +7,14 @@ process masurca {
   publishDir "${params.outdir}/masurca", mode: 'copy'
 
   input:
-    file masurca_file
+    path masurca_file
 
   output:
-    file "*final.genome.scf.fasta", emit: assembly
+    path "final.genome.scf.fasta", emit: assembly
 
   script:
     """
-    masurca $masurca_file
+    masurca ${masurca_file}
 
     ./assemble.sh
 
