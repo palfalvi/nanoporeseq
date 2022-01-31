@@ -67,6 +67,9 @@ include { nextdenovo } from './modules/nextdenovo.nf'
 include { wtdbg } from './modules/wtdbg.nf'
 
 include { scaffX } from './modules/scaff10x.nf'
+include { breakX } from './modules/break10x.nf'
+include { purge_dups } from './modules/purge_dups.nf'
+include { longranger } from './modules/longranger.nf'
 include { debarcodeX } from './modules/debarcode10x.nf'
 include { arima_mapping } from './modules/arima_mapping.nf'
 include { salsa } from './modules/salsa.nf'
@@ -256,7 +259,9 @@ else if ( params.mode == 'assembly' ) {
 
 //////// 10X scaffolding ////////
   if ( params.purge ) {
-    // purge_duplicates
+    purge_dups(assembly, params.fastq, "map_ont")
+    assembly = purge_dups.out.purged
+    // purge_duplicates https://depot.galaxyproject.org/singularity/purge_dups:1.2.5--h5bf99c6_1
   }
 
 //////// 10X scaffolding ////////
@@ -272,8 +277,9 @@ else if ( params.mode == 'assembly' ) {
     log.info ">>> Scaffolding primary assembly with Scaff10x."
 
     scaffX( assembly, linked_r )
+    breakX( scaffX.out.assembly, linked_r )
 
-    assembly = scaffX.out.assembly
+    assembly = breakX.out.assembly
 
   }
 //////// HiC scaffolding ////////
@@ -333,44 +339,47 @@ else if ( params.mode == 'assembly' ) {
     } else {
       // Short read mapping
       if ( params.short_reads ) {
-        short_r = Channel.fromFilePairs( params.short_reads )
 
+        short_r = Channel.fromFilePairs( params.short_reads )
+        short_polish_map = "bwa"
         short_r.subscribe {  println "Short reads provided: $it"  }
         log.info ">>> Polishing assembly with short reads."
-      } else {
-        linked_r = Channel.fromFilePairs( params.linked_reads )
 
-        linked_r.subscribe {  println "Linked reads provided: $it"  }
+      } else if ( params.linked_reads ){
+
+        short_r = Channel.fromFilePairs( params.linked_reads )
+        short_polish_map = "longranger"
+        short_r.subscribe {  println "Linked reads provided: $it"  }
         log.info ">>> Polishing assembly with linked reads."
-
-        debarcodeX(linked_r)
-
-        short_r = debarcodeX.out.fastq
 
       }
 
-      if ( params.short_polish_map == "bwa" ) {
+      if ( short_polish_map == "bwa" ) {
         // Mapping with bwa-mem
 
         bwa_index( assembly, "" )
 
         bwa_mem( short_r, assembly, bwa_index.out.index )
 
-        short_bam = bwa_mem.out.bam
-        short_baidx = bwa_mem.out.baidx
+        bam_merge( bwa_mem.out.bam.collect(), "short_reads" )
+
+        short_bam = bam_merge.out.bam
+        short_baidx = bam_merge.out.baidx
 
         bam_coverage( short_bam )
 
         bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
 
         coverage = bam_coverage.out.coverage
-      } else if ( params.short_polish_map == "minimap2" ) {
+      } else if ( short_polish_map == "minimap2" ) {
         // Mapping with minimap2 -ax sr
 
         minimap2_sr( short_r, assembly )
 
-        short_bam = minimap2_sr.out.bam
-        short_baidx = minimap2_sr.out.baidx
+        bam_merge( minimap2_sr.out.bam.collect(), "short_reads" )
+
+        short_bam = bam_merge.out.bam
+        short_baidx = bam_merge.out.baidx
 
         bam_coverage( short_bam )
 
@@ -378,10 +387,25 @@ else if ( params.mode == 'assembly' ) {
 
         coverage = bam_coverage.out.coverage
 
-      } else if ( params.short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
+      } else if ( short_polish_map == "longranger" | params.short_polish_map == "10x" ) {
         // Longranger mapping for 10x data
         // Longranger is not distributed under conda or docker. Local installation?
         error 'Sorry. Longranger mapping is not yet implemented.'
+
+        //bwa_index( assembly, "" )
+
+        longranger( short_r, assembly )
+
+        bam_merge( longranger.out.bam.collect(), "short_reads" )
+
+        short_bam = bam_merge.out.bam
+        short_baidx = bam_merge.out.baidx
+
+        bam_coverage( short_bam )
+
+        bam_coverage.out.coverage.subscribe { println "Short read coverage is ${it}x." }
+
+        coverage = bam_coverage.out.coverage
 
       } else {
         error 'Unknown mapping method: ${params.short_polish_map}. Please choose from bwa, minimap2 or contact developers.'
