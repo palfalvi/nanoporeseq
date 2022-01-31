@@ -30,7 +30,7 @@ process freebayes_call {
       contig_no_pipe=`echo \$contig | sed 's/|/_/g'`
       end=`sed -n \${j}p ${contig}.fai | awk '{print \$2}'`
 
-      freebayes --bam $bam --region=\$contig:1-\$end --skip-coverage \$((\$coverage*12)) -f ${contig} | bcftools view --no-version -Ou > \${contig_no_pipe}.bcf
+      freebayes --bam $bam --region=\$contig:1-\$end --skip-coverage \$((\$coverage*12)) -f ${contig} | bcftools view --no-version -Ob > \${contig_no_pipe}.bcf
     done
     """
 }
