@@ -259,7 +259,7 @@ else if ( params.mode == 'assembly' ) {
 
 //////// 10X scaffolding ////////
   if ( params.purge ) {
-    purge_dups(assembly, params.fastq, "map_ont")
+    purge_dups(assembly, params.fastq, "map-ont")
     assembly = purge_dups.out.purged
     // purge_duplicates https://depot.galaxyproject.org/singularity/purge_dups:1.2.5--h5bf99c6_1
   }
