@@ -15,6 +15,9 @@ process freebayes_consensus {
 
   script:
     """
+
+    for file in ./tarseq_*.bcf; do bcftools index \$file  -f; done
+
     ls *.bcf > bcf_files.txt
 
     bcftools concat -af bcf_files.txt | bcftools view -Ou -e'type="ref"' --threads ${task.cpus} | bcftools norm --threads ${task.cpus} -Ob -f ${assembly} -o ${assembly.simpleName}.bcf
