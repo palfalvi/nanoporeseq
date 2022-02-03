@@ -5,4 +5,5 @@ channels:
     - defaults
 dependencies:
     - samtools
+    - bzip2
     - openssl=1.0.2
