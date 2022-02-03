@@ -1,6 +1,6 @@
 process bam_merge {
 
-  conda "$baseDir/conda-envs/star-env.yaml"
+  conda "$baseDir/conda-envs/samtools-env.yaml"
   label 'small_plus'
   //conda "$baseDir/conda-envs/samtools-env.yaml"
 
