@@ -6,7 +6,7 @@ label 'small_plus'
 publishDir "${params.out}/fastp_qc", mode: 'copy', pattern: '*.json'
 
 conda "$baseDir/conda-envs/fastp-env.yaml"
-container "quay.io/biocontainers/fastp"
+//container "quay.io/biocontainers/fastp"
 
 input:
   tuple val(sample_id), file(reads)
