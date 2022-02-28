@@ -747,7 +747,7 @@ else if ( params.mode == 'annotation' ) {
   agat_converter(all_gtf)
 
   // Run MIKADO pipeline. Might separate later and enbed into a sub-workflow
-  mikado( masked_genome, agat_converter.out.gff.collect(), params.mikado_scoring ) // Has to fix junction inputs
+  mikado( masked_genome, agat_converter.out.gff.collect(), params.mikado_scoring, junctions ) // Has to fix junction inputs
 
   mikado.out.loci.subscribe { println "Mikado gene models in $it" }
 

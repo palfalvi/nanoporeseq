@@ -10,7 +10,7 @@ process mikado_prepare {
     path genome
     path('*')
     path scoring
-    //path junction
+    path junction
 
   output:
     path "mikado_prepared.fasta", emit: fasta

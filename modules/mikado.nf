@@ -10,10 +10,10 @@ workflow mikado {
       genome
       gffs
       scoring
-      //junction
+      junction
 
     main:
-      mikado_prepare(  genome, gffs, scoring  )
+      mikado_prepare(  genome, gffs, scoring, junction  )
 
       if ( params.protein ) {
 
@@ -29,8 +29,8 @@ workflow mikado {
 
       transdecoder( mikado_prepare.out.fasta )
 
-      mikado_serialise( genome,  blastp, transdecoder.out.bed, scoring, mikado_prepare.out.mikado )
-      mikado_pick( genome, mikado_prepare.out.mikado, mikado_serialise.out.mikado, scoring   )
+      mikado_serialise( genome,  blastp, transdecoder.out.bed, scoring, mikado_prepare.out.mikado, junction )
+      mikado_pick( genome, mikado_prepare.out.mikado, mikado_serialise.out.mikado, scoring, junction   )
 
     emit:
         loci = mikado_pick.out.loci

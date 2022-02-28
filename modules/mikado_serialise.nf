@@ -12,7 +12,7 @@ process mikado_serialise {
     path transdecoder
     path scoring
     path mikado
-    //path junction
+    path junction
 
   output:
     path('*'), emit: mikado

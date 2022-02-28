@@ -11,7 +11,7 @@ process mikado_pick {
     path prepare
     path serialise
     path scoring
-    // path junction
+    path junction
 
   output:
     path "mikado.loci.gff3", emit: loci
