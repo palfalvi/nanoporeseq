@@ -612,7 +612,7 @@ else if ( params.mode == 'annotation' ) {
 
     // Collect short read predictions
     taco_stringtie2_short.out.gtf
-      .mix( taco_strawberry_short.out.gtf, trinity_trinity_short.out.gtf )
+      .mix( taco_strawberry_short.out.gtf, trinity_short.out.gtf )
       .set { short_gtf }
     short_gtf.subscribe { println "Gene models generated from short reads: $it" }
 
