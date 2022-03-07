@@ -31,6 +31,7 @@ process braker2 {
     $mark \
     $sp \
     --softmasking \
+    --GENEMARK_PATH /mnt/gpfsA/home/peegee/bin/ \
     --cores $task.cpus \
     $augustus_con
     """
