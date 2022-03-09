@@ -2,8 +2,8 @@ process braker2 {
 
   label "long_job"
 
-  //conda "$baseDir/conda-envs/braker2-env.yaml"
-  container "https://depot.galaxyproject.org/singularity/braker2:2.1.6--hdfd78af_5"
+  conda "$baseDir/conda-envs/braker2-env.yaml"
+  //container "https://depot.galaxyproject.org/singularity/braker2:2.1.6--hdfd78af_5"
 
   publishDir "${params.outdir}/transcript_predictions/", mode: 'copy', pattern: 'braker/braker.gtf'
 
