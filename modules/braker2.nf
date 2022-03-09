@@ -30,7 +30,7 @@ process braker2 {
     $protein \
     $mark \
     $sp \
-    --GENEMARK_PATH=/mnt/gpfsA/home/peegee/bin/ \
+    --GENEMARK_PATH=/home/peegee/bin/ \
     --softmasking \
     --cores $task.cpus \
     $augustus_con
