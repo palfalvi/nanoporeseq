@@ -33,7 +33,7 @@ process braker2 {
     --GENEMARK_PATH=/home/peegee/bin/ \
     --PROTHINT_PATH=/home/peegee/bin/ProtHint-2.6.0/bin/ \
     --CDBTOOLS_PATH=/home/peegee/miniconda3/bin/ \
-    --AUGUSTUS_SCRIPT_PATH=/home/peegee/miniconda3/ \
+    --AUGUSTUS_SCRIPTS_PATH=/home/peegee/miniconda3/ \
     --softmasking \
     --cores $task.cpus \
     $augustus_con
