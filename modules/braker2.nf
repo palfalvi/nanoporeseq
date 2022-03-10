@@ -19,7 +19,7 @@ process braker2 {
     def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
     def mapping   = bam!=[]          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
-    def augustus_con = augustus_conf_path ? "--AUGUSTUS_CONFIG_PATH=${params.augustus_conf_path}" : ""
+    def augustus_con = params.augustus_conf_path ? "--AUGUSTUS_CONFIG_PATH=${params.augustus_conf_path}" : ""
     """
 
     workdir=`pwd`
