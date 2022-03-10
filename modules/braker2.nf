@@ -31,8 +31,8 @@ process braker2 {
     $prot \
     $mark \
     $sp \
-    --GENEMARK_PATH=/home/peegee/bin/ \
-    --PROTHINT_PATH=/home/peegee/bin/ProtHint-2.6.0/bin/ \
+    --GENEMARK_PATH=/mnt/gpfsA/home/peegee/bin/ \
+    --PROTHINT_PATH=/mnt/gpfsA/home/peegee/bin/ProtHint-2.6.0/bin/ \
     --CDBTOOLS_PATH=/home/peegee/miniconda3/bin/ \
     --AUGUSTUS_SCRIPTS_PATH=/home/peegee/miniconda3/ \
     --softmasking \
