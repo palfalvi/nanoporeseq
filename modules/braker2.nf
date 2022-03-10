@@ -11,12 +11,13 @@ process braker2 {
     path genome
     path bam
     val mark
+    path protein
 
   output:
     path "braker/*augustus.hints.gtf", emit: gtf
 
   script:
-    def protein   = params.protein     ? "--prot_seq=${params.protein}"               : ""
+    def prot   = protein     ? "--prot_seq=${params.protein}"               : ""
     def mapping   = bam!=[]          ? "--bam ${bam}"                               : ""
     def sp        = params.species     ? "--species ${params.species} --useexisting"  : ""
     def augustus_con = params.augustus_conf_path ? "--AUGUSTUS_CONFIG_PATH=${params.augustus_conf_path}" : ""
@@ -27,7 +28,7 @@ process braker2 {
     braker.pl \
     --genome=$genome \
     $mapping \
-    $protein \
+    $prot \
     $mark \
     $sp \
     --GENEMARK_PATH=/home/peegee/bin/ \

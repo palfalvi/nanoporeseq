@@ -719,7 +719,7 @@ else if ( params.mode == 'annotation' ) {
     // run BRAKER2
     if ( params.short_reads ) {
       // If short reads are provided
-      braker2( masked_genome, merge_bams_star.out.bam, mark )
+      braker2( masked_genome, merge_bams_star.out.bam, mark, params.protein )
     } else if ( params.ont_reads ) {
       // If no short reads, but ONT reads are provided
       braker2( masked_genome, merge_bams_minimap2.out.bam, mark )
