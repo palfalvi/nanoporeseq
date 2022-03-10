@@ -31,7 +31,7 @@ process braker2 {
     $mark \
     $sp \
     --GENEMARK_PATH=/home/peegee/bin/ \
-    --PROTHINT_PATH=/home/peegee/bin/ProtHint-2.6.0/bin/prothint.py \
+    --PROTHINT_PATH=/home/peegee/bin/ProtHint-2.6.0/bin/ \
     --softmasking \
     --cores $task.cpus \
     $augustus_con
